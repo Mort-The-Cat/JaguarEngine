@@ -99,7 +99,7 @@ namespace Collada
 		}
 		else
 		{
-			// Add data and return once <\ is reached
+			// Add data and return once </ is reached
 
 			//
 

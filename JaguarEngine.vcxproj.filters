@@ -18,6 +18,9 @@
     <ClInclude Include="Collada_Loader\Collada_Loader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="OpenGL_Handling\OpenGL_Handling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collada_Loader\XML_Document_Loader.cpp">
@@ -27,6 +30,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collada_Loader\Collada_Mesh_Loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collada_Loader\Collada_Skeleton_Loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

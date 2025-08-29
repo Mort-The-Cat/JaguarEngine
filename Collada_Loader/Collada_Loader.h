@@ -18,6 +18,23 @@
 
 namespace Collada
 {
+	template<typename T>
+	void Load_Strings_To_Vectors(const std::vector<std::string>& Strings, std::vector<T>& Vectors)
+	{
+		size_t W = 0;
+		while (W < Strings.size()) // number of elements in position data array
+		{
+			T Vector;
+
+			for (size_t Component = 0; Component < Vector.length(); Component++) // Iterates through components of vector
+			{
+				Vector[Component] = std::stof(Strings[W++]);
+			}
+
+			Vectors.push_back(Vector);
+		}
+	}
+
 	std::string Load_File_Contents(std::string Filename);
 
 	struct Collada_Vertex
@@ -110,6 +127,7 @@ namespace Collada
 	int Load_XML_Document(std::string Filename, XML_Document* Target_Document);
 
 	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh);
+	int Load_Skeleton(const XML_Document& Document, Collada_Skeleton* Target_Skeleton);
 }
 
 #endif

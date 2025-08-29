@@ -142,8 +142,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Collada_Loader\Collada_Loader.h" />
+    <ClInclude Include="OpenGL_Handling\OpenGL_Handling.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collada_Loader\Collada_Skeleton_Loader.cpp" />
     <ClCompile Include="Collada_Loader\XML_Document_Loader.cpp" />
     <ClCompile Include="Collada_Loader\Collada_Mesh_Loader.cpp" />
     <ClCompile Include="Main.cpp" />

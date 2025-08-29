@@ -8,7 +8,7 @@ int main()
 	Collada::Load_XML_Document("Collada_Loader/untitled.dae", &Document);
 
 	Collada::Collada_Mesh Mesh;
-	Collada::Load_Mesh(Document, &Mesh);
+	Collada::Load_Mesh(Document, &Mesh); // I'm going to test some shaders and just see if I've loaded the model properly with this method
 
 	return 0;
 }

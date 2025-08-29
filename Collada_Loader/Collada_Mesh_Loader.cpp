@@ -2,23 +2,6 @@
 
 namespace Collada
 {
-	template<typename T>
-	void Load_Strings_To_Vectors(const std::vector<std::string>& Strings, std::vector<T>& Vectors)
-	{
-		size_t W = 0;
-		while(W < Strings.size()) // number of elements in position data array
-		{
-			T Vector;
-
-			for (size_t Component = 0; Component < Vector.length(); Component++) // Iterates through components of vector
-			{
-				Vector[Component] = std::stof(Strings[W++]);
-			}
-
-			Vectors.push_back(Vector);
-		}
-	}
-
 	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh)
 	{
 		std::vector<glm::vec3> Positions;
