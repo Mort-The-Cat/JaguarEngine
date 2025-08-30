@@ -12,36 +12,48 @@
 
 #include <map>
 
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
+
+void Throw_Error(const char* Formatted_String);
+
+std::string Load_File_Contents(std::string Filename);
+
+template<typename T>
+void Load_Strings_To_Vectors(const std::vector<std::string>& Strings, std::vector<T>& Vectors)
+{
+	size_t W = 0;
+	while (W < Strings.size()) // number of elements in position data array
+	{
+		T Vector;
+
+		for (size_t Component = 0; Component < Vector.length(); Component++) // Iterates through components of vector
+		{
+			Vector[Component] = std::stof(Strings[W++]);
+		}
+
+		Vectors.push_back(Vector);
+	}
+}
+
+// https://www.reddit.com/r/opengl/comments/j8v1iu/parallax_corrected_cube_maps_reflections/
 
 // https://wazim.com/collada-tutorial1/
 
+// https://gamedev.stackexchange.com/questions/31651/trouble-with-collada-bones
+// https://learnopengl.com/Guest-Articles/2020/Skeletal-Animation
+// https://learnopengl.com/code_viewer_gh.php?code=src/8.guest/2020/skeletal_animation/skeletal_animation.cpp
+// https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/animator.h
+
 namespace Collada
 {
-	template<typename T>
-	void Load_Strings_To_Vectors(const std::vector<std::string>& Strings, std::vector<T>& Vectors)
-	{
-		size_t W = 0;
-		while (W < Strings.size()) // number of elements in position data array
-		{
-			T Vector;
-
-			for (size_t Component = 0; Component < Vector.length(); Component++) // Iterates through components of vector
-			{
-				Vector[Component] = std::stof(Strings[W++]);
-			}
-
-			Vectors.push_back(Vector);
-		}
-	}
-
-	std::string Load_File_Contents(std::string Filename);
-
 	struct Collada_Vertex
 	{
 		glm::vec3 Position;
 		glm::vec3 Normal;
 		glm::vec2 Texture_Coordinates;
+		float Padding;
 	};
 
 	class Collada_Mesh

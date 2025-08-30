@@ -1,8 +1,30 @@
 #include "Collada_Loader.h"
 
-void Throw_Error(const char* Formatted_String)
+std::string Load_File_Contents(std::string Filename)
 {
-	fprintf(stderr, Formatted_String, strerror(errno));
+	std::ifstream File(Filename.c_str()); // Start at end of file
+
+	if (!File.is_open())
+	{
+		Throw_Error(" >> Fatal error! Unable to load file contents: %s\n");
+	}
+
+	// Otherwise, we can continue
+
+	File.seekg(0, std::ios::end);
+
+	std::string Contents;
+	size_t Size = File.tellg();
+
+	File.seekg(0, std::ios::beg);
+
+	Contents.resize(Size); // Fits buffer
+
+	File.read((char*)Contents.data(), Size);
+
+	File.close();
+
+	return Contents;
 }
 
 namespace Collada
@@ -24,33 +46,6 @@ namespace Collada
 			Index++;
 
 		return Index;
-	}
-
-	std::string Load_File_Contents(std::string Filename)
-	{
-		std::ifstream File(Filename.c_str()); // Start at end of file
-
-		if (!File.is_open())
-		{
-			Throw_Error(" >> Fatal error! Unable to load file contents: %s\n");
-		}
-
-		// Otherwise, we can continue
-
-		File.seekg(0, std::ios::end);
-
-		std::string Contents;
-		size_t Size = File.tellg();
-
-		File.seekg(0, std::ios::beg);
-
-		Contents.resize(Size); // Fits buffer
-
-		File.read((char*)Contents.data(), Size);
-
-		File.close();
-
-		return Contents;
 	}
 
 	void Load_XML_Document_Node(const std::string& Contents, long& Index, XML_Document* Parent_Node)
