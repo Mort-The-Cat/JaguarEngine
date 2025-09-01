@@ -1,5 +1,10 @@
 #include "Collada_Loader.h"
 
+void Throw_Error(const char* Formatted_String)
+{
+	fprintf(stderr, Formatted_String, strerror(errno));
+}
+
 std::string Load_File_Contents(std::string Filename)
 {
 	std::ifstream File(Filename.c_str()); // Start at end of file

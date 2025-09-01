@@ -16,6 +16,10 @@
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtx/transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 void Throw_Error(const char* Formatted_String);
 
 std::string Load_File_Contents(std::string Filename);
@@ -53,7 +57,8 @@ namespace Collada
 		glm::vec3 Position;
 		glm::vec3 Normal;
 		glm::vec2 Texture_Coordinates;
-		float Padding;
+		//uint32_t Joint_ID;
+		float Joint_Weight;
 	};
 
 	class Collada_Mesh

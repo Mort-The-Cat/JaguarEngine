@@ -75,10 +75,14 @@
     <IncludePath>$(SolutionDir)Libraries/Include/;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries/Lib/;$(LibraryPath)</LibraryPath>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <AllProjectBMIsArePublic>false</AllProjectBMIsArePublic>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)Libraries/Include/;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries/Lib/;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <AllProjectBMIsArePublic>false</AllProjectBMIsArePublic>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -120,6 +124,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,10 +143,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Collada_Loader\Collada_Loader.h" />
+    <ClInclude Include="Controllers\Jaguar_Engine_Wrapper.h" />
     <ClInclude Include="Libraries\Include\glad\glad.h" />
     <ClInclude Include="Libraries\Include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\Include\GLFW\glfw3native.h" />
@@ -390,7 +397,11 @@
     <ClInclude Include="Libraries\Include\glm\vec4.hpp" />
     <ClInclude Include="Libraries\Include\glm\vector_relational.hpp" />
     <ClInclude Include="Libraries\Include\KHR\khrplatform.h" />
+    <ClInclude Include="OpenGL_Handling\Input_Handling.h" />
     <ClInclude Include="OpenGL_Handling\OpenGL_Handling.h" />
+    <ClInclude Include="OpenGL_Handling\Render_Queue.h" />
+    <ClInclude Include="OpenGL_Handling\Scene.h" />
+    <ClInclude Include="Test_Game_Loop\Test_Game_Loop.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collada_Loader\Collada_Skeleton_Loader.cpp" />
@@ -399,6 +410,10 @@
     <ClCompile Include="Libraries\Include\glad\glad.c" />
     <ClCompile Include="Libraries\Include\glm\detail\glm.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OpenGL_Handling\Render_Queue.cpp" />
+    <ClCompile Include="OpenGL_Handling\Scene.cpp" />
+    <ClCompile Include="OpenGL_Handling\Shader.cpp" />
+    <ClCompile Include="OpenGL_Handling\Shader_Vertex_Buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\glfw3.lib" />
