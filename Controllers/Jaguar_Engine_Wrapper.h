@@ -6,6 +6,8 @@
 #include "../OpenGL_Handling/Scene.h"
 #include "../OpenGL_Handling/Render_Queue.h"
 
+#include "../Controllers/Asset_Cache.h"
+
 namespace Jaguar
 {
 
@@ -21,7 +23,10 @@ namespace Jaguar
 
 		Render_Pipeline Pipeline;	// This is the pipeline for drawing regular scene objects such as buildings or characters
 									// We'll use a different interface for particles etc
+		Asset_Cache_Data Asset_Cache;
 	};
+
+	void Handle_Deletions(Jaguar_Engine* Target_Engine);
 }
 
 #endif

@@ -27,9 +27,8 @@ namespace Jaguar
 		}
 	}
 
-	void Handle_Scene_Deletions(Scene_Data* Target_Scene)
+	void Destroy_World_Object(World_Object* Target_Object)
 	{
-		// This will handle the deallocate of scene objects
+		delete Target_Object; // There will be more code added here later, related to controllers and hitboxes
 	}
-
 }

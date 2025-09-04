@@ -43,6 +43,13 @@ void Set_Input_Keycodes(Jaguar::Input_Data* Inputs)
 	Inputs->Keys[Controls::Look_Down].Keycode = GLFW_KEY_DOWN;
 }
 
+glm::vec3 Get_Direction_Vector(float X_Direction)
+{
+	float Z = cos(X_Direction), X = sin(X_Direction);
+
+	return glm::vec3(X, 0, Z);
+}
+
 void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 {
 	float Camera_X_Direction = 0;
@@ -70,10 +77,10 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 		glm::mat4 View_Matrix = glm::mat4(1.0f);
 
 		if (Engine->User_Inputs.Keys[Controls::Forwards].Pressed)
-			Player_Position.z += 0.001f;
+			Player_Position += 0.001f * Get_Direction_Vector(Camera_X_Direction);
 
 		if (Engine->User_Inputs.Keys[Controls::Backwards].Pressed)
-			Player_Position.z -= 0.001f;
+			Player_Position -= 0.001f * Get_Direction_Vector(Camera_X_Direction);
 
 		if (Engine->User_Inputs.Keys[Controls::Up].Pressed)
 			Player_Position.y += 0.001f;
@@ -82,10 +89,10 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 			Player_Position.y -= 0.001f;
 
 		if (Engine->User_Inputs.Keys[Controls::Left].Pressed)
-			Player_Position.x -= 0.001f;
+			Player_Position -= 0.001f * Get_Direction_Vector(Camera_X_Direction + 3.14159 / 2);
 
 		if (Engine->User_Inputs.Keys[Controls::Right].Pressed)
-			Player_Position.x += 0.001f;
+			Player_Position += 0.001f * Get_Direction_Vector(Camera_X_Direction + 3.14159 / 2);
 
 		if (Engine->User_Inputs.Keys[Controls::Look_Left].Pressed)
 			Camera_X_Direction -= 0.001f;
@@ -145,7 +152,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	//
 
-	Collada::XML_Document Document;			// This can be deallocated once we're finished loading meshes/skeletons/animations
+	/*Collada::XML_Document Document;			// This can be deallocated once we're finished loading meshes/skeletons/animations
 	Collada::Load_XML_Document("Collada_Loader/untitled.dae", &Document);
 
 	Collada::Collada_Mesh Mesh;				// This stores the vertex data (should be stored in an asset cache)
@@ -165,34 +172,42 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Vertex_Buffer Buffer_2;
 	Jaguar::Create_Vertex_Buffer(Mesh_2, &Buffer_2);		// Create vertex buffer from 3d model
 
+	*/
+
 	Jaguar::Shader Test_Shader;
 	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
 
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader);
 
 	Jaguar::World_Object* Object = new Jaguar::World_Object();
-	Object->Mesh = Buffer;
+	Object->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/untitled.dae").Buffer;
 	Object->Orientation = glm::vec3(0, 0, 1);
 	Object->Orientation_Up = glm::vec3(0, 1, 0);
 	Object->Position = glm::vec3(-1, -2, 5); // In front of camera and below slightly, and slightly to the left
 
 	Jaguar::World_Object* Object_2 = new Jaguar::World_Object();
-	Object_2->Mesh = Buffer_2;
+	Object_2->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Viking_Room_Test.dae").Buffer;
 	Object_2->Orientation = glm::vec3(0, 0, 1);
 	Object_2->Orientation_Up = glm::vec3(0, 1, 0);
-	Object_2->Position = glm::vec3(0, -2, 0);
+	Object_2->Position = glm::vec3(0, -0.5f, 0);
 
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object, &Engine->Pipeline, &Test_Shader);
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object_2, &Engine->Pipeline, &Test_Shader);
 
 	Test_Engine_Loop(Engine);
 
-	delete Object;
-	delete Object_2;
+	Jaguar::Delete_All(&Engine->Scene);
+	Jaguar::Handle_Deletions(Engine);
+
+	//delete Object;
+	//delete Object_2;
 
 	Jaguar::Destroy_Shader(&Test_Shader);
-	Jaguar::Destroy_Vertex_Buffer(&Buffer);
-	Jaguar::Destroy_Vertex_Buffer(&Buffer_2);
+
+	Jaguar::Delete_All_Mesh_Cache(&Engine->Asset_Cache);
+
+	//Jaguar::Destroy_Vertex_Buffer(&Buffer);
+	//Jaguar::Destroy_Vertex_Buffer(&Buffer_2);
 
 	glfwTerminate();
 }

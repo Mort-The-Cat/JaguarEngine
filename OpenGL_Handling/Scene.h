@@ -22,6 +22,8 @@ namespace Jaguar
 		Vertex_Buffer Mesh;			// Bound and rendered (can be shared by multiple world objects, pulled from same asset pool)
 	};
 
+	void Destroy_World_Object(World_Object* Target_Object);
+
 	glm::mat4 Get_Model_Matrix(const World_Object* Object);
 
 	struct Scene_Data	// The Scene_Data object is responsible for memory management of world objects as well as

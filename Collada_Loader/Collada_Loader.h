@@ -22,7 +22,7 @@
 
 void Throw_Error(const char* Formatted_String);
 
-std::string Load_File_Contents(std::string Filename);
+std::string Load_File_Contents(const char* Filename);
 
 template<typename T>
 void Load_Strings_To_Vectors(const std::vector<std::string>& Strings, std::vector<T>& Vectors)
@@ -141,7 +141,7 @@ namespace Collada
 		}
 	};
 
-	int Load_XML_Document(std::string Filename, XML_Document* Target_Document);
+	int Load_XML_Document(const char* Filename, XML_Document* Target_Document);
 
 	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh);
 	int Load_Skeleton(const XML_Document& Document, Collada_Skeleton* Target_Skeleton);

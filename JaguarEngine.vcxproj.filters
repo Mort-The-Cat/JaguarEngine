@@ -780,6 +780,9 @@
     <ClInclude Include="Controllers\Jaguar_Engine_Wrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Controllers\Asset_Cache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collada_Loader\XML_Document_Loader.cpp">
@@ -810,6 +813,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OpenGL_Handling\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\Asset_Cache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL_Handling\Input_Handling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\Deletion_Handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

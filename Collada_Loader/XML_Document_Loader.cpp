@@ -5,9 +5,9 @@ void Throw_Error(const char* Formatted_String)
 	fprintf(stderr, Formatted_String, strerror(errno));
 }
 
-std::string Load_File_Contents(std::string Filename)
+std::string Load_File_Contents(const char* Filename)
 {
-	std::ifstream File(Filename.c_str()); // Start at end of file
+	std::ifstream File(Filename); // Start at end of file
 
 	if (!File.is_open())
 	{
@@ -130,7 +130,7 @@ namespace Collada
 
 	}
 
-	int Load_XML_Document(std::string Filename, XML_Document* Target_Document)
+	int Load_XML_Document(const char* Filename, XML_Document* Target_Document)
 	{
 		std::string Contents = Load_File_Contents(Filename);
 
