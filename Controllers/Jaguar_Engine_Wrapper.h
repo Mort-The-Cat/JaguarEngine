@@ -13,9 +13,9 @@ namespace Jaguar
 
 	struct Jaguar_Engine
 	{
-		float Time; // This is the engine's delta-time
+		float Time;					// This is the engine's delta-time
 
-		GLFWwindow* Window;
+		GLFWwindow* Window;			// OpenGL window object
 
 		Input_Data User_Inputs;
 

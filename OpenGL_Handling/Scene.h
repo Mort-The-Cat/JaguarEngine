@@ -3,6 +3,7 @@
 
 #include "OpenGL_Handling.h"
 #include "Render_Queue.h"
+#include "Texture_Uniform_Buffer.h"
 
 namespace Jaguar
 {
@@ -17,7 +18,8 @@ namespace Jaguar
 		glm::vec3 Orientation;		// Used to generate direction matrix
 		glm::vec3 Orientation_Up;	// Used to generate direction matrix
 
-
+		Texture Albedo;
+		// Texture Material;
 
 		Vertex_Buffer Mesh;			// Bound and rendered (can be shared by multiple world objects, pulled from same asset pool)
 	};

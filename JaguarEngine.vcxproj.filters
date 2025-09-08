@@ -783,6 +783,9 @@
     <ClInclude Include="Controllers\Asset_Cache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OpenGL_Handling\Texture_Uniform_Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collada_Loader\XML_Document_Loader.cpp">

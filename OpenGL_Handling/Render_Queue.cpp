@@ -21,6 +21,10 @@ namespace Jaguar
 		glm::mat4 Model_Matrix = Get_Model_Matrix(Object);
 
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model_Matrix));
+
+		glBindTexture(GL_TEXTURE_2D, Object->Albedo.Texture_Buffer_ID);
+		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Albedo_Texture"), 0);
+		glActiveTexture(GL_TEXTURE0 + 0);
 	}
 
 	void Clear_Render_Pipeline(Render_Pipeline* Target_Pipeline)

@@ -180,13 +180,15 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader);
 
 	Jaguar::World_Object* Object = new Jaguar::World_Object();
-	Object->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/untitled.dae").Buffer;
+	Object->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Buffer;
+	Object->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture;
 	Object->Orientation = glm::vec3(0, 0, 1);
 	Object->Orientation_Up = glm::vec3(0, 1, 0);
 	Object->Position = glm::vec3(-1, -2, 5); // In front of camera and below slightly, and slightly to the left
 
 	Jaguar::World_Object* Object_2 = new Jaguar::World_Object();
-	Object_2->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Viking_Room_Test.dae").Buffer;
+	Object_2->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer;
+	Object_2->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture;
 	Object_2->Orientation = glm::vec3(0, 0, 1);
 	Object_2->Orientation_Up = glm::vec3(0, 1, 0);
 	Object_2->Position = glm::vec3(0, -0.5f, 0);
@@ -205,6 +207,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Destroy_Shader(&Test_Shader);
 
 	Jaguar::Delete_All_Mesh_Cache(&Engine->Asset_Cache);
+	Jaguar::Delete_All_Texture_Cache(&Engine->Asset_Cache);
 
 	//Jaguar::Destroy_Vertex_Buffer(&Buffer);
 	//Jaguar::Destroy_Vertex_Buffer(&Buffer_2);

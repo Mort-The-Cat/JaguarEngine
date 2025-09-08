@@ -2,6 +2,7 @@
 #define JAGUAR_ASSET_CACHE
 
 #include "../OpenGL_Handling/OpenGL_Handling.h"
+#include "../OpenGL_Handling/Texture_Uniform_Buffer.h"
 
 namespace Jaguar
 {
@@ -12,9 +13,20 @@ namespace Jaguar
 		Vertex_Buffer Buffer;
 	};
 
+	struct Texture_Cache_Info
+	{
+		// This will contain the pixel data as well as the texture buffer ID etc
+		const char* Name;
+		unsigned char* Pixel_Data;
+		int Width, Height, Channels;	// Assume that each channel is unsigned 8-bits
+		Texture Texture;
+	};
+
 	struct Asset_Cache_Data
 	{
 		std::vector<Mesh_Cache_Info> Mesh_Cache;
+
+		std::vector<Texture_Cache_Info> Texture_Cache;
 	};
 
 	template<typename T>
@@ -37,6 +49,9 @@ namespace Jaguar
 
 	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory);
 	void Delete_All_Mesh_Cache(Asset_Cache_Data* Cache);
+
+	Texture_Cache_Info Pull_Texture(Asset_Cache_Data* Cache, const char* Directory);
+	void Delete_All_Texture_Cache(Asset_Cache_Data* Cache);
 }
 
 

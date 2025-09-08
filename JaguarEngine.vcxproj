@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -402,6 +402,7 @@
     <ClInclude Include="OpenGL_Handling\OpenGL_Handling.h" />
     <ClInclude Include="OpenGL_Handling\Render_Queue.h" />
     <ClInclude Include="OpenGL_Handling\Scene.h" />
+    <ClInclude Include="OpenGL_Handling\Texture_Uniform_Buffer.h" />
     <ClInclude Include="Test_Game_Loop\Test_Game_Loop.h" />
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +419,7 @@
     <ClCompile Include="OpenGL_Handling\Scene.cpp" />
     <ClCompile Include="OpenGL_Handling\Shader.cpp" />
     <ClCompile Include="OpenGL_Handling\Shader_Vertex_Buffer.cpp" />
+    <ClCompile Include="OpenGL_Handling\Texture_Uniform_Buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\glfw3.lib" />
