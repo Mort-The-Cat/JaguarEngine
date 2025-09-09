@@ -14,6 +14,28 @@
 
 namespace Jaguar
 {
+	Skeleton_Cache_Info Pull_Skeleton(Asset_Cache_Data* Cache, const char* Directory)
+	{
+		Skeleton_Cache_Info Skeleton_Info;
+
+		if (Search_Asset_Cache(Cache->Skeleton_Cache, Directory, &Skeleton_Info))
+			return Skeleton_Info;
+
+		// Otherwise, we'll need to load a new one in
+
+		Collada::XML_Document Document;
+		Skeleton_Info.Skeleton = new Collada::Collada_Skeleton(); // Allocates required skeleton memory
+
+		Collada::Load_XML_Document(Directory, &Document);
+		Collada::Load_Skeleton(Document, Skeleton_Info.Skeleton);
+
+		Skeleton_Info.Name = Directory;
+
+		Cache->Skeleton_Cache.push_back(Skeleton_Info);
+
+		return Skeleton_Info;
+	}
+
 	Texture_Cache_Info Pull_Texture(Asset_Cache_Data* Cache, const char* Directory)
 	{
 		Texture_Cache_Info Texture_Info;
@@ -44,8 +66,7 @@ namespace Jaguar
 		return Texture_Info;
 	}
 
-
-	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory)
+	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory, unsigned char Flags)
 	{
 		Mesh_Cache_Info Mesh_Info;
 
@@ -55,7 +76,20 @@ namespace Jaguar
 		Collada::XML_Document Document; // Loads document
 		Collada::Load_XML_Document(Directory, &Document); // Loads in document (could be optimised later)
 
-		Collada::Load_Mesh(Document, &Mesh_Info.Mesh);
+		Mesh_Info.Mesh = new Collada::Collada_Mesh(); // Allocates memory
+
+		Collada::Collada_Skeleton* Skeleton = nullptr;
+
+		if (Flags & LOAD_MESH_HINT_SKELETON_INCLUDED)	// If we should load skeleton?
+		{
+			Collada::XML_Document Libraries = Document["COLLADA"][0];
+			if (Libraries.Nodes.find("library_controllers") != Libraries.Nodes.end())	// If there's animation data? 
+			{
+				Skeleton = Pull_Skeleton(Cache, Directory).Skeleton;																// Load skeleton into memory
+			}
+		}
+
+		Collada::Load_Mesh(Document, Mesh_Info.Mesh, Skeleton);
 
 		// This will then generate a vertex buffer from this mesh
 
@@ -68,6 +102,18 @@ namespace Jaguar
 		Cache->Mesh_Cache.push_back(Mesh_Info);
 
 		return Mesh_Info;	// Returns mesh info
+	}
+
+	void Delete_All_Skeleton_Cache(Asset_Cache_Data* Cache)
+	{
+		// This will need to deallocate the skeleton memory we assigned
+
+		for (size_t W = 0; W < Cache->Skeleton_Cache.size(); W++)
+		{
+			delete Cache->Skeleton_Cache[W].Skeleton; // Deallocates pointer
+		}
+
+		Cache->Skeleton_Cache.clear(); // Clears cache vector
 	}
 
 	void Delete_All_Texture_Cache(Asset_Cache_Data* Cache)
@@ -90,9 +136,12 @@ namespace Jaguar
 		for (size_t W = 0; W < Cache->Mesh_Cache.size(); W++)
 		{
 			Destroy_Vertex_Buffer(&Cache->Mesh_Cache[W].Buffer);
+			delete Cache->Mesh_Cache[W].Mesh; // Deallocates mesh data
+
+			// Very important!!!
 		}
 
-		Cache->Mesh_Cache.clear();	// There is nothing else which needs to be deallocated manually since the mesh vector info is automatically deallocated
+		Cache->Mesh_Cache.clear();	// There is nothing else which needs to be deallocated manually
 	}
 
 }

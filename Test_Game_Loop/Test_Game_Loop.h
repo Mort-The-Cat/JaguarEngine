@@ -151,29 +151,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Set_Input_Keycodes(&Engine->User_Inputs);
 
 	//
-
-	/*Collada::XML_Document Document;			// This can be deallocated once we're finished loading meshes/skeletons/animations
-	Collada::Load_XML_Document("Collada_Loader/untitled.dae", &Document);
-
-	Collada::Collada_Mesh Mesh;				// This stores the vertex data (should be stored in an asset cache)
-	Collada::Load_Mesh(Document, &Mesh);
-
-	Jaguar::Vertex_Buffer Buffer;			// This has the vertex buffer (should be stored in an asset cache)
-	Jaguar::Create_Vertex_Buffer(Mesh, &Buffer);
-
-	//
-
-	Document = Collada::XML_Document();
-	Collada::Load_XML_Document("Collada_Loader/Viking_Room_Test.dae", &Document); // Load collada file
-
-	Collada::Collada_Mesh Mesh_2;
-	Collada::Load_Mesh(Document, &Mesh_2);					// Unpack 3d model from collada data
-
-	Jaguar::Vertex_Buffer Buffer_2;
-	Jaguar::Create_Vertex_Buffer(Mesh_2, &Buffer_2);		// Create vertex buffer from 3d model
-
-	*/
-
+	
 	Jaguar::Shader Test_Shader;
 	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
 
@@ -201,16 +179,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Delete_All(&Engine->Scene);
 	Jaguar::Handle_Deletions(Engine);
 
-	//delete Object;
-	//delete Object_2;
-
 	Jaguar::Destroy_Shader(&Test_Shader);
 
 	Jaguar::Delete_All_Mesh_Cache(&Engine->Asset_Cache);
 	Jaguar::Delete_All_Texture_Cache(&Engine->Asset_Cache);
-
-	//Jaguar::Destroy_Vertex_Buffer(&Buffer);
-	//Jaguar::Destroy_Vertex_Buffer(&Buffer_2);
+	Jaguar::Delete_All_Skeleton_Cache(&Engine->Asset_Cache);
 
 	glfwTerminate();
 }

@@ -1,9 +1,83 @@
 #include "Collada_Loader.h"
+#include <algorithm>
 
 namespace Collada
 {
+	void Load_Child_Joints(size_t Parent_Index, XML_Document Parent_Node, Collada_Skeleton* Target_Skeleton)
+	{
+		Collada_Joint Joint;
+		Joint.Parent_Joint = Parent_Index;
+		std::vector<glm::mat4> Buffer;
+
+		Load_Strings_To_Matrices(Parent_Node["matrix"][0].Data_Array, Buffer); // Loads bind matrix into buffer
+		Joint.Offset_Matrix = Buffer[0];
+
+		size_t Current_Joint_Index = Target_Skeleton->Joints.size();
+
+		Target_Skeleton->Joints.push_back(Joint); // Adds new joint
+
+		if (Parent_Node.Nodes.find("node") != Parent_Node.Nodes.end()) // If there are any "nodes" ? We know there are child joints
+		{
+			// Handle each child joint
+
+			for (size_t W = 0; W < Parent_Node.Nodes["node"].size(); W++)
+			{
+				Target_Skeleton->Joints[Current_Joint_Index].Child_Joints.push_back(Target_Skeleton->Joints.size()); // Adds child node index to the node
+				
+				Load_Child_Joints(Current_Joint_Index, Parent_Node.Nodes["node"][W], Target_Skeleton);
+			}
+		}
+
+		// Otherwise? Return from the function...
+	}
+
 	int Load_Skeleton(const XML_Document& Document, Collada_Skeleton* Target_Skeleton)
 	{
+		std::vector<glm::mat4> Bind_Poses_Array;
+		std::vector<glm::vec1> Weights;
+
+		const std::vector<XML_Document> Skins = Document["COLLADA"].back()["library_controllers"].back()["controller"].back()["skin"];
+
+		for (const auto& Skin : Skins) // Iterates through skins
+		{
+			// The second source (index=1) of this skin is the bind poses array
+			Load_Strings_To_Matrices(Skin["source"][1]["float_array"][0].Data_Array, Bind_Poses_Array);
+			Load_Strings_To_Vectors(Skin["source"][2]["float_array"][0].Data_Array, Weights);
+
+			// This gets the weight values and the bind poses array
+
+			const XML_Document Vertex_Weights_Node = Skin["vertex_weights"].back();
+
+			const std::vector<std::string> V_Count = Vertex_Weights_Node["vcount"].back().Data_Array;
+			const std::vector<std::string> Weight_Data = Vertex_Weights_Node["v"].back().Data_Array;
+
+			Target_Skeleton->Vertex_Weights.resize(V_Count.size());
+
+			size_t Index = 0;
+
+			for (size_t W = 0; W < V_Count.size(); W++)
+			{
+				size_t Number_Of_Weights = std::stoi(V_Count[W]);
+				Target_Skeleton->Vertex_Weights[W].resize(Number_Of_Weights);
+
+				for (size_t V = 0; V < Number_Of_Weights; V++)
+				{
+					Target_Skeleton->Vertex_Weights[W][V].Joint_Index = std::stoi(Weight_Data[Index++]);
+					Target_Skeleton->Vertex_Weights[W][V].Weight = Weights[std::stoi(Weight_Data[Index++])].x;
+				}
+
+				std::sort(Target_Skeleton->Vertex_Weights[W].begin(), Target_Skeleton->Vertex_Weights[W].end());
+			}
+
+			// Create Joint hierarchy
+		}
+
+		const XML_Document Root_Node = Document["COLLADA"][0]["library_visual_scenes"][0]["visual_scene"][0]["node"][0]["node"][0];
+
+		// Start from Root_Node, 
+
+		Load_Child_Joints(0, Root_Node, Target_Skeleton);
+
 		return 0;
 	}
 }

@@ -10,7 +10,6 @@
 
 namespace Jaguar
 {
-
 	struct Jaguar_Engine
 	{
 		float Time;					// This is the engine's delta-time

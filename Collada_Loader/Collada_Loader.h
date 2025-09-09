@@ -25,6 +25,22 @@ void Throw_Error(const char* Formatted_String);
 std::string Load_File_Contents(const char* Filename);
 
 template<typename T>
+void Load_Strings_To_Matrices(const std::vector<std::string>& Strings, std::vector<T>& Matrices)
+{
+	size_t W = 0;
+	while (W < Strings.size())
+	{
+		T Matrix;
+
+		for (size_t Row = 0; Row < Matrix.length(); Row++)
+			for (size_t Column = 0; Column < Matrix[0].length(); Column++)	// Column-major format
+				Matrix[Column][Row] = std::stof(Strings[W++]);
+
+		Matrices.push_back(Matrix);
+	}
+}
+
+template<typename T>
 void Load_Strings_To_Vectors(const std::vector<std::string>& Strings, std::vector<T>& Vectors)
 {
 	size_t W = 0;
@@ -57,8 +73,8 @@ namespace Collada
 		glm::vec3 Position;
 		glm::vec3 Normal;
 		glm::vec2 Texture_Coordinates;
-		//uint32_t Joint_ID;
 		float Joint_Weight;
+		uint8_t Joint_ID;
 	};
 
 	class Collada_Mesh
@@ -71,7 +87,7 @@ namespace Collada
 
 	struct Collada_Joint
 	{
-		glm::vec4 Offset_Matrix;	// This is the matrix that transforms from vertex space to bone space
+		glm::mat4 Offset_Matrix;	// This is the matrix that transforms from vertex space to bone space
 		size_t Parent_Joint;
 		std::vector<size_t> Child_Joints;
 
@@ -80,10 +96,16 @@ namespace Collada
 		glm::vec4 Final_Matrix;		// This is the final transformation matrix when updating the animation of a bone (likely will be changed later)
 	};
 
-	struct Collada_Vertex_Weight
+	class Collada_Vertex_Weight
 	{
+	public:
 		size_t Joint_Index;
 		float Weight;
+
+		bool operator<(const Collada_Vertex_Weight& Other)
+		{
+			return Weight < Other.Weight;
+		}
 	};
 
 	class Collada_Skeleton
@@ -143,7 +165,8 @@ namespace Collada
 
 	int Load_XML_Document(const char* Filename, XML_Document* Target_Document);
 
-	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh);
+	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh, Collada_Skeleton* Skeleton = nullptr);
+	void Update_Mesh_Joint_Values(Collada_Mesh* Target_Mesh, Collada_Skeleton* Skeleton);
 	int Load_Skeleton(const XML_Document& Document, Collada_Skeleton* Target_Skeleton);
 }
 

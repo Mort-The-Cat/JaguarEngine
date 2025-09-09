@@ -7,6 +7,8 @@
 
 namespace Jaguar
 {
+	class Controller; // These objects control what a World_Object does
+
 	class World_Object	// All world-objects will be stored in larger "object pool" which will be responsible for their allocation/deallocation
 	{					// This is such that a deleted object's reference can be removed from render queues, hitbox pools, and THEN will be deleted from the scene
 #define MF_TO_BE_DELETED 0u
@@ -17,6 +19,10 @@ namespace Jaguar
 		glm::vec3 Position;
 		glm::vec3 Orientation;		// Used to generate direction matrix
 		glm::vec3 Orientation_Up;	// Used to generate direction matrix
+
+		Controller* Control; // This handles object-related logic
+
+		void* Uniform_Buffer;	// This is a pointer to any additional uniform buffer information (such as skeletal animations etc)
 
 		Texture Albedo;
 		// Texture Material;

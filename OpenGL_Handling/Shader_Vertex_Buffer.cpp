@@ -12,14 +12,14 @@ namespace Jaguar
 		glBindVertexArray(Buffer.Vertex_Attribute_ID);
 	}
 
-	void Create_Vertex_Buffer(const Collada::Collada_Mesh& Mesh, Vertex_Buffer* Target_Buffer)
+	void Create_Vertex_Buffer(const Collada::Collada_Mesh* Mesh, Vertex_Buffer* Target_Buffer)
 	{
-		const void* Data = Mesh.Vertices.data();
-		size_t Size = Mesh.Vertices.size() * sizeof(Collada::Collada_Vertex);
+		const void* Data = Mesh->Vertices.data();
+		size_t Size = Mesh->Vertices.size() * sizeof(Collada::Collada_Vertex);
 		//Target_Buffer->Data = Mesh.Vertices.data();
 		//Target_Buffer->Size = Mesh.Vertices.size() * sizeof(Collada::Collada_Vertex);
 
-		Target_Buffer->Vertex_Count = Mesh.Vertices.size(); // Number of vertices is used in the draw call (not number of triangles)
+		Target_Buffer->Vertex_Count = Mesh->Vertices.size(); // Number of vertices is used in the draw call (not number of triangles)
 
 		// Assigns data and size
 
@@ -37,8 +37,11 @@ namespace Jaguar
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(6 * 4)); // Texture coordinates
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4)); // Padding
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4)); // Joint weight
 		glEnableVertexAttribArray(3);
+
+		glVertexAttribPointer(4, 1, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));
+		glEnableVertexAttribArray(4);
 	}
 
 	void Destroy_Vertex_Buffer(Vertex_Buffer* Target_Buffer)

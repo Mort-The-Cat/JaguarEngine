@@ -2,7 +2,7 @@
 
 namespace Collada
 {
-	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh)
+	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh, Collada_Skeleton* Skeleton) // 
 	{
 		std::vector<glm::vec3> Positions;
 		std::vector<glm::vec3> Normals;
@@ -37,6 +37,12 @@ namespace Collada
 
 				size_t Index = std::stoi(Indices[W++]);
 				Vertex.Position = Positions[Index];
+
+				if (Skeleton)
+				{
+					Vertex.Joint_ID = Skeleton->Vertex_Weights[Index].back().Joint_Index;
+					Vertex.Joint_Weight = Skeleton->Vertex_Weights[Index].back().Weight;
+				}
 
 				Index = std::stoi(Indices[W++]);
 				Vertex.Normal = Normals[Index];
