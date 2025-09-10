@@ -5,7 +5,7 @@ namespace Collada
 {
 	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map)
 	{
-		Bone_Map[Parent_Node.Id] = Bone_Map.size();
+		Bone_Map[Parent_Node.Id] = Bone_Map.size() - 1;
 
 		if (Parent_Node.Nodes.find("node") != Parent_Node.Nodes.end())
 			for (size_t W = 0; W < Parent_Node.Nodes["node"].size(); W++)
