@@ -406,6 +406,7 @@
     <ClInclude Include="Test_Game_Loop\Test_Game_Loop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collada_Loader\Collada_Animation_Loader.cpp" />
     <ClCompile Include="Collada_Loader\Collada_Skeleton_Loader.cpp" />
     <ClCompile Include="Collada_Loader\XML_Document_Loader.cpp" />
     <ClCompile Include="Collada_Loader\Collada_Mesh_Loader.cpp" />

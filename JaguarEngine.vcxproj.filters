@@ -827,6 +827,12 @@
     <ClCompile Include="Controllers\Deletion_Handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OpenGL_Handling\Texture_Uniform_Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collada_Loader\Collada_Animation_Loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\OpenGL32.Lib" />

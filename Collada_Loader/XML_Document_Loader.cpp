@@ -53,6 +53,25 @@ namespace Collada
 		return Index;
 	}
 
+	void Get_XML_Properties(const std::string& Contents, long& Index, std::string& Property, const char* Property_Identifier)
+	{
+		long Delta_To_ID = Search_String_Contents(Contents.data() + Index, Property_Identifier);
+		long Delta_To_Terminator = Search_String_Contents(Contents.data() + Index, ">");
+
+		if(Delta_To_ID < Delta_To_Terminator)
+			if (Delta_To_ID != -1)
+			{
+				Index += Delta_To_ID;
+
+				while (*(Property_Identifier++)) // Since "Search_String_Contents" takes us to the start of the substring, 
+												 // we need to just get to the end of it
+					Index++;
+
+				while (Contents[Index] != '\"' && Contents[Index] != '/')
+					Property += Contents[Index++];
+			}
+	}
+
 	void Load_XML_Document_Node(const std::string& Contents, long& Index, XML_Document* Parent_Node)
 	{
 		// Get node type
@@ -71,14 +90,23 @@ namespace Collada
 			Index++;
 		}
 
-		Index += 1 + Search_String_Contents(Contents.data() + Index, ">"); // Passes node
+		std::string ID = "";
+		std::string Target = "";
 
-		if (Contents.data()[Index - 2] == '/') // If doesn't have </type> terminator
-			return;
+		Get_XML_Properties(Contents, Index, ID, "id=\"");
+		Get_XML_Properties(Contents, Index, Target, "target=\"");
+
+		Index += 1 + Search_String_Contents(Contents.data() + Index, ">"); // Passes node
 
 		Parent_Node->Nodes[Node_Type].push_back(XML_Document());
 
 		XML_Document* Current_Node = &Parent_Node->Nodes[Node_Type].back();
+
+		Current_Node->Id = ID;
+		Current_Node->Target = Target;
+
+		if (Contents.data()[Index - 2] == '/') // If doesn't have </type> terminator
+			return;
 
 		Index += Next_Nonwhitespace(Contents.data() + Index); // Gets first non whitespace character
 

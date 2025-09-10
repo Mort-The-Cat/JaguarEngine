@@ -31,6 +31,12 @@ namespace Jaguar
 												// So this is kept as a pointer to prevent the memory location from changing
 	};
 
+	struct Animation_Cache_Info
+	{
+		const char* Name;
+		Collada::Collada_Animation* Animation;	// Pointer to animation that an animator object can use
+	};
+
 	struct Asset_Cache_Data
 	{
 		std::vector<Mesh_Cache_Info> Mesh_Cache;
@@ -38,6 +44,8 @@ namespace Jaguar
 		std::vector<Texture_Cache_Info> Texture_Cache;
 
 		std::vector<Skeleton_Cache_Info> Skeleton_Cache;
+
+		std::vector<Animation_Cache_Info> Animation_Cache;
 	};
 
 	template<typename T>
@@ -67,6 +75,9 @@ namespace Jaguar
 
 	Skeleton_Cache_Info Pull_Skeleton(Asset_Cache_Data* Cache, const char* Directory);
 	void Delete_All_Skeleton_Cache(Asset_Cache_Data* Cache);
+
+	Animation_Cache_Info Pull_Animation(Asset_Cache_Data* Cache, const char* Directory);
+	void Delete_All_Animation_Cache(Asset_Cache_Data* Cache);
 }
 
 

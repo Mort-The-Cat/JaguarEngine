@@ -171,6 +171,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Object_2->Orientation_Up = glm::vec3(0, 1, 0);
 	Object_2->Position = glm::vec3(0, -0.5f, 0);
 
+	Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae");
+
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object, &Engine->Pipeline, &Test_Shader);
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object_2, &Engine->Pipeline, &Test_Shader);
 
@@ -184,6 +186,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Delete_All_Mesh_Cache(&Engine->Asset_Cache);
 	Jaguar::Delete_All_Texture_Cache(&Engine->Asset_Cache);
 	Jaguar::Delete_All_Skeleton_Cache(&Engine->Asset_Cache);
+	Jaguar::Delete_All_Animation_Cache(&Engine->Asset_Cache);
 
 	glfwTerminate();
 }

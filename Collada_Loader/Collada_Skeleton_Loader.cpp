@@ -3,6 +3,15 @@
 
 namespace Collada
 {
+	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map)
+	{
+		Bone_Map[Parent_Node.Id] = Bone_Map.size();
+
+		if (Parent_Node.Nodes.find("node") != Parent_Node.Nodes.end())
+			for (size_t W = 0; W < Parent_Node.Nodes["node"].size(); W++)
+				Load_Child_Joint_Name_Map(Parent_Node["node"][W], Bone_Map);
+	}
+
 	void Load_Child_Joints(size_t Parent_Index, XML_Document Parent_Node, Collada_Skeleton* Target_Skeleton)
 	{
 		Collada_Joint Joint;

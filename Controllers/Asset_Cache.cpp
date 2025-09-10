@@ -14,6 +14,26 @@
 
 namespace Jaguar
 {
+	Animation_Cache_Info Pull_Animation(Asset_Cache_Data* Cache, const char* Directory)
+	{
+		Animation_Cache_Info Animation_Info;
+
+		if (Search_Asset_Cache(Cache->Animation_Cache, Directory, &Animation_Info))
+			return Animation_Info;
+
+		Collada::XML_Document Document;
+		Animation_Info.Animation = new Collada::Collada_Animation();
+
+		Collada::Load_XML_Document(Directory, &Document);
+		Collada::Load_Animation(Document, Animation_Info.Animation);
+
+		Animation_Info.Name = Directory;
+
+		Cache->Animation_Cache.push_back(Animation_Info);
+
+		return Animation_Info;
+	}
+
 	Skeleton_Cache_Info Pull_Skeleton(Asset_Cache_Data* Cache, const char* Directory)
 	{
 		Skeleton_Cache_Info Skeleton_Info;
@@ -102,6 +122,14 @@ namespace Jaguar
 		Cache->Mesh_Cache.push_back(Mesh_Info);
 
 		return Mesh_Info;	// Returns mesh info
+	}
+
+	void Delete_All_Animation_Cache(Asset_Cache_Data* Cache)
+	{
+		for (size_t W = 0; W < Cache->Animation_Cache.size(); W++)
+			delete Cache->Animation_Cache[W].Animation;
+
+		Cache->Animation_Cache.clear();
 	}
 
 	void Delete_All_Skeleton_Cache(Asset_Cache_Data* Cache)

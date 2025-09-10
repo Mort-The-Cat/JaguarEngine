@@ -144,6 +144,7 @@ namespace Collada
 	{
 	public:
 		std::string Id; // 'id' field of node
+		std::string Target;
 
 				// Node type, data
 		std::map<std::string, std::vector<XML_Document>> Nodes; // How to handle float/int arrays?
@@ -166,8 +167,11 @@ namespace Collada
 	int Load_XML_Document(const char* Filename, XML_Document* Target_Document);
 
 	int Load_Mesh(const XML_Document& Document, Collada_Mesh* Target_Mesh, Collada_Skeleton* Skeleton = nullptr);
-	void Update_Mesh_Joint_Values(Collada_Mesh* Target_Mesh, Collada_Skeleton* Skeleton);
 	int Load_Skeleton(const XML_Document& Document, Collada_Skeleton* Target_Skeleton);
+
+
+	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map);
+	int Load_Animation(const XML_Document& Document, Collada_Animation* Target_Animation);
 }
 
 #endif
