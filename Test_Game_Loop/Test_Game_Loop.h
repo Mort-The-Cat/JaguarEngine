@@ -124,6 +124,8 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 		Engine->Scene.Camera_Projection_Matrix = glm::perspective(glm::radians(85.0f), 1.0f, 0.01f, 100.0f) // Sets nice camera projection matrix
 			* View_Matrix;
 
+		Jaguar::Handle_Scene_Controllers(Engine);
+
 		Jaguar::Draw_Render_Pipeline(&Engine->Pipeline, &Engine->Scene);
 
 		glfwSwapBuffers(Engine->Window);
@@ -155,7 +157,12 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Shader Test_Shader;
 	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
 
+	Jaguar::Shader Test_Skeletal_Animation_Shader;
+	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader);
+
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader);
+	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Skeletal_Animation_Shader, 
+		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
 	Jaguar::World_Object* Object = new Jaguar::World_Object();
 	Object->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Buffer;
@@ -163,6 +170,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Object->Orientation = glm::vec3(0, 0, 1);
 	Object->Orientation_Up = glm::vec3(0, 1, 0);
 	Object->Position = glm::vec3(-1, -2, 5); // In front of camera and below slightly, and slightly to the left
+	Object->Control = new Jaguar::Animator_Controller(
+		Object, 
+		Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Animation,
+		Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Skeleton);
+	Object->Flags[MF_ACTIVE] = true; // Set the object as active
 
 	Jaguar::World_Object* Object_2 = new Jaguar::World_Object();
 	Object_2->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer;
@@ -171,9 +183,9 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Object_2->Orientation_Up = glm::vec3(0, 1, 0);
 	Object_2->Position = glm::vec3(0, -0.5f, 0);
 
-	Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae");
+	// Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae");
 
-	Jaguar::Add_Scene_Object(&Engine->Scene, Object, &Engine->Pipeline, &Test_Shader);
+	Jaguar::Add_Scene_Object(&Engine->Scene, Object, &Engine->Pipeline, &Test_Skeletal_Animation_Shader);
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object_2, &Engine->Pipeline, &Test_Shader);
 
 	Test_Engine_Loop(Engine);
@@ -182,6 +194,9 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Handle_Deletions(Engine);
 
 	Jaguar::Destroy_Shader(&Test_Shader);
+	Jaguar::Destroy_Shader(&Test_Skeletal_Animation_Shader);
+
+	Jaguar::Clear_Render_Pipeline(&Engine->Pipeline);
 
 	Jaguar::Delete_All_Mesh_Cache(&Engine->Asset_Cache);
 	Jaguar::Delete_All_Texture_Cache(&Engine->Asset_Cache);

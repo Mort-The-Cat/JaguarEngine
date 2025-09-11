@@ -40,7 +40,7 @@ namespace Jaguar
 		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4)); // Joint weight
 		glEnableVertexAttribArray(3);
 
-		glVertexAttribPointer(4, 1, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));
+		glVertexAttribIPointer(4, 1, GL_UNSIGNED_BYTE, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));
 		glEnableVertexAttribArray(4);
 	}
 

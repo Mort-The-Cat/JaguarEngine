@@ -6,6 +6,8 @@
 #include "../OpenGL_Handling/Render_Queue.h"
 #include "../OpenGL_Handling/Scene.h"
 
+#include "../Controllers/Skeletal_Animation_Handling.h"
+
 namespace Jaguar
 {
 	// Note that this likely will NOT include particle rendering as that's so fundamentally different to how we're rendering actors here
@@ -25,6 +27,21 @@ namespace Jaguar
 		glBindTexture(GL_TEXTURE_2D, Object->Albedo.Texture_Buffer_ID);
 		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Albedo_Texture"), 0);
 		glActiveTexture(GL_TEXTURE0 + 0);
+	}
+
+	void Skeletal_Animation_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
+	{
+		Default_Uniform_Assign_Function(Target_Shader, Object, Scene); // Does all the regular stuff,
+
+		// then also assigns skeletal animation data!!
+
+		const Animator_Controller* Animator_Object = (Animator_Controller*)Object->Control;
+
+		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Joint_Matrices"), 
+			JOINT_BUFFER_COUNT, GL_FALSE, 
+			glm::value_ptr(*Animator_Object->Joint_Buffer));
+
+		// This parses the joint buffer to the shader
 	}
 
 	void Clear_Render_Pipeline(Render_Pipeline* Target_Pipeline)

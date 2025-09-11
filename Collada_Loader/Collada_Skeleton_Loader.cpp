@@ -87,6 +87,9 @@ namespace Collada
 
 		Load_Child_Joints(0, Root_Node, Target_Skeleton);
 
+		for (size_t W = 0; W < Bind_Poses_Array.size(); W++)
+			Target_Skeleton->Joints[W].Offset_Matrix = Bind_Poses_Array[W];
+
 		return 0;
 	}
 }

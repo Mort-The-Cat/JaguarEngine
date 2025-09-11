@@ -6,6 +6,8 @@
 #include "../OpenGL_Handling/Scene.h"
 #include "../OpenGL_Handling/Render_Queue.h"
 
+#include "Skeletal_Animation_Handling.h"
+
 #include "../Controllers/Asset_Cache.h"
 
 namespace Jaguar

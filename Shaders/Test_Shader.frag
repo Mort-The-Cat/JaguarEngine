@@ -8,7 +8,15 @@ in vec3 Normal;
 
 void main()
 {
-	gl_FragColor = vec4(texture(Albedo_Texture, Texture_Coordinates).rgb, 1);
+	float Inverse_Length = inversesqrt(dot(Position, Position));
+
+	gl_FragColor = vec4(texture(Albedo_Texture, Texture_Coordinates).rgb, 1) * 
+		vec4(
+			vec3(
+				(0.3 + 0.8 * max(0, dot(Position * Inverse_Length, -Normal)))		//		* Inverse_Length
+			),
+			1
+		);
 
 	//vec4(Normal * 0.5 + 0.5, 1);
 }

@@ -25,7 +25,7 @@ void Throw_Error(const char* Formatted_String);
 std::string Load_File_Contents(const char* Filename);
 
 template<typename T>
-void Load_Strings_To_Matrices(const std::vector<std::string>& Strings, std::vector<T>& Matrices)
+void Load_Strings_To_Matrices(const std::vector<std::string>& Strings, std::vector<T>& Matrices) // Change this function to fix the matrices in the animation files
 {
 	size_t W = 0;
 	while (W < Strings.size())
@@ -35,6 +35,15 @@ void Load_Strings_To_Matrices(const std::vector<std::string>& Strings, std::vect
 		for (size_t Row = 0; Row < Matrix.length(); Row++)
 			for (size_t Column = 0; Column < Matrix[0].length(); Column++)	// Column-major format
 				Matrix[Column][Row] = std::stof(Strings[W++]);
+
+		// Swap Y and Z components
+
+		/*std::swap(Matrix[1][0], Matrix[2][0]);
+		std::swap(Matrix[1][1], Matrix[2][1]);
+		std::swap(Matrix[1][2], Matrix[2][2]);
+		std::swap(Matrix[1][3], Matrix[2][3]);
+
+		Matrix[2] *= glm::vec4(-1);*/
 
 		Matrices.push_back(Matrix);
 	}
