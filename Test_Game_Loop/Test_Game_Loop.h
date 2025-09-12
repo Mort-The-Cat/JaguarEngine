@@ -165,16 +165,28 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
 	Jaguar::World_Object* Object = new Jaguar::World_Object();
-	Object->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Buffer;
-	Object->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture;
+	Object->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Buffer;
+	Object->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Texture.png").Texture;
 	Object->Orientation = glm::vec3(0, 0, 1);
 	Object->Orientation_Up = glm::vec3(0, 1, 0);
 	Object->Position = glm::vec3(-1, -2, 5); // In front of camera and below slightly, and slightly to the left
 	Object->Control = new Jaguar::Animator_Controller(
 		Object, 
+		Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Animation,
+		Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Skeleton);
+	Object->Flags[MF_ACTIVE] = true; // Set the object as active
+
+	Jaguar::World_Object* Object_3 = new Jaguar::World_Object();
+	Object_3->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Buffer;
+	Object_3->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture;
+	Object_3->Orientation = glm::vec3(0, 0, 1);
+	Object_3->Orientation_Up = glm::vec3(0, 1, 0);
+	Object_3->Position = glm::vec3(5, -2, 5); // In front of camera and below slightly, and slightly to the left
+	Object_3->Control = new Jaguar::Animator_Controller(
+		Object_3,
 		Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Animation,
 		Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Skeleton);
-	Object->Flags[MF_ACTIVE] = true; // Set the object as active
+	Object_3->Flags[MF_ACTIVE] = true; // Set the object as active
 
 	Jaguar::World_Object* Object_2 = new Jaguar::World_Object();
 	Object_2->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer;
@@ -186,6 +198,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	// Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae");
 
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object, &Engine->Pipeline, &Test_Skeletal_Animation_Shader);
+	Jaguar::Add_Scene_Object(&Engine->Scene, Object_3, &Engine->Pipeline, &Test_Skeletal_Animation_Shader);
 	Jaguar::Add_Scene_Object(&Engine->Scene, Object_2, &Engine->Pipeline, &Test_Shader);
 
 	Test_Engine_Loop(Engine);

@@ -3,23 +3,25 @@
 
 namespace Collada
 {
-	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map)
+	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map, std::vector<glm::mat4>& Buffer)
 	{
 		Bone_Map[Parent_Node.Id] = Bone_Map.size() - 1;
 
+		Load_Strings_To_Matrices(Parent_Node["matrix"][0].Data_Array, Buffer); // Loads joint matrix into buffer
+
 		if (Parent_Node.Nodes.find("node") != Parent_Node.Nodes.end())
 			for (size_t W = 0; W < Parent_Node.Nodes["node"].size(); W++)
-				Load_Child_Joint_Name_Map(Parent_Node["node"][W], Bone_Map);
+				Load_Child_Joint_Name_Map(Parent_Node["node"][W], Bone_Map, Buffer);
 	}
 
 	void Load_Child_Joints(size_t Parent_Index, XML_Document Parent_Node, Collada_Skeleton* Target_Skeleton)
 	{
 		Collada_Joint Joint;
 		Joint.Parent_Joint = Parent_Index;
-		std::vector<glm::mat4> Buffer;
 
-		Load_Strings_To_Matrices(Parent_Node["matrix"][0].Data_Array, Buffer); // Loads bind matrix into buffer
-		Joint.Offset_Matrix = Buffer[0];
+		// std::vector<glm::mat4> Buffer;
+
+		//Joint.Offset_Matrix = Buffer[0];
 
 		size_t Current_Joint_Index = Target_Skeleton->Joints.size();
 
@@ -49,6 +51,12 @@ namespace Collada
 
 		for (const auto& Skin : Skins) // Iterates through skins
 		{
+			std::vector<glm::mat4> Bind_Shape_Matrix;
+
+			Load_Strings_To_Matrices(Skin["bind_shape_matrix"][0].Data_Array, Bind_Shape_Matrix);
+
+			Target_Skeleton->Bind_Shape_Matrix = Bind_Shape_Matrix[0];
+
 			// The second source (index=1) of this skin is the bind poses array
 			Load_Strings_To_Matrices(Skin["source"][1]["float_array"][0].Data_Array, Bind_Poses_Array);
 			Load_Strings_To_Vectors(Skin["source"][2]["float_array"][0].Data_Array, Weights);

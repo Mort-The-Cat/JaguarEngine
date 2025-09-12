@@ -124,6 +124,7 @@ namespace Collada
 
 		std::vector<std::vector<Collada_Vertex_Weight>> Vertex_Weights; // Every vertex has a collection of vertex weights std::vector<Collada_Vertex_Weight>
 
+		glm::mat4 Bind_Shape_Matrix;
 		// When loading into game engine, this will be sorted and prioritised most likely
 	};
 
@@ -179,7 +180,7 @@ namespace Collada
 	int Load_Skeleton(const XML_Document& Document, Collada_Skeleton* Target_Skeleton);
 
 
-	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map);
+	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map, std::vector<glm::mat4>& Buffer);
 	int Load_Animation(const XML_Document& Document, Collada_Animation* Target_Animation);
 }
 

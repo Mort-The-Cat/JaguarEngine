@@ -105,7 +105,7 @@ namespace Jaguar
 			Collada::XML_Document Libraries = Document["COLLADA"][0];
 			if (Libraries.Nodes.find("library_controllers") != Libraries.Nodes.end())	// If there's animation data? 
 			{
-				Skeleton = Pull_Skeleton(Cache, Directory).Skeleton;																// Load skeleton into memory
+				Skeleton = Pull_Skeleton(Cache, Directory).Skeleton;	// Load skeleton into memory
 			}
 		}
 

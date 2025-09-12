@@ -19,7 +19,7 @@ void main()
 {
 	Texture_Coordinates = In_Texture_Coordinates;
 	Position = vec3(
-		Model_Matrix * Joint_Matrices[Joint_Index] * vec4(In_Position, 1.0f)		// 4d vector is required to apply translation to position
+		Model_Matrix * vec4(vec3(Joint_Matrices[Joint_Index] * vec4(In_Position, 1.0f)), 1)		// 4d vector is required to apply translation to position
 	);
 
 	Normal = mat3(Model_Matrix) * (mat3(Joint_Matrices[Joint_Index]) * normalize(In_Normal)); // This provides only the ROTATION to the normals (which is what we want)

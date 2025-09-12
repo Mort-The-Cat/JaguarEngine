@@ -14,12 +14,14 @@ namespace Collada
 
 		std::map<std::string, unsigned int> Joint_Index_Map;
 
+		std::vector<glm::mat4> Joint_Matrix_Buffer;
+
 		{
 			const XML_Document Root_Node = Document["COLLADA"][0]["library_visual_scenes"][0]["visual_scene"][0]["node"][0]["node"][0];
 
 			// Bone root node (for index map)
 
-			Load_Child_Joint_Name_Map(Root_Node, Joint_Index_Map);
+			Load_Child_Joint_Name_Map(Root_Node, Joint_Index_Map, Joint_Matrix_Buffer);
 		}
 
 		Target_Animation->Keyframes.resize(Joint_Index_Map.size()); // Creates indices for every joint
@@ -45,6 +47,19 @@ namespace Collada
 				Keyframe.Time = Cumulative_Time;
 				Keyframe.Transformation_Matrix = Transformations[V];
 				Target_Animation->Keyframes[Index].push_back(Keyframe);
+			}
+		}
+
+		for (size_t W = 0; W < Target_Animation->Keyframes.size(); W++)
+		{
+			if (!Target_Animation->Keyframes[W].size())
+			{
+				// If no keyframes? Use the default joint matrices from the joint_matrix_buffer
+
+				Collada::Collada_Keyframe Keyframe;
+				Keyframe.Time = 0.0f;
+				Keyframe.Transformation_Matrix = Joint_Matrix_Buffer[W];
+				Target_Animation->Keyframes[W].push_back(Keyframe);
 			}
 		}
 
