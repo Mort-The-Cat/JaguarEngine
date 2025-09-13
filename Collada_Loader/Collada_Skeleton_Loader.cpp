@@ -98,6 +98,12 @@ namespace Collada
 		for (size_t W = 0; W < Bind_Poses_Array.size(); W++)
 			Target_Skeleton->Joints[W].Offset_Matrix = Bind_Poses_Array[W];
 
+		Bind_Poses_Array.clear();
+
+		Load_Strings_To_Matrices(Document["COLLADA"][0]["library_visual_scenes"][0]["visual_scene"][0]["node"][0]["matrix"][0].Data_Array, Bind_Poses_Array);
+
+		Target_Skeleton->Bind_Shape_Matrix = Target_Skeleton->Bind_Shape_Matrix * Bind_Poses_Array[0];
+
 		return 0;
 	}
 }
