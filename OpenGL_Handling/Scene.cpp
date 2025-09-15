@@ -2,6 +2,8 @@
 #include "OpenGL_Handling.h"
 #include "Render_Queue.h"
 
+#include "../Controllers/Jaguar_Engine_Wrapper.h"
+
 namespace Jaguar
 {
 	glm::mat4 Get_Model_Matrix(const World_Object* Object) // Generates model transformation matrix from orientation vectors and world-object's position
@@ -34,6 +36,26 @@ namespace Jaguar
 			].Objects.push_back(New_Object);								// Adds pointer to this object into render queue
 		}
 	}
+
+	void Create_World_Object(Jaguar_Engine* Engine, World_Object* Object, Shader* Object_Shader,
+		Vertex_Buffer Mesh_Buffer,
+		Texture Albedo,
+		Controller* Control,
+		glm::vec3 Position,
+		glm::vec3 Orientation,
+		glm::vec3 Orientation_Up
+	)
+	{
+		Object->Mesh = Mesh_Buffer;
+		Object->Albedo = Albedo;
+		Object->Control = Control;
+		Object->Position = Position;
+		Object->Orientation = Orientation;
+		Object->Orientation_Up = Orientation_Up;
+
+		Add_Scene_Object(&Engine->Scene, Object, &Engine->Pipeline, Object_Shader);
+	}
+
 
 	void Destroy_World_Object(World_Object* Target_Object)
 	{

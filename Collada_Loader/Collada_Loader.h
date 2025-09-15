@@ -82,8 +82,22 @@ namespace Collada
 		glm::vec3 Position;
 		glm::vec3 Normal;
 		glm::vec2 Texture_Coordinates;
-		float Joint_Weight;
-		uint8_t Joint_ID;
+
+		union 
+		{							// A mesh should only use EITHER joints or baked lightmapping, so this will be stored in a union
+									// so that the memory can be parsed in basically the same way
+									// May change this later... Particles and 2d UI elements will most likely need their own special kind of vertex buffer object
+			struct 
+			{
+				float Joint_Weight;
+				uint32_t Joint_ID;
+			};
+
+			glm::vec2 Lightmap_UV;		// IMPORTANT: Note that "Lightmap_UV" takes up same amount of memory as Joint_Weight and Joint_ID
+										// This is done so that static objects have room in their vertex attribute for the lightmap UVs
+										// and so that dynamic objects (with skeletal animations) have room in their vertex attributes for joint info
+										// This may need to be changed later, but I think this is okay for most objects
+		};
 	};
 
 	class Collada_Mesh

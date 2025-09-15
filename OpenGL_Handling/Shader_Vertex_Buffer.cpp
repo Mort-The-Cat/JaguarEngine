@@ -25,7 +25,7 @@ namespace Jaguar
 
 		glGenBuffers(1, &Target_Buffer->Vertex_Buffer_ID);
 		glBindBuffer(GL_ARRAY_BUFFER, Target_Buffer->Vertex_Buffer_ID);
-		glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW); // The vertex buffer won't be updated once we generate it
+		glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW); // The vertex buffer won't be updated once we've fully generated it
 
 		// Handle attribute buffer
 
@@ -33,14 +33,14 @@ namespace Jaguar
 		glBindVertexArray(Target_Buffer->Vertex_Attribute_ID);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)0); // Position vectors
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(3 * 4)); // Normal vectors
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(3 * 4));	// Normal vectors
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(6 * 4)); // Texture coordinates
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(6 * 4));	// Texture coordinates
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4)); // Joint weight
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4));	// Joint weight
 		glEnableVertexAttribArray(3);
 
-		glVertexAttribIPointer(4, 1, GL_UNSIGNED_BYTE, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));
+		glVertexAttribIPointer(4, 1, GL_UNSIGNED_INT, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));		// Joint index
 		glEnableVertexAttribArray(4);
 	}
 

@@ -42,6 +42,15 @@ namespace Jaguar
 
 	void Destroy_World_Object(World_Object* Target_Object);
 
+	void Create_World_Object(Jaguar_Engine* Engine, World_Object* Object, Shader* Object_Shader,
+		Vertex_Buffer Mesh_Buffer,
+		Texture Albedo,
+		Controller* Control,
+		glm::vec3 Position = glm::vec3(0.0f),
+		glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3 Orientation_Up = glm::vec3(0.0f, 1.0f, 0.0f)
+		);
+
 	glm::mat4 Get_Model_Matrix(const World_Object* Object);
 
 	struct Scene_Data	// The Scene_Data object is responsible for memory management of world objects as well as
