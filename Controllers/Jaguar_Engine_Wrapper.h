@@ -1,6 +1,8 @@
 #ifndef JAGUAR_ENGINE_WRAPPER
 #define JAGUAR_ENGINE_WRAPPER
 
+#include <chrono>
+
 #include "../OpenGL_Handling/OpenGL_Handling.h"
 #include "../OpenGL_Handling/Input_Handling.h"
 #include "../OpenGL_Handling/Scene.h"

@@ -1,4 +1,5 @@
 #include "Skeletal_Animation_Handling.h"
+#include "Jaguar_Engine_Wrapper.h"
 
 namespace Jaguar
 {
@@ -9,9 +10,9 @@ namespace Jaguar
 
 		// Then transform according to bone hierarchy
 
-		Time += 0.02f;
+		Time += Engine->Time;
 
-		if (Time > 200.0f)
+		if (Time > 10.0f)
 			Time = 0.0f;
 
 		for (size_t W = 0; W < Animation->Keyframes.size(); W++)
@@ -19,7 +20,8 @@ namespace Jaguar
 			if (Animation->Keyframes[W].size())
 			{
 				size_t Keyframe_Index = 0;
-				while (Animation->Keyframes[W][Keyframe_Index].Time < Time && Animation->Keyframes[W].size() > Keyframe_Index + 1)
+
+				while (Time > Animation->Keyframes[W][Keyframe_Index].Time && Animation->Keyframes[W].size() > Keyframe_Index + 1)
 					Keyframe_Index++;
 
 				Joint_Buffer[W] = Animation->Keyframes[W][Keyframe_Index].Transformation_Matrix;

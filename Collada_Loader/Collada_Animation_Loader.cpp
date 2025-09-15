@@ -38,13 +38,13 @@ namespace Collada
 
 			size_t Index = Joint_Index_Map[Animations["animation"][W]["channel"][0].Target];
 
-			float Cumulative_Time = 0.0f;
+			//float Cumulative_Time = 0.0f;
 
 			for (size_t V = 0; V < Times.size(); V++)
 			{
 				Collada::Collada_Keyframe Keyframe;
-				Cumulative_Time += Times[V].x;
-				Keyframe.Time = Cumulative_Time;
+				//Cumulative_Time += Times[V].x;
+				Keyframe.Time = Times[V].x;// Cumulative_Time;
 				Keyframe.Transformation_Matrix = Transformations[V];
 				Target_Animation->Keyframes[Index].push_back(Keyframe);
 			}

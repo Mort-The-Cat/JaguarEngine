@@ -56,6 +56,10 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 	float Camera_Y_Direction = 0;
 	glm::vec3 Player_Position = glm::vec3(0.0f);
 
+	auto Previous_Time = std::chrono::high_resolution_clock::now();
+
+	auto Current_Time = Previous_Time;
+
 	glViewport(0, 0, 800, 800);
 
 	glEnable(GL_DEPTH_TEST);
@@ -69,6 +73,10 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 	{
 		// Basic graphics loop
 
+		Current_Time = std::chrono::high_resolution_clock::now();
+
+		Engine->Time = std::chrono::duration<float>(Current_Time - Previous_Time).count();
+
 		glClearColor(0.3, 0.3, 0.2, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -77,34 +85,34 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 		glm::mat4 View_Matrix = glm::mat4(1.0f);
 
 		if (Engine->User_Inputs.Keys[Controls::Forwards].Pressed)
-			Player_Position += 0.001f * Get_Direction_Vector(Camera_X_Direction);
+			Player_Position += 2 * Engine->Time * Get_Direction_Vector(Camera_X_Direction);
 
 		if (Engine->User_Inputs.Keys[Controls::Backwards].Pressed)
-			Player_Position -= 0.001f * Get_Direction_Vector(Camera_X_Direction);
+			Player_Position -= 2 * Engine->Time * Get_Direction_Vector(Camera_X_Direction);
 
 		if (Engine->User_Inputs.Keys[Controls::Up].Pressed)
-			Player_Position.y += 0.001f;
+			Player_Position.y += 2 * Engine->Time;
 
 		if (Engine->User_Inputs.Keys[Controls::Down].Pressed)
-			Player_Position.y -= 0.001f;
+			Player_Position.y -= 2 * Engine->Time;
 
 		if (Engine->User_Inputs.Keys[Controls::Left].Pressed)
-			Player_Position -= 0.001f * Get_Direction_Vector(Camera_X_Direction + 3.14159 / 2);
+			Player_Position -= 2 * Engine->Time * Get_Direction_Vector(Camera_X_Direction + 3.14159 / 2);
 
 		if (Engine->User_Inputs.Keys[Controls::Right].Pressed)
-			Player_Position += 0.001f * Get_Direction_Vector(Camera_X_Direction + 3.14159 / 2);
+			Player_Position += 2 * Engine->Time * Get_Direction_Vector(Camera_X_Direction + 3.14159 / 2);
 
 		if (Engine->User_Inputs.Keys[Controls::Look_Left].Pressed)
-			Camera_X_Direction -= 0.001f;
+			Camera_X_Direction -= Engine->Time * 3;
 
 		if (Engine->User_Inputs.Keys[Controls::Look_Right].Pressed)
-			Camera_X_Direction += 0.001f;
+			Camera_X_Direction += Engine->Time * 3;
 
 		if (Engine->User_Inputs.Keys[Controls::Look_Up].Pressed)
-			Camera_Y_Direction += 0.001f;
+			Camera_Y_Direction += Engine->Time * 3;
 
 		if (Engine->User_Inputs.Keys[Controls::Look_Down].Pressed)
-			Camera_Y_Direction -= 0.001f;
+			Camera_Y_Direction -= Engine->Time * 3;
 
 		{
 			// Test handle some player inputs!
@@ -129,6 +137,9 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Draw_Render_Pipeline(&Engine->Pipeline, &Engine->Scene);
 
 		glfwSwapBuffers(Engine->Window);
+
+		Previous_Time = Current_Time;
+
 		glfwPollEvents();
 	}
 }
@@ -190,7 +201,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Jaguar::World_Object* Object_2 = new Jaguar::World_Object();
 	Object_2->Mesh = Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer;
-	Object_2->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture;
+	Object_2->Albedo = Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Viking_Room.png").Texture;
 	Object_2->Orientation = glm::vec3(0, 0, 1);
 	Object_2->Orientation_Up = glm::vec3(0, 1, 0);
 	Object_2->Position = glm::vec3(0, -0.5f, 0);
