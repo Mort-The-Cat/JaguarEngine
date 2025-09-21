@@ -12,6 +12,8 @@
 
 #include "../Controllers/Asset_Cache.h"
 
+#include "../Controllers/Lightmapping.h"
+
 namespace Jaguar
 {
 	struct Jaguar_Engine

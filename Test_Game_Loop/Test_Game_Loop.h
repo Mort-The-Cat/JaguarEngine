@@ -164,6 +164,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Set_Input_Keycodes(&Engine->User_Inputs);
 
 	//
+
+	Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae", 0); // The sphere model must be loaded for the lightmapping to use as the 'light'
 	
 	Jaguar::Shader Test_Shader;
 	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
@@ -203,15 +205,41 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		glm::vec3(5, -2, 5)
 	);
 
-	Object = new Jaguar::World_Object();
+	/*Object = new Jaguar::World_Object();
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Viking_Room.png").Texture,
 		nullptr,
 		glm::vec3(0.0f, -0.5f, 0.0f)
+	);*/
+
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Bricks.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+		nullptr
 	);
 
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
+		nullptr
+	);
+
+	Jaguar::Lightmap_Chart Lightmap;
+	Jaguar::Init_Lightmap_Chart(&Lightmap);
+
+	Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
+	Jaguar::Assemble_Lightmap_Chart(&Lightmap);
+
+	Jaguar::Texture Lightmap_Texture;
+
+	Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap);
+
 	Test_Engine_Loop(Engine);
+
+	Jaguar::Destroy_Texture_Buffer(&Lightmap_Texture);
 
 	Jaguar::Delete_All(&Engine->Scene);		// Sets all scene objects for deletion
 	Jaguar::Handle_Deletions(Engine);		// Handles deletion of scene objects (in actual game, perform in game-loop)

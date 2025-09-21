@@ -86,6 +86,19 @@ namespace Jaguar
 		return Texture_Info;
 	}
 
+	Mesh_Cache_Info Get_Mesh_From_Buffer_ID(Asset_Cache_Data* Cache, GLuint Buffer_ID)
+	{
+		Mesh_Cache_Info Mesh_Info;
+
+		Mesh_Info = Cache->Mesh_Cache[0];
+
+		for (size_t W = 1; W < Cache->Mesh_Cache.size(); W++)
+			if (Cache->Mesh_Cache[W].Buffer.Vertex_Buffer_ID == Buffer_ID)
+				return Cache->Mesh_Cache[W];
+
+		return Mesh_Info; // Rubbish data
+	}
+
 	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory, unsigned char Flags)
 	{
 		Mesh_Cache_Info Mesh_Info;
@@ -114,6 +127,11 @@ namespace Jaguar
 		// This will then generate a vertex buffer from this mesh
 
 		Create_Vertex_Buffer(Mesh_Info.Mesh, &Mesh_Info.Buffer);
+
+		if (Flags & LOAD_MESH_HINT_LIGHTMAP_STATIC)
+			Initialise_Static_Lightmap_Vertex_Attributes(&Mesh_Info.Buffer);
+		else
+			Initialise_Joint_Vertex_Attributes(&Mesh_Info.Buffer);
 
 		// Then this will push the Mesh Cache Info to the asset cache
 

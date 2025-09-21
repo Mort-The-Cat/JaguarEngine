@@ -150,6 +150,7 @@
     <ClInclude Include="Collada_Loader\Collada_Loader.h" />
     <ClInclude Include="Controllers\Asset_Cache.h" />
     <ClInclude Include="Controllers\Jaguar_Engine_Wrapper.h" />
+    <ClInclude Include="Controllers\Lightmapping.h" />
     <ClInclude Include="Libraries\Include\glad\glad.h" />
     <ClInclude Include="Libraries\Include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\Include\GLFW\glfw3native.h" />
@@ -413,6 +414,7 @@
     <ClCompile Include="Controllers\Asset_Cache.cpp" />
     <ClCompile Include="Controllers\Controller_Handling.cpp" />
     <ClCompile Include="Controllers\Deletion_Handler.cpp" />
+    <ClCompile Include="Controllers\Lightmapping.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.h" />
     <ClCompile Include="Libraries\Include\glad\glad.c" />

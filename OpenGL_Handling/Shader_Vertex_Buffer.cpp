@@ -12,23 +12,22 @@ namespace Jaguar
 		glBindVertexArray(Buffer.Vertex_Attribute_ID);
 	}
 
-	void Create_Vertex_Buffer(const Collada::Collada_Mesh* Mesh, Vertex_Buffer* Target_Buffer)
+	void Initialise_Static_Lightmap_Vertex_Attributes(Vertex_Buffer* Target_Buffer)
 	{
-		const void* Data = Mesh->Vertices.data();
-		size_t Size = Mesh->Vertices.size() * sizeof(Collada::Collada_Vertex);
-		//Target_Buffer->Data = Mesh.Vertices.data();
-		//Target_Buffer->Size = Mesh.Vertices.size() * sizeof(Collada::Collada_Vertex);
+		glGenVertexArrays(1, &Target_Buffer->Vertex_Attribute_ID);
+		glBindVertexArray(Target_Buffer->Vertex_Attribute_ID);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)0); // Position vectors
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(3 * 4));	// Normal vectors
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(6 * 4));	// Texture coordinates
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4));	// Lightmap texture coordinates
+		glEnableVertexAttribArray(3);
+	}
 
-		Target_Buffer->Vertex_Count = Mesh->Vertices.size(); // Number of vertices is used in the draw call (not number of triangles)
-
-		// Assigns data and size
-
-		glGenBuffers(1, &Target_Buffer->Vertex_Buffer_ID);
-		glBindBuffer(GL_ARRAY_BUFFER, Target_Buffer->Vertex_Buffer_ID);
-		glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW); // The vertex buffer won't be updated once we've fully generated it
-
-		// Handle attribute buffer
-
+	void Initialise_Joint_Vertex_Attributes(Vertex_Buffer* Target_Buffer)
+	{
 		glGenVertexArrays(1, &Target_Buffer->Vertex_Attribute_ID);
 		glBindVertexArray(Target_Buffer->Vertex_Attribute_ID);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)0); // Position vectors
@@ -42,6 +41,30 @@ namespace Jaguar
 
 		glVertexAttribIPointer(4, 1, GL_UNSIGNED_INT, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));		// Joint index
 		glEnableVertexAttribArray(4);
+
+		// Handle attribute buffer
+	}
+
+	void Update_Vertex_Buffer_Data(const Collada::Collada_Mesh* Mesh, Vertex_Buffer* Target_Buffer)
+	{
+		const void* Data = Mesh->Vertices.data();
+		size_t Size = Mesh->Vertices.size() * sizeof(Collada::Collada_Vertex);
+
+		glBindBuffer(GL_ARRAY_BUFFER, Target_Buffer->Vertex_Buffer_ID);
+		glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW); // The vertex buffer won't be updated once we've fully generated it
+	}
+
+	void Create_Vertex_Buffer(const Collada::Collada_Mesh* Mesh, Vertex_Buffer* Target_Buffer)
+	{
+		//Target_Buffer->Data = Mesh.Vertices.data();
+		//Target_Buffer->Size = Mesh.Vertices.size() * sizeof(Collada::Collada_Vertex);
+
+		Target_Buffer->Vertex_Count = Mesh->Vertices.size(); // Number of vertices is used in the draw call (not number of triangles)
+
+		// Assigns data and size
+
+		glGenBuffers(1, &Target_Buffer->Vertex_Buffer_ID);
+		Update_Vertex_Buffer_Data(Mesh, Target_Buffer);
 	}
 
 	void Destroy_Vertex_Buffer(Vertex_Buffer* Target_Buffer)

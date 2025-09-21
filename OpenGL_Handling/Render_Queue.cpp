@@ -12,6 +12,11 @@ namespace Jaguar
 {
 	// Note that this likely will NOT include particle rendering as that's so fundamentally different to how we're rendering actors here
 
+	Render_Queue* Get_Render_Queue(Render_Pipeline* Target_Pipeline, const Shader* Target_Shader)
+	{
+		return &Target_Pipeline->Render_Queues[Target_Pipeline->Queue_Table.at(Target_Shader->Program_ID)];
+	}
+
 	void Default_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene)
 	{
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));

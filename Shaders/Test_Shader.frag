@@ -6,6 +6,8 @@ in vec2 Texture_Coordinates;
 in vec3 Position;
 in vec3 Normal;
 
+in vec2 Lightmap_Coordinates;
+
 void main()
 {
 	float Inverse_Length = inversesqrt(dot(Position, Position));

@@ -13,6 +13,11 @@ namespace Jaguar
 										// This does however mean that we need to manually handle memory allocations for the mesh cache,
 										// but we already handle buffer allocations/deallocations so that shouldn't be a problem
 		Vertex_Buffer Buffer;
+
+		bool operator<(const Mesh_Cache_Info& Other) const
+		{
+			return Buffer.Vertex_Buffer_ID < Other.Buffer.Vertex_Buffer_ID;
+		}
 	};
 
 	struct Texture_Cache_Info
@@ -67,6 +72,8 @@ namespace Jaguar
 	struct Jaguar_Engine;
 
 #define LOAD_MESH_HINT_SKELETON_INCLUDED 1u // This flag bit lets the engine know that a skeleton should be created for this mesh (if one exists)
+#define LOAD_MESH_HINT_LIGHTMAP_STATIC 2u	// This flag bit lets the engine know that this object will use lightmap coordinates
+	Mesh_Cache_Info Get_Mesh_From_Buffer_ID(Asset_Cache_Data* Cache, GLuint Buffer_ID);
 	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory, unsigned char Flags = LOAD_MESH_HINT_SKELETON_INCLUDED);
 	void Delete_All_Mesh_Cache(Asset_Cache_Data* Cache);
 

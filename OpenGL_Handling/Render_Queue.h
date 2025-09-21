@@ -25,6 +25,8 @@ namespace Jaguar
 
 	struct Scene_Data;
 
+	Render_Queue* Get_Render_Queue(Render_Pipeline* Target_Pipeline, const Shader* Target_Shader);
+
 	void Draw_Render_Queue(const Render_Queue* Queue, const Scene_Data*); // This should simply draw the render queue, not do anything to it
 	void Clear_Render_Pipeline(Render_Pipeline* Target_Pipeline);
 

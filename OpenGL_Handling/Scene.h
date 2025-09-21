@@ -53,9 +53,20 @@ namespace Jaguar
 
 	glm::mat4 Get_Model_Matrix(const World_Object* Object);
 
+	struct Lightsource;
+
+	struct Lighting_Data
+	{
+		Texture Lightmap_Texture;
+
+		std::vector<Lightsource*> Lightsources;
+	};
+
 	struct Scene_Data	// The Scene_Data object is responsible for memory management of world objects as well as
 	{					// lighting, hitboxes, and camera information for the scene
 		std::vector<World_Object*> Objects;
+
+		Lighting_Data Lighting;
 
 		glm::mat4 Camera_Projection_Matrix;
 	};

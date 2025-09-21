@@ -41,10 +41,13 @@ namespace Jaguar
 		size_t Vertex_Count;
 	};
 
+	void Update_Vertex_Buffer_Data(const Collada::Collada_Mesh* Mesh, Vertex_Buffer* Target_Buffer);
 	void Create_Vertex_Buffer(const Collada::Collada_Mesh* Mesh, Vertex_Buffer* Target_Buffer);
 	void Bind_Vertex_Buffer(const Vertex_Buffer& Buffer);
 	void Destroy_Vertex_Buffer(Vertex_Buffer* Target_Buffer);
 
+	void Initialise_Static_Lightmap_Vertex_Attributes(Vertex_Buffer* Target_Buffer);
+	void Initialise_Joint_Vertex_Attributes(Vertex_Buffer* Target_Buffer);
 }
 
 #endif

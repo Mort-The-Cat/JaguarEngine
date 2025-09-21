@@ -11,12 +11,16 @@ uniform mat4 Model_Matrix;
 
 uniform mat4 Joint_Matrices[64];
 
+out vec2 Lightmap_Coordinates;
+
 out vec2 Texture_Coordinates;
 out vec3 Position;
 out vec3 Normal;
 
 void main()
 {
+	Lightmap_Coordinates = vec2(128.0);
+
 	Texture_Coordinates = In_Texture_Coordinates;
 	Position = vec3(
 		Model_Matrix * vec4(vec3(Joint_Matrices[Joint_Index] * vec4(In_Position, 1.0f)), 1)		// 4d vector is required to apply translation to position
