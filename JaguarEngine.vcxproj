@@ -151,6 +151,7 @@
     <ClInclude Include="Controllers\Asset_Cache.h" />
     <ClInclude Include="Controllers\Jaguar_Engine_Wrapper.h" />
     <ClInclude Include="Controllers\Lightmapping.h" />
+    <ClInclude Include="Controllers\Lightmap_Chart_Rasteriser.h" />
     <ClInclude Include="Libraries\Include\glad\glad.h" />
     <ClInclude Include="Libraries\Include\GLFW\glfw3.h" />
     <ClInclude Include="Libraries\Include\GLFW\glfw3native.h" />

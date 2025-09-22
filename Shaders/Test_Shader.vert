@@ -21,7 +21,7 @@ void main()
 		Model_Matrix * vec4(In_Position, 1.0f)		// 4d vector is required to apply translation to position
 	);
 
-	// Position = vec3(Lightmap_Coordinates, 1);
+	Position = vec3(Lightmap_Coordinates, 1);
 
 	Normal = mat3(Model_Matrix) * normalize(In_Normal); // This provides only the ROTATION to the normals (which is what we want)
 

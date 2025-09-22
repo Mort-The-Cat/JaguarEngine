@@ -2,6 +2,8 @@
 #include "../OpenGL_Handling/Render_Queue.h"
 #include "../Controllers/Jaguar_Engine_Wrapper.h"
 
+#include "Lightmap_Chart_Rasteriser.h"
+
 #include<vector>
 #include<algorithm>
 #include<set>
@@ -9,7 +11,7 @@
 namespace Jaguar
 {
 
-	glm::vec3 Render_Scene_To_Lightmap_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[5], glm::vec3 Position, glm::vec3 Normal, Shader* Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data) // Returns average pixel value
+	glm::vec3 Render_Scene_To_Lightmap_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Incident_Texture, const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[5], glm::vec3 Position, glm::vec3 Normal, Shader* Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data) // Returns average pixel value
 	{
 		glm::vec3 Pixel_Colour = glm::vec3(0.0);
 
@@ -77,11 +79,13 @@ namespace Jaguar
 
 			// glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-			//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+			glBindTexture(GL_TEXTURE_2D, Incident_Texture);
+
+			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data);
 
 			// The issue might be here
 
-			glReadPixels(0, 0, Incident_Texture_Width, Incident_Texture_Width, GL_RGB, GL_FLOAT, Pixel_Data);
+			// glReadPixels(0, 0, Incident_Texture_Width, Incident_Texture_Width, GL_RGB, GL_FLOAT, Pixel_Data);
 
 			for (size_t Pixel = 0; Pixel < Pixel_Count; Pixel++)
 				Pixel_Colour += Pixel_Data[Pixel];
@@ -101,7 +105,7 @@ namespace Jaguar
 		return Pixel_Colour;
 	}
 
-	void Rasterise_Tri_Lightmap(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data, Shader* Lightmap_Shader, glm::vec3* Pixel_Data)
+	void Rasterise_Tri_Lightmap(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Incident_Texture, unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data, Shader* Lightmap_Shader, glm::vec3* Pixel_Data)
 	{
 		// Get tri projection matrices
 		// From normal/tangent/bitangent
@@ -195,7 +199,7 @@ namespace Jaguar
 				glm::vec3 Colour = //glm::vec3(1.0f / glm::length(Position));
 					
 					
-					Render_Scene_To_Lightmap_Pixel(Engine, Target_Chart, Light_Model, Projection_Matrices, Position, Normal, Lightmap_Shader, Incident_Texture_Width, Pixel_Data);
+					Render_Scene_To_Lightmap_Pixel(Engine, Target_Chart, Framebuffer, Depth_Renderbuffer, Incident_Texture, Light_Model, Projection_Matrices, Position, Normal, Lightmap_Shader, Incident_Texture_Width, Pixel_Data);
 
 				size_t Index = glm::dot(glm::vec2(1.0f, Target_Chart->Sidelength), glm::vec2(Pixels, Scanline) + Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index].Lightmap_UV);
 
@@ -235,6 +239,23 @@ namespace Jaguar
 
 		// Note: I initially was going to render to a cubemap using the geometry shader, but I'll just render to each face separately
 
+		unsigned int Framebuffer, Depth_Renderbuffer, Incident_Texture;
+		glGenFramebuffers(1, &Framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, Framebuffer);
+
+		glGenTextures(1, &Incident_Texture);
+		glBindTexture(GL_TEXTURE_2D, Incident_Texture);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Incident_Texture_Width, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Incident_Texture, 0);
+
+		glGenRenderbuffers(1, &Depth_Renderbuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, Depth_Renderbuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width, Incident_Texture_Width);
+
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, Depth_Renderbuffer);
+
 		Shader Lightmap_Shader;
 		Create_Shader("Shaders/Produce_Lightmap_Shader.frag", "Shaders/Test_Shader.vert", &Lightmap_Shader);
 
@@ -255,7 +276,7 @@ namespace Jaguar
 		{
 			// Iterate every tri
 
-			Rasterise_Tri_Lightmap(Engine, Tri, Target_Chart, Incident_Texture_Width, Lightmap_Texture_Data, &Lightmap_Shader, Pixel_Data);
+			Rasterise_Tri_Lightmap(Engine, Tri, Target_Chart, Framebuffer, Depth_Renderbuffer, Incident_Texture, Incident_Texture_Width, Lightmap_Texture_Data, &Lightmap_Shader, Pixel_Data);
 		
 			printf("Tri %lu complete\n", Tri);
 		}
@@ -270,6 +291,10 @@ namespace Jaguar
 		//
 
 		Destroy_Shader(&Lightmap_Shader);
+
+		glDeleteFramebuffers(1, &Framebuffer);
+		glDeleteRenderbuffers(1, &Depth_Renderbuffer);
+		glDeleteTextures(1, &Incident_Texture);
 
 		delete[] Lightmap_Texture_Data;
 
@@ -324,6 +349,25 @@ namespace Jaguar
 		return true;
 	}
 
+	bool Perpixel_Rasterise_Check(size_t X, size_t Y, int, void* Data)
+	{
+		const Lightmap_Chart* Target_Chart = (const Lightmap_Chart*)Data;
+
+		if (Target_Chart->Occupied[X][Y])
+			return true;					// Hit!!
+
+		return false;						// No hit
+	}
+
+	bool Perpixel_Rasterise_Fill(size_t X, size_t Y, int, void* Data)
+	{
+		Lightmap_Chart* Target_Chart = (Lightmap_Chart*)Data;
+
+		Target_Chart->Occupied[X][Y] = true;
+
+		return false;	// No hit, so continue as normal!
+	}
+
 	bool Find_New_Location_Lightmap_Chart(int Area, int* X, int* Y, const Lightmap_Chart* Target_Chart)
 	{
 		// Find area closest to top-left to place square
@@ -340,7 +384,13 @@ namespace Jaguar
 
 			while (*X >= 1 && *Y < Max)
 			{
-				if (Check_Chart_Square_Area(Area, *X, *Y, Target_Chart))
+				if(Lightmap_Chart_Rasterise_Function<false, int, Perpixel_Rasterise_Check>(
+					glm::vec2(*X, *Y),
+					glm::vec2(*X + Area, *Y),
+					glm::vec2(*X, *Y + Area),
+					0, 0, 0, Target_Chart->Sidelength, (void*)Target_Chart
+				))
+				//if (Check_Chart_Square_Area(Area, *X, *Y, Target_Chart))
 					return true;
 
 				(*X)--;
@@ -380,7 +430,16 @@ namespace Jaguar
 			while (!Find_New_Location_Lightmap_Chart(Square_Size, &X, &Y, Target_Chart))
 				Upsize_Chart(Target_Chart); // Doubles size until there's room somewhere on chart
 
-			Fill_Chart_Square_Area(Square_Size, X, Y, Target_Chart);
+			Lightmap_Chart_Rasterise_Function<false, int, Perpixel_Rasterise_Fill>(
+				glm::vec2(X, Y),
+				glm::vec2(X + Square_Size, Y),
+				glm::vec2(X, Y + Square_Size),
+				0, 0, 0,
+				Target_Chart->Sidelength,
+				Target_Chart
+			);
+
+			//Fill_Chart_Square_Area(Square_Size, X, Y, Target_Chart);
 
 			Mesh_Info.Mesh->Vertices[Triangle].Lightmap_UV.x = X;
 			Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV.y = Y;
@@ -406,7 +465,7 @@ namespace Jaguar
 
 		// From there, other functions will be called to create and fill a corresponding texture via a renderbuffer
 		
-		const float Luxel_Scale = 20.0f; // 1 unit squared equals 5x5 pixels of area
+		const float Luxel_Scale = 60.0f; // 1 unit squared equals 5x5 pixels of area
 
 		// This won't use any fancy algorithm for now, just square areas for each tri
 
