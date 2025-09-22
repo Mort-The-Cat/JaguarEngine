@@ -168,12 +168,13 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae", 0); // The sphere model must be loaded for the lightmapping to use as the 'light'
 	
 	Jaguar::Shader Test_Shader;
-	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
+	Jaguar::Create_Shader("Shaders/Lightmapped_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
 
 	Jaguar::Shader Test_Skeletal_Animation_Shader;
 	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader);
 
-	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader);
+	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader,
+		Jaguar::Lightmapped_Shader_Init_Function, Jaguar::Default_Uniform_Assign_Function);
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Skeletal_Animation_Shader, 
 		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
@@ -234,6 +235,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Assemble_Lightmap_Chart(&Lightmap);
 
 	Jaguar::Texture Lightmap_Texture;
+
+	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(1.0f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.0f, 4);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 1.0f;
 
 	Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap);
 

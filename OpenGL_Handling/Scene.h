@@ -59,6 +59,8 @@ namespace Jaguar
 	{
 		Texture Lightmap_Texture;
 
+		float Inverse_Lightmap_Scale;
+
 		std::vector<Lightsource*> Lightsources;
 	};
 

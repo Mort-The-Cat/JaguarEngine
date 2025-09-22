@@ -27,11 +27,11 @@ namespace Jaguar
 	class Lightmap_Tri
 	{
 	public:
-		Mesh_Cache_Info Mesh;
-		unsigned int Index;
+		size_t Index;
 		int Size;
+		Mesh_Cache_Info Mesh;
 
-		Lightmap_Tri(Mesh_Cache_Info Meshp, unsigned int Indexp, int Sizep)
+		Lightmap_Tri(Mesh_Cache_Info Meshp, size_t Indexp, int Sizep)
 		{
 			Mesh = Meshp;
 			Index = Indexp;
@@ -66,6 +66,11 @@ namespace Jaguar
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 	void Push_Queue_Lightmap_Chart(Jaguar_Engine* Engine, const Render_Queue* Queue, Lightmap_Chart* Target_Chart);
 	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart);
+
+	struct Shader;
+	struct Scene_Data;
+
+	void Lightmapped_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene);
 
 	void Upsize_Chart(Lightmap_Chart* Target_Chart);
 }

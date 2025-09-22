@@ -22,6 +22,17 @@ namespace Jaguar
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));
 	}
 
+	void Lightmapped_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));
+
+		glUniform1f(glGetUniformLocation(Target_Shader->Program_ID, "Inverse_Lightmap_Size"), Scene->Lighting.Inverse_Lightmap_Scale);
+
+		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Lightmap_Texture"), 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, Scene->Lighting.Lightmap_Texture.Texture_Buffer_ID);
+	}
+
 	void Default_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
 	{
 		// This assumes that the orientation vectors are already normalized
@@ -29,9 +40,9 @@ namespace Jaguar
 
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model_Matrix));
 
-		glBindTexture(GL_TEXTURE_2D, Object->Albedo.Texture_Buffer_ID);
 		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Albedo_Texture"), 0);
 		glActiveTexture(GL_TEXTURE0 + 0);
+		glBindTexture(GL_TEXTURE_2D, Object->Albedo.Texture_Buffer_ID);
 	}
 
 	void Skeletal_Animation_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
