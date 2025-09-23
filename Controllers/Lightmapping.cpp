@@ -92,7 +92,10 @@ namespace Jaguar
 
 			// glBindFramebuffer(GL_FRAMEBUFFER, *Framebuffer);
 
+			//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			
 			//glClearColor(0.75f, 0.65f, 0.85f, 1);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
@@ -105,28 +108,84 @@ namespace Jaguar
 		return Pixel_Colour;
 	}
 
+	struct Rasterise_Tri_Lightmap_Data
+	{
+		glm::mat4* Projection_Matrices;
+		glm::mat4 Perspective;
+		glm::mat4 View_Matrix;
+
+		Vertex_Buffer Light_Model;
+		glm::vec3 Normal;
+
+		Jaguar_Engine* Engine;
+		Lightmap_Chart* Target_Chart;
+		int Framebuffer;
+		int Depth_Renderbuffer;
+		int Incident_Texture;
+		unsigned int Incident_Texture_Width;
+		Shader* Lightmap_Shader;
+		glm::vec3* Lightmap_Texture_Data;
+		glm::vec3* Pixel_Data;
+	};
+
+	bool Perpixel_Rasterise_Tri_Lightmap(size_t X, size_t Y, glm::vec3 Position, void* Datap)
+	{
+		Rasterise_Tri_Lightmap_Data Data = *(Rasterise_Tri_Lightmap_Data*)Datap;
+
+		// Generate projection matrices
+
+		// Call render function
+
+		// Get index
+
+		// Write index
+
+		// "Position" is interpolated by the rasteriser function
+
+		Position = Position + Data.Normal * glm::vec3(0.001); //Get_Model_Matrix(Data.Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Data.Normal * glm::vec3(0.001), 1);
+
+		glm::mat4 Local_View = Data.View_Matrix; // glm::translate(View_Matrix, -Position);
+
+		Data.Projection_Matrices[0] = Local_View;
+		Data.Projection_Matrices[1] = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * Local_View;
+		Data.Projection_Matrices[2] = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * Local_View;
+
+		Data.Projection_Matrices[3] = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * Local_View;
+		Data.Projection_Matrices[4] = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * Local_View;
+
+		for (size_t Face = 0; Face < 5; Face++)
+			Data.Projection_Matrices[Face] = Data.Perspective * glm::translate(Data.Projection_Matrices[Face], -Position);
+
+		glm::vec3 Colour = 
+			
+			/*glm::vec3(
+			glm::max(0.0f, glm::dot(glm::normalize(Position - Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
+		);*/
+			
+			//glm::vec3(4.0f / glm::length(Position));
+
+
+			Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Incident_Texture, Data.Light_Model, Data.Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data);
+
+		size_t Index = X + Y * Data.Target_Chart->Sidelength;
+
+		Data.Lightmap_Texture_Data[Index] = Colour; // Sets colour
+
+		return false;	// No hit, just continue as normal
+	}
+
 	void Rasterise_Tri_Lightmap(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Incident_Texture, unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data, Shader* Lightmap_Shader, glm::vec3* Pixel_Data)
 	{
-		// Get tri projection matrices
-		// From normal/tangent/bitangent
-		
-		// Iterates through scanlines of tri
-			// For each pixel, 
-				// Interpolate to get current position
-				// Render accordingly, accumulating pixel values
-				// Set pixel colour on Lightmap_Texture_Data buffer
-		// ------------------------
-
 		Vertex_Buffer Light_Model = Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae", 0).Buffer;
 
 		glm::vec3 Points[3];
 
 		for (size_t Point = 0; Point < 3; Point++)
-			Points[Point] = Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + Point].Position;
+			Points[Point] = Get_Model_Matrix(Target_Chart->Pushed_Objects[0]) * glm::vec4(Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + Point].Position, 1);
 
 		glm::vec3 Tangent = glm::normalize(Points[1] - Points[0]);
-		glm::vec3 Bitangent = Points[2] - Points[0];
-		glm::vec3 Normal = glm::normalize(glm::cross(Tangent, Bitangent));
+		glm::vec3 Bitangent = glm::normalize(Points[2] - Points[0]);
+		glm::vec3 Normal = glm::normalize(glm::cross(Bitangent, Tangent));
 		// Bitangent = glm::cross(Tangent, Normal);
 
 		glm::mat4 Projection_Matrices[5];
@@ -135,79 +194,32 @@ namespace Jaguar
 
 		glm::mat4 View_Matrix = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
 
-		// Equilateral triangle is easy to draw
+		Rasterise_Tri_Lightmap_Data Data; // This is messy but it's whatever
 
-		/*
-		
-		0,0_____1,0
-		 |     /
-		 |    /
-		 |   /
-		 |  /
-		 | /
-		 |/
-		0,1
-
-		*/
-
-		glm::vec3 Left_Interpolation_Values, Right_Interpolation_Values;
-
-		Left_Interpolation_Values.y = 0.0f;
-		Right_Interpolation_Values.x = 0.0f;
-
-		float Inverse_Scanline = 1.0f / (float)Target_Chart->Pushed_Tris[Tri].Size;
-
-		for (int Scanline = -1; Scanline <= Target_Chart->Pushed_Tris[Tri].Size; Scanline++)
-		{
-			int Clamped_Scanline = std::max(std::min(Scanline, Target_Chart->Pushed_Tris[Tri].Size - 1), 0);
-			Left_Interpolation_Values.x = Inverse_Scanline * (float)(Target_Chart->Pushed_Tris[Tri].Size - Clamped_Scanline);
-			Left_Interpolation_Values.z = 1.0f - Left_Interpolation_Values.x;
-
-			Right_Interpolation_Values.y = Left_Interpolation_Values.x;
-			Right_Interpolation_Values.z = Left_Interpolation_Values.z;
-
-			float Inverse_Size = 1.0f / (Target_Chart->Pushed_Tris[Tri].Size - Clamped_Scanline);
-
-			for (int Pixels = -1; Pixels <= (Target_Chart->Pushed_Tris[Tri].Size - Clamped_Scanline); Pixels++)
-			{
-				int Clamped_Pixel = std::max(std::min(Pixels, (Target_Chart->Pushed_Tris[Tri].Size - Clamped_Scanline)) - 1, 0);
-				float Factor = Inverse_Size * (float)Clamped_Pixel;
-				glm::vec3 Interpolation_Values = Left_Interpolation_Values * glm::vec3(Factor) + Right_Interpolation_Values * glm::vec3(1.0f - Factor);
-
-				// Init projection matrices per pixel
-
-				glm::vec3 Position = (
-					Interpolation_Values.x * Points[1] + 
-					Interpolation_Values.y * Points[0] +
-					Interpolation_Values.z * Points[2]
-				);
-
-				Position = Get_Model_Matrix(Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Normal * glm::vec3(0.005), 1);
-
-				glm::mat4 Local_View = View_Matrix; // glm::translate(View_Matrix, -Position);
-
-				Projection_Matrices[0] = Local_View;
-				Projection_Matrices[1] = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * Local_View;
-				Projection_Matrices[2] = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * Local_View;
-
-				Projection_Matrices[3] = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * Local_View;
-				Projection_Matrices[4] = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * Local_View;
-
-				for (size_t Face = 0; Face < 5; Face++)
-					Projection_Matrices[Face] = Perspective * glm::translate(Projection_Matrices[Face], -Position);
-
-				glm::vec3 Colour = //glm::vec3(1.0f / glm::length(Position));
-					
-					
-					Render_Scene_To_Lightmap_Pixel(Engine, Target_Chart, Framebuffer, Depth_Renderbuffer, Incident_Texture, Light_Model, Projection_Matrices, Position, Normal, Lightmap_Shader, Incident_Texture_Width, Pixel_Data);
-
-				size_t Index = glm::dot(glm::vec2(1.0f, Target_Chart->Sidelength), glm::vec2(Pixels, Scanline) + Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index].Lightmap_UV);
-
-				Lightmap_Texture_Data[Index] = Colour; // Sets colour
-			}
+		Data.Light_Model = Light_Model;
+		Data.Perspective = Perspective;
+		Data.View_Matrix = View_Matrix;
+		Data.Projection_Matrices = Projection_Matrices;
+		Data.Engine = Engine;
+		Data.Target_Chart = Target_Chart;
+		Data.Framebuffer = Framebuffer;
+		Data.Depth_Renderbuffer = Depth_Renderbuffer;
+		Data.Incident_Texture = Incident_Texture;
+		Data.Incident_Texture_Width = Incident_Texture_Width;
+		Data.Lightmap_Texture_Data = Lightmap_Texture_Data;
+		Data.Lightmap_Shader = Lightmap_Shader;
+		Data.Pixel_Data = Pixel_Data;
+		Data.Normal = Normal;
 
 
-		}
+		Lightmap_Chart_Rasterise_Function<true, glm::vec3, Perpixel_Rasterise_Tri_Lightmap>(
+			Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index].Lightmap_UV,
+			Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + 1].Lightmap_UV,
+			Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + 2].Lightmap_UV,
+			Points[0], Points[1], Points[2],
+			Target_Chart->Sidelength,
+			&Data
+		);
 	}
 
 	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart)
@@ -246,7 +258,7 @@ namespace Jaguar
 		glGenTextures(1, &Incident_Texture);
 		glBindTexture(GL_TEXTURE_2D, Incident_Texture);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Incident_Texture_Width, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Incident_Texture, 0);
 
@@ -281,7 +293,7 @@ namespace Jaguar
 			printf("Tri %lu complete\n", Tri);
 		}
 
-		Create_Texture_Buffer(Lightmap_Texture, GL_RGB, Target_Chart->Sidelength, Target_Chart->Sidelength, GL_RGB, GL_FLOAT, Lightmap_Texture_Data, true);
+		Create_Texture_Buffer(Lightmap_Texture, GL_RGB32F, Target_Chart->Sidelength, Target_Chart->Sidelength, GL_RGB, GL_FLOAT, Lightmap_Texture_Data, true);
 
 		printf(" >> Successfully created lightmap of %lu dimensions!\n", Target_Chart->Sidelength);
 
@@ -318,37 +330,6 @@ namespace Jaguar
 			Target_Chart->Occupied[W].resize(Target_Chart->Sidelength);
 	}
 
-	void Fill_Chart_Square_Area(int Area, int X_Origin, int Y_Origin, Lightmap_Chart* Target_Chart)
-	{
-		Area--;
-		int New_X_Origin = X_Origin + Area + 1; // std::fminf(Target_Chart->Sidelength - 1, X_Origin + Area);
-		int New_Y_Origin = Y_Origin + Area + 1; // std::fminf(Target_Chart->Sidelength - 1, Y_Origin + Area);
-
-		for (int X = New_X_Origin; X >= X_Origin - 1; X--)
-			for (int Y = New_Y_Origin; Y >= Y_Origin - 1; Y--)
-				Target_Chart->Occupied[X][Y] = true;			// Sets this block as occupied
-	}
-	bool Check_Chart_Square_Area(int Area, int X_Origin, int Y_Origin, const Lightmap_Chart* Target_Chart)
-	{
-		Area--;
-		
-		int New_X_Origin = X_Origin + Area + 1;
-		int New_Y_Origin = Y_Origin + Area + 1;
-		if (New_X_Origin >= Target_Chart->Sidelength || 
-			New_Y_Origin >= Target_Chart->Sidelength)
-			return false;
-
-		//int New_X_Origin = std::fminf(Target_Chart->Sidelength - 1, X_Origin + Area);
-		//int New_Y_Origin = std::fminf(Target_Chart->Sidelength - 1, Y_Origin + Area);
-
-		for (int X = New_X_Origin; X >= X_Origin - 1; X--)
-			for (int Y = New_Y_Origin; Y >= Y_Origin - 1; Y--)
-				if (Target_Chart->Occupied[X][Y])
-					return false;
-
-		return true;
-	}
-
 	bool Perpixel_Rasterise_Check(size_t X, size_t Y, int, void* Data)
 	{
 		const Lightmap_Chart* Target_Chart = (const Lightmap_Chart*)Data;
@@ -372,17 +353,17 @@ namespace Jaguar
 	{
 		// Find area closest to top-left to place square
 
-		unsigned int Max = Target_Chart->Sidelength - 1;
+		unsigned int Max = Target_Chart->Sidelength - LIGHTMAP_CHART_PADDING;
 
-		int Begin_X = 1;
-		int Begin_Y = 1;
+		int Begin_X = LIGHTMAP_CHART_PADDING;
+		int Begin_Y = LIGHTMAP_CHART_PADDING;
 
 		while (Begin_Y < Target_Chart->Sidelength)
 		{
 			*X = Begin_X;
 			*Y = Begin_Y;
 
-			while (*X >= 1 && *Y < Max)
+			while (*X >= LIGHTMAP_CHART_PADDING && *Y < Max)
 			{
 				if(Lightmap_Chart_Rasterise_Function<false, int, Perpixel_Rasterise_Check>(
 					glm::vec2(*X, *Y),
@@ -465,7 +446,7 @@ namespace Jaguar
 
 		// From there, other functions will be called to create and fill a corresponding texture via a renderbuffer
 		
-		const float Luxel_Scale = 60.0f; // 1 unit squared equals 5x5 pixels of area
+		const float Luxel_Scale = 1.0f; // 1 unit squared equals 5x5 pixels of area
 
 		// This won't use any fancy algorithm for now, just square areas for each tri
 

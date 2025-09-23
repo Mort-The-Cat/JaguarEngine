@@ -237,7 +237,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Texture Lightmap_Texture;
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(1.0f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Colour = 10.0f * glm::vec3(1.0f, 0.5f, 0.85f);
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.0f, 4);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 1.0f;
 
