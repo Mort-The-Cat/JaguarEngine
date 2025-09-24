@@ -23,7 +23,8 @@ namespace Jaguar
 	
 	*/
 
-#define LIGHTMAP_CHART_PADDING 1
+#define LIGHTMAP_CHART_PADDING 8.0f
+#define LIGHTMAP_CHART_INTERPOLATION_CLAMP 0.06f
 
 	template<bool Interpolate_Values, typename Point, bool(*Perpixel_Function)(size_t, size_t, Point, void*)>
 	bool Lightmap_Chart_Rasterise_Function(glm::vec2 A, glm::vec2 B, glm::vec2 C, Point A_Value, Point B_Value, Point C_Value, int Canvas_Size, void* Data)
@@ -41,15 +42,17 @@ namespace Jaguar
 
 		float A_B = B.x - A.x;
 
+		float Inverse_A_B_X = 1.0f / A_B;
+
 		assert(A.y == B.y);
 
 		float D_Scanline = -LIGHTMAP_CHART_PADDING;
 		for (int Scanline = A.y - LIGHTMAP_CHART_PADDING; Scanline < C.y + LIGHTMAP_CHART_PADDING; Scanline++, D_Scanline++)
 		{
-			int Clamped_Scanline = 
+			float Clamped_Scanline = 
 				std::max(
-					std::min(A_C.y - 1, D_Scanline), 
-				0.0f);
+					std::min(A_C.y - 1 - LIGHTMAP_CHART_INTERPOLATION_CLAMP, D_Scanline),
+				LIGHTMAP_CHART_INTERPOLATION_CLAMP);
 
 			float Scanline_Factor = Inverse_A_C * (float)Clamped_Scanline;
 
@@ -68,15 +71,15 @@ namespace Jaguar
 			float D_Pixel = -LIGHTMAP_CHART_PADDING;
 			for (int Pixel = Left - LIGHTMAP_CHART_PADDING; Pixel < Right + LIGHTMAP_CHART_PADDING; Pixel++, D_Pixel++)
 			{
-				int Clamped_Pixel;
+				float Clamped_Pixel;
 				float Factor;
 
 				if constexpr (Interpolate_Values)
 				{
 					Clamped_Pixel =
 						std::max(
-							std::min(Right - Left - 1, D_Pixel),
-							0.0f
+							std::min(Right - Left - 1 - LIGHTMAP_CHART_INTERPOLATION_CLAMP, D_Pixel),
+							LIGHTMAP_CHART_INTERPOLATION_CLAMP
 						);
 
 					Factor = Inverse_Scanline * Clamped_Pixel;

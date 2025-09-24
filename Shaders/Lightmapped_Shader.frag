@@ -26,7 +26,7 @@ void main()
 					texture(Albedo_Texture, Texture_Coordinates).rgb, 
 				1);
 
-	//gl_FragColor = vec4(texture(Albedo_Texture, Texture_Coordinates).rgb, 1) * 
+	// gl_FragColor = vec4(texture(Albedo_Texture, Texture_Coordinates).rgb, 1); // * 
 	//	vec4(
 	//		vec3(
 	//			(0.3 + 0.8 * max(0, dot(Position * Inverse_Length, -Normal)))		//		* Inverse_Length
@@ -34,7 +34,7 @@ void main()
 	//		1
 	//	);
 
-	// gl_FragColor = texture(Lightmap_Texture, LM_Coordinates);
+	gl_FragColor = texture(Lightmap_Texture, LM_Coordinates);
 
 	//vec4(Normal * 0.5 + 0.5, 1);
 }

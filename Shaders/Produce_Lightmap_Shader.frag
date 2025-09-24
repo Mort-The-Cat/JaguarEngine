@@ -19,7 +19,7 @@ void main()
 {
 	// float Inverse_Length = inversesqrt(dot(Position, Position));
 
-	vec3 Colour = Light_Colour; //vec3(max(1, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
+	vec3 Colour = vec3(max(1, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
 
 	Out_Colour = vec4(Colour, 1);
 

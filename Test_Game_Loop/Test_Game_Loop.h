@@ -180,6 +180,43 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Jaguar::World_Object* Object;
 
+	/*Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Viking_Room.png").Texture,
+		nullptr,
+		glm::vec3(0.0f, -0.5f, 0.0f)
+	);*/
+
+	if constexpr (true)
+	{
+
+		Object = new Jaguar::World_Object();
+		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Bricks.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+			nullptr
+		);
+
+		Object = new Jaguar::World_Object();
+		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
+			nullptr
+		);
+	}
+	else
+	{
+
+		Object = new Jaguar::World_Object();
+		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Box_Test_Room.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+			nullptr
+		);
+
+	}
+
 	Object = new Jaguar::World_Object();
 	Object->Flags[MF_ACTIVE] = true;																		// sets active flag
 	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
@@ -206,28 +243,6 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		glm::vec3(5, -2, 5)
 	);
 
-	/*Object = new Jaguar::World_Object();
-	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Viking_Room.png").Texture,
-		nullptr,
-		glm::vec3(0.0f, -0.5f, 0.0f)
-	);*/
-
-	Object = new Jaguar::World_Object();
-	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Bricks.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
-		nullptr
-	);
-
-	Object = new Jaguar::World_Object();
-	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
-		nullptr
-	);
-
 	Jaguar::Lightmap_Chart Lightmap;
 	Jaguar::Init_Lightmap_Chart(&Lightmap);
 
@@ -237,9 +252,9 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Texture Lightmap_Texture;
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = 10.0f * glm::vec3(1.0f, 0.5f, 0.85f);
-	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.0f, 4);
-	Engine->Scene.Lighting.Lightsources.back()->Radius = 1.0f;
+	Engine->Scene.Lighting.Lightsources.back()->Colour = 3.0f * glm::vec3(1.0f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.0f, 6.0f);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.75f;
 
 	Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap);
 

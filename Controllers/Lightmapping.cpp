@@ -32,6 +32,13 @@ namespace Jaguar
 
 		for (size_t Face = 0; Face < 5; Face++)
 		{
+			//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+			glClearColor(1.f, 1.f, 1.f, 1);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+
 			glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Projection_Matrices[Face]));
 
 			glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Camera_Position"), Position.x, Position.y, Position.z);
@@ -72,6 +79,20 @@ namespace Jaguar
 				glDrawArrays(GL_TRIANGLES, 0, Light_Model.Vertex_Count);
 			}
 
+			if constexpr (false) // We want to draw the sun
+			{
+				glm::mat4 Sun_Matrix = glm::translate(glm::scale(glm::mat4(1.0f), glm::vec3(200.0f)), Position);
+
+				glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Sun_Matrix));
+				glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"),
+					3 * 0.85f,
+					3 * 0.95f,
+					3 * 1.00f
+				);
+
+				glDrawArrays(GL_TRIANGLES, 0, Light_Model.Vertex_Count);
+			}
+
 			glfwSwapBuffers(Engine->Window);
 			glfwPollEvents();
 
@@ -93,16 +114,11 @@ namespace Jaguar
 			// glBindFramebuffer(GL_FRAMEBUFFER, *Framebuffer);
 
 			//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			
-			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			
-			//glClearColor(0.75f, 0.65f, 0.85f, 1);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		// delete[] Pixel_Data;	// DEALLOCATES PIXEL DATA (very important)
 
-		Pixel_Colour /= 5.0f;	// 5 faces
+		Pixel_Colour /= 1.0f;	// 5 faces
 		Pixel_Colour /= (float)(Incident_Texture_Width * Incident_Texture_Width); // pixel count
 
 		return Pixel_Colour;
@@ -142,30 +158,25 @@ namespace Jaguar
 
 		// "Position" is interpolated by the rasteriser function
 
-		Position = Position + Data.Normal * glm::vec3(0.001); //Get_Model_Matrix(Data.Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Data.Normal * glm::vec3(0.001), 1);
+		glm::mat4 Local_Projection_Matrices[5];
 
-		glm::mat4 Local_View = Data.View_Matrix; // glm::translate(View_Matrix, -Position);
+		Position = Position + Data.Normal * glm::vec3(0.003f); //Get_Model_Matrix(Data.Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Data.Normal * glm::vec3(0.001), 1);
 
-		Data.Projection_Matrices[0] = Local_View;
-		Data.Projection_Matrices[1] = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * Local_View;
-		Data.Projection_Matrices[2] = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)) * Local_View;
-
-		Data.Projection_Matrices[3] = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * Local_View;
-		Data.Projection_Matrices[4] = glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * Local_View;
+		// glm::mat4 Local_View = Data.View_Matrix; // glm::translate(View_Matrix, -Position);
 
 		for (size_t Face = 0; Face < 5; Face++)
-			Data.Projection_Matrices[Face] = Data.Perspective * glm::translate(Data.Projection_Matrices[Face], -Position);
+			Local_Projection_Matrices[Face] = Data.Perspective * glm::translate(Data.Projection_Matrices[Face], -Position);
 
-		glm::vec3 Colour = 
-			
-			/*glm::vec3(
-			glm::max(0.0f, glm::dot(glm::normalize(Position - Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
+		glm::vec3 Colour = // Position / glm::vec3(2);
+		/*
+			glm::vec3(
+			glm::max(0.0f, glm::dot(glm::normalize(Position - 0.0f * Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
 		);*/
 			
-			//glm::vec3(4.0f / glm::length(Position));
+			// glm::vec3(4.0f / glm::length(Position));
 
 
-			Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Incident_Texture, Data.Light_Model, Data.Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data);
+			Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data);
 
 		size_t Index = X + Y * Data.Target_Chart->Sidelength;
 
@@ -186,19 +197,30 @@ namespace Jaguar
 		glm::vec3 Tangent = glm::normalize(Points[1] - Points[0]);
 		glm::vec3 Bitangent = glm::normalize(Points[2] - Points[0]);
 		glm::vec3 Normal = glm::normalize(glm::cross(Bitangent, Tangent));
-		// Bitangent = glm::cross(Tangent, Normal);
+
+		Bitangent = glm::normalize(glm::cross(Tangent, Normal));
 
 		glm::mat4 Projection_Matrices[5];
 
 		glm::mat4 Perspective = glm::perspective(glm::radians(90.0f), 1.0f, 0.000001f, 100.0f);
 
-		glm::mat4 View_Matrix = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
+		// glm::mat4 View_Matrix = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
+
+		// Create all view matrices matrices
+
+		Projection_Matrices[0] = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
+
+		Projection_Matrices[1] = glm::lookAt(glm::vec3(0.0f), Tangent, Normal);
+		Projection_Matrices[2] = glm::lookAt(glm::vec3(0.0f), -Tangent, Normal);
+
+		Projection_Matrices[3] = glm::lookAt(glm::vec3(0.0f), Bitangent, Normal);
+		Projection_Matrices[4] = glm::lookAt(glm::vec3(0.0f), -Bitangent, Normal);
 
 		Rasterise_Tri_Lightmap_Data Data; // This is messy but it's whatever
 
 		Data.Light_Model = Light_Model;
 		Data.Perspective = Perspective;
-		Data.View_Matrix = View_Matrix;
+		//Data.View_Matrix = View_Matrix;
 		Data.Projection_Matrices = Projection_Matrices;
 		Data.Engine = Engine;
 		Data.Target_Chart = Target_Chart;
@@ -349,7 +371,7 @@ namespace Jaguar
 		return false;	// No hit, so continue as normal!
 	}
 
-	bool Find_New_Location_Lightmap_Chart(int Area, int* X, int* Y, const Lightmap_Chart* Target_Chart)
+	bool Find_New_Location_Lightmap_Chart(int Area, int* X, int* Y, const Lightmap_Chart* Target_Chart, glm::vec2* Projected_Points)
 	{
 		// Find area closest to top-left to place square
 
@@ -366,9 +388,9 @@ namespace Jaguar
 			while (*X >= LIGHTMAP_CHART_PADDING && *Y < Max)
 			{
 				if(Lightmap_Chart_Rasterise_Function<false, int, Perpixel_Rasterise_Check>(
-					glm::vec2(*X, *Y),
-					glm::vec2(*X + Area, *Y),
-					glm::vec2(*X, *Y + Area),
+					Projected_Points[0] + glm::vec2(*X, *Y),
+					Projected_Points[1] + glm::vec2(*X, *Y),
+					Projected_Points[2] + glm::vec2(*X, *Y),
 					0, 0, 0, Target_Chart->Sidelength, (void*)Target_Chart
 				))
 				//if (Check_Chart_Square_Area(Area, *X, *Y, Target_Chart))
@@ -391,15 +413,39 @@ namespace Jaguar
 		return A.Size > B.Size;
 	}
 
+	void Lightmap_Chart_Get_Projection(Collada::Collada_Mesh* Mesh, size_t Index, glm::vec2* Projected_Points, float Scale)
+	{
+		glm::vec3 A_B = Mesh->Vertices[Index + 1].Position - Mesh->Vertices[Index].Position;
+		glm::vec3 A_C = Mesh->Vertices[Index + 2].Position - Mesh->Vertices[Index].Position;
+
+		glm::vec3 Tangent = glm::normalize(A_B);
+		glm::vec3 Bitangent = glm::normalize(A_C);
+
+		glm::vec3 Normal = glm::normalize(glm::cross(Tangent, Bitangent));
+
+		Bitangent = -glm::normalize(glm::cross(Tangent, Normal));
+
+		Projected_Points[1] = glm::vec2(glm::ceil(Scale * glm::dot(Tangent, A_B)), 0.0f);
+		Projected_Points[2] = glm::vec2(
+			glm::ceil(Scale * glm::dot(Tangent, A_C)),
+			glm::ceil(Scale * glm::dot(Bitangent, A_C))
+		);
+	}
+
+	const float Luxel_Scale = 14.0f; // 1 unit squared equals 5x5 pixels of area
+
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart)
 	{
 		std::sort(Target_Chart->Pushed_Tris.begin(), Target_Chart->Pushed_Tris.end(), Lightmap_Tri_Sort_Compare); // Sorts them accordingly
 
 		std::set<Mesh_Cache_Info> Updated_Meshes;
 
+		glm::vec2 Projected_Points[3];
+		Projected_Points[0] = glm::vec2(0.0f);
+
 		for (size_t Tri = 0; Tri < Target_Chart->Pushed_Tris.size(); Tri++)
 		{
-			int Square_Size = Target_Chart->Pushed_Tris[Tri].Size;
+			//int Square_Size = Target_Chart->Pushed_Tris[Tri].Size;
 			Mesh_Cache_Info Mesh_Info = Target_Chart->Pushed_Tris[Tri].Mesh;
 
 			Updated_Meshes.insert(Mesh_Info);
@@ -408,13 +454,15 @@ namespace Jaguar
 
 			int X, Y;
 
-			while (!Find_New_Location_Lightmap_Chart(Square_Size, &X, &Y, Target_Chart))
+			Lightmap_Chart_Get_Projection(Mesh_Info.Mesh, Triangle, Projected_Points, Luxel_Scale);
+
+			while (!Find_New_Location_Lightmap_Chart(0, &X, &Y, Target_Chart, Projected_Points))
 				Upsize_Chart(Target_Chart); // Doubles size until there's room somewhere on chart
 
 			Lightmap_Chart_Rasterise_Function<false, int, Perpixel_Rasterise_Fill>(
-				glm::vec2(X, Y),
-				glm::vec2(X + Square_Size, Y),
-				glm::vec2(X, Y + Square_Size),
+				Projected_Points[0] + glm::vec2(X, Y),
+				Projected_Points[1] + glm::vec2(X, Y),
+				Projected_Points[2] + glm::vec2(X, Y),
 				0, 0, 0,
 				Target_Chart->Sidelength,
 				Target_Chart
@@ -422,14 +470,17 @@ namespace Jaguar
 
 			//Fill_Chart_Square_Area(Square_Size, X, Y, Target_Chart);
 
-			Mesh_Info.Mesh->Vertices[Triangle].Lightmap_UV.x = X;
+			for (size_t Point = 0; Point < 3; Point++)
+				Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV = glm::vec2(X, Y) + Projected_Points[Point];
+
+			/*Mesh_Info.Mesh->Vertices[Triangle].Lightmap_UV.x = X;
 			Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV.y = Y;
 
 			Mesh_Info.Mesh->Vertices[Triangle].Lightmap_UV.x = X + Square_Size;
 			Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV.y = Y;
 
 			Mesh_Info.Mesh->Vertices[Triangle].Lightmap_UV.x = X;
-			Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV.y = Y + Square_Size;
+			Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV.y = Y + Square_Size;*/
 		}
 
 		for (auto Mesh : Updated_Meshes)											// Updates all of the meshes that need to be updated once
@@ -446,8 +497,6 @@ namespace Jaguar
 
 		// From there, other functions will be called to create and fill a corresponding texture via a renderbuffer
 		
-		const float Luxel_Scale = 1.0f; // 1 unit squared equals 5x5 pixels of area
-
 		// This won't use any fancy algorithm for now, just square areas for each tri
 
 		for (size_t Object = 0; Object < Queue->Objects.size(); Object++)
