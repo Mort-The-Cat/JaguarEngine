@@ -30,7 +30,7 @@ namespace Jaguar
 
 		size_t Pixel_Count = Incident_Texture_Width * Incident_Texture_Width;
 
-		for (size_t Face = 0; Face < 5; Face++)
+		for (size_t Face = 0; Face < 6; Face++)
 		{
 			//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -118,7 +118,7 @@ namespace Jaguar
 
 		// delete[] Pixel_Data;	// DEALLOCATES PIXEL DATA (very important)
 
-		Pixel_Colour /= 1.0f;	// 5 faces
+		Pixel_Colour /= 5.0f;	// 5 faces
 		Pixel_Colour /= (float)(Incident_Texture_Width * Incident_Texture_Width); // pixel count
 
 		return Pixel_Colour;
@@ -158,9 +158,9 @@ namespace Jaguar
 
 		// "Position" is interpolated by the rasteriser function
 
-		glm::mat4 Local_Projection_Matrices[5];
+		glm::mat4 Local_Projection_Matrices[6];
 
-		Position = Position + Data.Normal * glm::vec3(0.003f); //Get_Model_Matrix(Data.Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Data.Normal * glm::vec3(0.001), 1);
+		Position = Position + Data.Normal * glm::vec3(0.005f); //Get_Model_Matrix(Data.Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Data.Normal * glm::vec3(0.001), 1);
 
 		// glm::mat4 Local_View = Data.View_Matrix; // glm::translate(View_Matrix, -Position);
 
@@ -200,7 +200,7 @@ namespace Jaguar
 
 		Bitangent = glm::normalize(glm::cross(Tangent, Normal));
 
-		glm::mat4 Projection_Matrices[5];
+		glm::mat4 Projection_Matrices[6];
 
 		glm::mat4 Perspective = glm::perspective(glm::radians(90.0f), 1.0f, 0.000001f, 100.0f);
 
@@ -208,13 +208,25 @@ namespace Jaguar
 
 		// Create all view matrices matrices
 
-		Projection_Matrices[0] = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
+		/*Projection_Matrices[0] = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
 
 		Projection_Matrices[1] = glm::lookAt(glm::vec3(0.0f), Tangent, Normal);
 		Projection_Matrices[2] = glm::lookAt(glm::vec3(0.0f), -Tangent, Normal);
 
 		Projection_Matrices[3] = glm::lookAt(glm::vec3(0.0f), Bitangent, Normal);
-		Projection_Matrices[4] = glm::lookAt(glm::vec3(0.0f), -Bitangent, Normal);
+		Projection_Matrices[4] = glm::lookAt(glm::vec3(0.0f), -Bitangent, Normal);*/
+
+		// Make projection matrix for every direction
+
+		Projection_Matrices[0] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		Projection_Matrices[1] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		Projection_Matrices[2] = glm::lookAt(glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		Projection_Matrices[3] = glm::lookAt(glm::vec3(0.0f), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		Projection_Matrices[4] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		Projection_Matrices[5] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 
 		Rasterise_Tri_Lightmap_Data Data; // This is messy but it's whatever
 
@@ -432,7 +444,7 @@ namespace Jaguar
 		);
 	}
 
-	const float Luxel_Scale = 14.0f; // 1 unit squared equals 5x5 pixels of area
+	const float Luxel_Scale = 6.0f; // 1 unit squared equals 5x5 pixels of area
 
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart)
 	{

@@ -18,13 +18,13 @@ void main()
 	vec2 LM_Coordinates = Lightmap_Coordinates * vec2(Inverse_Lightmap_Size);
 	// LM_Coordinates.y = 1 - LM_Coordinates.y;
 
-	gl_FragColor = 
-				vec4(
-					texture(Lightmap_Texture, LM_Coordinates).rgb, 
-				1) * 
-				vec4(
-					texture(Albedo_Texture, Texture_Coordinates).rgb, 
-				1);
+	//gl_FragColor = 
+	//			vec4(
+	//				texture(Lightmap_Texture, LM_Coordinates).rgb, 
+	//			1) * 
+	//			vec4(
+	//				texture(Albedo_Texture, Texture_Coordinates).rgb, 
+	//			1);
 
 	// gl_FragColor = vec4(texture(Albedo_Texture, Texture_Coordinates).rgb, 1); // * 
 	//	vec4(
