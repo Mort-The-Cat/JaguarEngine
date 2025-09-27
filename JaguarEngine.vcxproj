@@ -415,6 +415,7 @@
     <ClCompile Include="Controllers\Asset_Cache.cpp" />
     <ClCompile Include="Controllers\Controller_Handling.cpp" />
     <ClCompile Include="Controllers\Deletion_Handler.cpp" />
+    <ClCompile Include="Controllers\Lightmapper_Write_File.cpp" />
     <ClCompile Include="Controllers\Lightmapping.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.h" />

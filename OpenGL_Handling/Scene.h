@@ -64,6 +64,8 @@ namespace Jaguar
 		std::vector<Lightsource*> Lightsources;
 	};
 
+	void Delete_Scene_Lightmap(Lighting_Data* Target_Lighting);
+
 	struct Scene_Data	// The Scene_Data object is responsible for memory management of world objects as well as
 	{					// lighting, hitboxes, and camera information for the scene
 		std::vector<World_Object*> Objects;

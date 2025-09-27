@@ -851,6 +851,9 @@
     <ClCompile Include="Controllers\Lightmapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Controllers\Lightmapper_Write_File.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\OpenGL32.Lib" />

@@ -252,13 +252,21 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Texture Lightmap_Texture;
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = 3.0f * glm::vec3(1.0f, 0.5f, 0.85f);
-	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.0f, 6.0f);
-	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.75f;
+	Engine->Scene.Lighting.Lightsources.back()->Colour = 3.2f * glm::vec3(1.0f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.0f, 3.0f);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 1.0f;
 
-	Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap);
+	if constexpr (true)
+	{
+		Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Lightmap.lux");
+	}
+	else
+	{
 
-	Test_Engine_Loop(Engine);
+		Jaguar::Get_Lightmap_From_File("Test_Game_Loop/Lightmaps/Test_Lightmap.lux", &Engine->Scene.Lighting);
+
+		Test_Engine_Loop(Engine);
+	}
 
 	Jaguar::Destroy_Texture_Buffer(&Lightmap_Texture);
 
@@ -274,6 +282,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Delete_All_Texture_Cache(&Engine->Asset_Cache);
 	Jaguar::Delete_All_Skeleton_Cache(&Engine->Asset_Cache);
 	Jaguar::Delete_All_Animation_Cache(&Engine->Asset_Cache);
+
+	Jaguar::Delete_Scene_Lightmap(&Engine->Scene.Lighting);
 
 	glfwTerminate();
 }

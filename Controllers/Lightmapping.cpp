@@ -10,6 +10,13 @@
 
 namespace Jaguar
 {
+	void Delete_Scene_Lightmap(Lighting_Data* Target_Lighting)
+	{
+		// Lightmap_Texture needs to be deleted
+
+		glBindTexture(GL_TEXTURE_2D, Target_Lighting->Lightmap_Texture.Texture_Buffer_ID);
+		Destroy_Texture_Buffer(&Target_Lighting->Lightmap_Texture);
+	}
 
 	glm::vec3 Render_Scene_To_Lightmap_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Incident_Texture, const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[5], glm::vec3 Position, glm::vec3 Normal, Shader* Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data) // Returns average pixel value
 	{
@@ -28,16 +35,16 @@ namespace Jaguar
 		// returns
 		// ---------------
 
-		size_t Pixel_Count = Incident_Texture_Width * Incident_Texture_Width;
+		glClearColor(1.f, 1.f, 1.f, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		size_t Pixel_Count = 6 * Incident_Texture_Width * Incident_Texture_Width;
 
 		for (size_t Face = 0; Face < 6; Face++)
 		{
 			//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-			glClearColor(1.f, 1.f, 1.f, 1);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
+			glViewport(Face * Incident_Texture_Width, 0, Incident_Texture_Width, Incident_Texture_Width);
 
 			glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Projection_Matrices[Face]));
 
@@ -68,7 +75,9 @@ namespace Jaguar
 
 			for (size_t Light = 0; Light < Engine->Scene.Lighting.Lightsources.size(); Light++)
 			{
-				glm::mat4 Model_Matrix = glm::translate(glm::scale(glm::mat4(1.0f), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius)), Engine->Scene.Lighting.Lightsources[Light]->Position);
+				glm::mat4 Model_Matrix = glm::scale(glm::translate(Engine->Scene.Lighting.Lightsources[Light]->Position), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius));
+					
+				// glm::translate(glm::scale(glm::mat4(1.0f), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius)), Engine->Scene.Lighting.Lightsources[Light]->Position);
 
 				glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model_Matrix));
 				glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"),
@@ -100,25 +109,19 @@ namespace Jaguar
 
 			// glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-			glBindTexture(GL_TEXTURE_2D, Incident_Texture);
-
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data);
-
-			// The issue might be here
-
-			// glReadPixels(0, 0, Incident_Texture_Width, Incident_Texture_Width, GL_RGB, GL_FLOAT, Pixel_Data);
-
-			for (size_t Pixel = 0; Pixel < Pixel_Count; Pixel++)
-				Pixel_Colour += Pixel_Data[Pixel];
-
 			// glBindFramebuffer(GL_FRAMEBUFFER, *Framebuffer);
 
 			//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		// delete[] Pixel_Data;	// DEALLOCATES PIXEL DATA (very important)
+		glBindTexture(GL_TEXTURE_2D, Incident_Texture);
 
-		Pixel_Colour /= 5.0f;	// 5 faces
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+
+		for (size_t Pixel = 0; Pixel < Pixel_Count; Pixel++)	// Now, we pack all 6 views into one texture and just change the viewport position accordingly
+			Pixel_Colour += Pixel_Data[Pixel];
+
+		Pixel_Colour /= 5.5f;	// 5 faces
 		Pixel_Colour /= (float)(Incident_Texture_Width * Incident_Texture_Width); // pixel count
 
 		return Pixel_Colour;
@@ -164,13 +167,13 @@ namespace Jaguar
 
 		// glm::mat4 Local_View = Data.View_Matrix; // glm::translate(View_Matrix, -Position);
 
-		for (size_t Face = 0; Face < 5; Face++)
+		for (size_t Face = 0; Face < 6; Face++)
 			Local_Projection_Matrices[Face] = Data.Perspective * glm::translate(Data.Projection_Matrices[Face], -Position);
 
 		glm::vec3 Colour = // Position / glm::vec3(2);
 		/*
 			glm::vec3(
-			glm::max(0.0f, glm::dot(glm::normalize(Position - 0.0f * Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
+			glm::max(0.0f, glm::dot(glm::normalize(Position - Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
 		);*/
 			
 			// glm::vec3(4.0f / glm::length(Position));
@@ -207,14 +210,6 @@ namespace Jaguar
 		// glm::mat4 View_Matrix = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
 
 		// Create all view matrices matrices
-
-		/*Projection_Matrices[0] = glm::lookAt(glm::vec3(0.0f), Normal, Tangent);
-
-		Projection_Matrices[1] = glm::lookAt(glm::vec3(0.0f), Tangent, Normal);
-		Projection_Matrices[2] = glm::lookAt(glm::vec3(0.0f), -Tangent, Normal);
-
-		Projection_Matrices[3] = glm::lookAt(glm::vec3(0.0f), Bitangent, Normal);
-		Projection_Matrices[4] = glm::lookAt(glm::vec3(0.0f), -Bitangent, Normal);*/
 
 		// Make projection matrix for every direction
 
@@ -256,7 +251,7 @@ namespace Jaguar
 		);
 	}
 
-	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart)
+	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart, const char* File_Output)
 	{
 		// This will allocate buffer for lightmap texture data
 
@@ -281,7 +276,9 @@ namespace Jaguar
 		for (size_t W = 0; W < Target_Chart->Sidelength * Target_Chart->Sidelength; W++)
 			Lightmap_Texture_Data[W] = 0.0f * glm::vec3(1.0f, 0.0f, 1.0f);	// zeroes out values
 
-		glm::vec3* Pixel_Data = new glm::vec3[Incident_Texture_Width * Incident_Texture_Width]; // [Incident_Texture_Width * Incident_Texture_Width] ;
+		glm::vec3* Pixel_Data = new glm::vec3[Incident_Texture_Width * Incident_Texture_Width * 6]; // [Incident_Texture_Width * Incident_Texture_Width] ;
+
+		// Change this to render all 6 views to one buffer
 
 		// Note: I initially was going to render to a cubemap using the geometry shader, but I'll just render to each face separately
 
@@ -292,13 +289,13 @@ namespace Jaguar
 		glGenTextures(1, &Incident_Texture);
 		glBindTexture(GL_TEXTURE_2D, Incident_Texture);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width * 6, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Incident_Texture, 0);
 
 		glGenRenderbuffers(1, &Depth_Renderbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, Depth_Renderbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width, Incident_Texture_Width);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width * 6, Incident_Texture_Width);
 
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, Depth_Renderbuffer);
 
@@ -327,9 +324,12 @@ namespace Jaguar
 			printf("Tri %lu complete\n", Tri);
 		}
 
-		Create_Texture_Buffer(Lightmap_Texture, GL_RGB32F, Target_Chart->Sidelength, Target_Chart->Sidelength, GL_RGB, GL_FLOAT, Lightmap_Texture_Data, true);
+		// Create_Texture_Buffer(Lightmap_Texture, GL_RGB32F, Target_Chart->Sidelength, Target_Chart->Sidelength, GL_RGB, GL_FLOAT, Lightmap_Texture_Data, true);
 
 		printf(" >> Successfully created lightmap of %lu dimensions!\n", Target_Chart->Sidelength);
+
+		if(File_Output)
+			Write_Lightmap_To_File(File_Output, Pixel_Data, Target_Chart->Sidelength);
 
 		Engine->Scene.Lighting.Lightmap_Texture = *Lightmap_Texture;
 		Engine->Scene.Lighting.Inverse_Lightmap_Scale = 1.0f / (float)Target_Chart->Sidelength;
@@ -444,7 +444,7 @@ namespace Jaguar
 		);
 	}
 
-	const float Luxel_Scale = 6.0f; // 1 unit squared equals 5x5 pixels of area
+	const float Luxel_Scale = 10.0f; // 1 unit squared equals 5x5 pixels of area
 
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart)
 	{

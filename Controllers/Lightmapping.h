@@ -65,7 +65,12 @@ namespace Jaguar
 
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 	void Push_Queue_Lightmap_Chart(Jaguar_Engine* Engine, const Render_Queue* Queue, Lightmap_Chart* Target_Chart);
-	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart);
+	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
+
+	struct Lighting_Data;
+
+	void Get_Lightmap_From_File(const char* Filename, Lighting_Data* Target_Lighting);	// Loads lightmap data and generates texture from it
+	void Write_Lightmap_To_File(const char* Filename, glm::vec3* Data, unsigned int Texture_Dimensions);
 
 	struct Shader;
 	struct Scene_Data;
