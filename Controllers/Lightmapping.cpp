@@ -170,16 +170,21 @@ namespace Jaguar
 		for (size_t Face = 0; Face < 6; Face++)
 			Local_Projection_Matrices[Face] = Data.Perspective * glm::translate(Data.Projection_Matrices[Face], -Position);
 
-		glm::vec3 Colour = // Position / glm::vec3(2);
-		/*
+		glm::vec3 Colour;
+		
+		// Position / glm::vec3(2);
+		
+		if constexpr (false)
+		{
+			Colour = 
 			glm::vec3(
-			glm::max(0.0f, glm::dot(glm::normalize(Position - Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
-		);*/
-			
-			// glm::vec3(4.0f / glm::length(Position));
-
-
-			Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data);
+				glm::max(0.0f, glm::dot(glm::normalize(Position - Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
+			);
+		}
+		else
+		{
+			Colour = Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data);
+		}
 
 		size_t Index = X + Y * Data.Target_Chart->Sidelength;
 
@@ -329,7 +334,7 @@ namespace Jaguar
 		printf(" >> Successfully created lightmap of %lu dimensions!\n", Target_Chart->Sidelength);
 
 		if(File_Output)
-			Write_Lightmap_To_File(File_Output, Pixel_Data, Target_Chart->Sidelength);
+			Write_Lightmap_To_File(File_Output, Lightmap_Texture_Data, Target_Chart->Sidelength);
 
 		Engine->Scene.Lighting.Lightmap_Texture = *Lightmap_Texture;
 		Engine->Scene.Lighting.Inverse_Lightmap_Scale = 1.0f / (float)Target_Chart->Sidelength;

@@ -44,7 +44,7 @@ namespace Jaguar
 
 		// Time to allocate data...
 
-		glm::vec3* Data = new glm::vec3[Texture_Dimensions];
+		glm::vec3* Data = new glm::vec3[Texture_Size];
 
 		File.read((char*)Data, Texture_Size * sizeof(glm::vec3));
 
