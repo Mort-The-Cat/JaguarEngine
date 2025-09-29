@@ -9,6 +9,8 @@ uniform vec3 Light_Colour;
 uniform vec3 Lightmap_Surface_Normal;
 uniform vec3 Camera_Position;
 
+in vec4 Screenspace_Position;
+
 in vec2 Texture_Coordinates;
 in vec3 Position;
 in vec3 Normal;
@@ -20,6 +22,8 @@ void main()
 	// float Inverse_Length = inversesqrt(dot(Position, Position));
 
 	vec3 Colour = vec3(max(1, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
+
+	// Colour *= abs(atan(gl_FragCoord.y) * atan(gl_FragCoord.x));
 
 	Out_Colour = vec4(Colour, 1);
 

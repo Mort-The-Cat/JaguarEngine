@@ -13,6 +13,8 @@ out vec3 Position;
 out vec3 Normal;
 out vec2 Lightmap_Coordinates;
 
+out vec4 Screenspace_Position;
+
 void main()
 {
 	Lightmap_Coordinates = In_Lightmap_Coordinates;
@@ -25,7 +27,7 @@ void main()
 
 	Normal = mat3(Model_Matrix) * normalize(In_Normal); // This provides only the ROTATION to the normals (which is what we want)
 
-	vec4 Screenspace_Position = Projection_Matrix * vec4(Position, 1);
+	Screenspace_Position = Projection_Matrix * vec4(Position, 1);
 
 	gl_Position = Screenspace_Position;
 }
