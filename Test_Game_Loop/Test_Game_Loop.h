@@ -252,18 +252,18 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Texture Lightmap_Texture;
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = 10.0f * glm::vec3(1.0f, 0.5f, 0.85f);
-	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1, 1.1f, 5.75f);
-	Engine->Scene.Lighting.Lightsources.back()->Radius = 1.0f;
+	Engine->Scene.Lighting.Lightsources.back()->Colour = 300.0f * glm::vec3(1.0f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 5.3f);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Lightmap.lux");
+		Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Lightmap_2.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap_From_File("Test_Game_Loop/Lightmaps/Test_Lightmap.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap_From_File("Test_Game_Loop/Lightmaps/Test_Lightmap_2.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

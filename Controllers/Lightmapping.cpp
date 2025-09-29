@@ -35,7 +35,7 @@ namespace Jaguar
 		// returns
 		// ---------------
 
-		glClearColor(1.f, 1.f, 1.f, 1);
+		glClearColor(0.f, 0.f, 0.f, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		size_t Pixel_Count = 6 * Incident_Texture_Width * Incident_Texture_Width;
@@ -51,6 +51,41 @@ namespace Jaguar
 			glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Camera_Position"), Position.x, Position.y, Position.z);
 
 			glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Lightmap_Surface_Normal"), Normal.x, Normal.y, Normal.z);
+
+			Bind_Vertex_Buffer(Light_Model);
+
+			glDepthMask(GL_FALSE);
+
+			if constexpr (true) // We want to draw the sun
+			{
+				glm::mat4 Sun_Matrix = glm::scale(glm::translate(Position), glm::vec3(1.0f));
+
+				glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Sun_Matrix));
+				glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"),
+					3 * 0.85f,
+					3 * 0.95f,
+					3 * 1.00f
+				);
+
+				glDrawArrays(GL_TRIANGLES, 0, Light_Model.Vertex_Count);
+			}
+
+			glDepthMask(GL_TRUE);
+
+			for (size_t Light = 0; Light < Engine->Scene.Lighting.Lightsources.size(); Light++)
+			{
+				glm::mat4 Model_Matrix = glm::scale(glm::translate(Engine->Scene.Lighting.Lightsources[Light]->Position), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius));
+
+				// glm::translate(glm::scale(glm::mat4(1.0f), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius)), Engine->Scene.Lighting.Lightsources[Light]->Position);
+
+				glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model_Matrix));
+				glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"),
+					Engine->Scene.Lighting.Lightsources[Light]->Colour.x,
+					Engine->Scene.Lighting.Lightsources[Light]->Colour.y,
+					Engine->Scene.Lighting.Lightsources[Light]->Colour.z);
+
+				glDrawArrays(GL_TRIANGLES, 0, Light_Model.Vertex_Count);
+			}
 
 			glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"), 0, 0, 0);
 
@@ -70,37 +105,6 @@ namespace Jaguar
 			}
 
 			// then renders lightsources
-
-			Bind_Vertex_Buffer(Light_Model);
-
-			for (size_t Light = 0; Light < Engine->Scene.Lighting.Lightsources.size(); Light++)
-			{
-				glm::mat4 Model_Matrix = glm::scale(glm::translate(Engine->Scene.Lighting.Lightsources[Light]->Position), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius));
-					
-				// glm::translate(glm::scale(glm::mat4(1.0f), glm::vec3(Engine->Scene.Lighting.Lightsources[Light]->Radius)), Engine->Scene.Lighting.Lightsources[Light]->Position);
-
-				glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model_Matrix));
-				glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"),
-					Engine->Scene.Lighting.Lightsources[Light]->Colour.x,
-					Engine->Scene.Lighting.Lightsources[Light]->Colour.y,
-					Engine->Scene.Lighting.Lightsources[Light]->Colour.z);
-
-				glDrawArrays(GL_TRIANGLES, 0, Light_Model.Vertex_Count);
-			}
-
-			if constexpr (false) // We want to draw the sun
-			{
-				glm::mat4 Sun_Matrix = glm::translate(glm::scale(glm::mat4(1.0f), glm::vec3(200.0f)), Position);
-
-				glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Sun_Matrix));
-				glUniform3f(glGetUniformLocation(Lightmap_Shader->Program_ID, "Light_Colour"),
-					3 * 0.85f,
-					3 * 0.95f,
-					3 * 1.00f
-				);
-
-				glDrawArrays(GL_TRIANGLES, 0, Light_Model.Vertex_Count);
-			}
 
 			glfwSwapBuffers(Engine->Window);
 			glfwPollEvents();
