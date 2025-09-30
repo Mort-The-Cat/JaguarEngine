@@ -188,7 +188,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		glm::vec3(0.0f, -0.5f, 0.0f)
 	);*/
 
-	if constexpr (true)
+	if constexpr (false)
 	{
 
 		Object = new Jaguar::World_Object();
@@ -210,7 +210,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 		Object = new Jaguar::World_Object();
 		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Box_Test_Room.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
 			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
 			nullptr
 		);
@@ -253,17 +253,22 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
 	Engine->Scene.Lighting.Lightsources.back()->Colour = 300.0f * glm::vec3(1.0f, 0.5f, 0.85f);
-	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 5.3f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 4.3f);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
+
+	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
+	Engine->Scene.Lighting.Lightsources.back()->Colour = 300.0f * glm::vec3(0.5f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 2.1f, 0.0f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Lightmap_2.lux");
+		Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Lightmap_4.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap_From_File("Test_Game_Loop/Lightmaps/Test_Lightmap_2.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap_From_File("Test_Game_Loop/Lightmaps/Test_Lightmap_4.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

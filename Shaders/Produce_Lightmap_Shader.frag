@@ -17,6 +17,11 @@ in vec3 Normal;
 
 in vec2 Lightmap_Coordinates;
 
+float Fix_Distortion(float Coord)
+{
+	return atan(Coord) / Coord;
+}
+
 void main()
 {
 	// float Inverse_Length = inversesqrt(dot(Position, Position));
@@ -24,6 +29,8 @@ void main()
 	vec3 Colour = vec3(max(1, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
 
 	// Colour *= abs(atan(gl_FragCoord.y) * atan(gl_FragCoord.x));
+
+	// Colour *= Fix_Distortion(abs(Screenspace_Position.x / Screenspace_Position.w)) * Fix_Distortion(abs(Screenspace_Position.y / Screenspace_Position.w));
 
 	Out_Colour = vec4(Colour, 1);
 

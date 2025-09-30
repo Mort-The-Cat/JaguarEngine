@@ -20,7 +20,7 @@ void main()
 
 	gl_FragColor = 
 				vec4(
-					texture(Lightmap_Texture, LM_Coordinates).rgb, 
+					pow(texture(Lightmap_Texture, LM_Coordinates).rgb, vec3(0.5)), 
 				1) * 
 				vec4(
 					texture(Albedo_Texture, Texture_Coordinates).rgb, 
