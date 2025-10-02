@@ -26,7 +26,7 @@ void main()
 {
 	// float Inverse_Length = inversesqrt(dot(Position, Position));
 
-	vec3 Colour = vec3(max(1, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
+	vec3 Colour = vec3(max(0, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
 
 	// Colour *= abs(atan(gl_FragCoord.y) * atan(gl_FragCoord.x));
 
