@@ -57,7 +57,11 @@ namespace Jaguar
 
 	struct Lighting_Data
 	{
+#if TRIPLE_LIGHTMAPPING
+		Texture Lightmap_Textures[3];
+#else
 		Texture Lightmap_Texture;
+#endif
 
 		float Inverse_Lightmap_Scale;
 

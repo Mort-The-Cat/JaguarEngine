@@ -4,6 +4,10 @@
 
 namespace Jaguar
 {
+	void Write_Lightmap3_To_File(const char* Filename, glm::vec3* Data[3], unsigned int Texture_Dimensions)
+	{
+
+	}
 
 	void Write_Lightmap_To_File(const char* Filename, glm::vec3* Data, unsigned int Texture_Dimensions)
 	{
@@ -57,5 +61,10 @@ namespace Jaguar
 		// Creates lightmap! Now we can deallocate the data
 
 		delete[] Data;
+	}
+
+	void Get_Lightmap3_From_File(const char* Filename, Lighting_Data* Target_Lighting)
+	{
+
 	}
 }

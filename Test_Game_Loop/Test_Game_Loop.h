@@ -168,7 +168,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae", 0); // The sphere model must be loaded for the lightmapping to use as the 'light'
 	
 	Jaguar::Shader Test_Shader;
+#if TRIPLE_LIGHTMAPPING
+	Jaguar::Create_Shader("Shaders/Lightmapped_Shader.frag", "Shaders/Triple_Lightmapped_Shader.vert", &Test_Shader, "Shaders/Test_TBN_Geometry.geom"); // This shader is used if we're using triple lightmapping
+#else
 	Jaguar::Create_Shader("Shaders/Lightmapped_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
+#endif
 
 	Jaguar::Shader Test_Skeletal_Animation_Shader;
 	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader);

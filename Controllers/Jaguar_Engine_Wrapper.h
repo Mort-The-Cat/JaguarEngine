@@ -3,6 +3,8 @@
 
 #include <chrono>
 
+#define TRIPLE_LIGHTMAPPING 0
+
 #include "../OpenGL_Handling/OpenGL_Handling.h"
 #include "../OpenGL_Handling/Input_Handling.h"
 #include "../OpenGL_Handling/Scene.h"

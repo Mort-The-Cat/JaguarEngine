@@ -20,7 +20,7 @@ namespace Jaguar
 
 	};*/
 
-	void Create_Shader(const char* Fragment, const char* Vertex, Shader* Target_Shader);
+	void Create_Shader(const char* Fragment, const char* Vertex, Shader* Target_Shader, const char* Geometry = nullptr);
 	void Destroy_Shader(Shader* Target_Shader);
 	void Use_Shader(const Shader Target_Shader);
 
