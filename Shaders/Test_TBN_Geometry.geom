@@ -3,7 +3,7 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
-out vec4 Position;
+out vec3 Position;
 out vec3 Normal;
 
 out vec3 Geometry_Normal;		// Note that the geometry normal may not equal the otherwise shaded normal
@@ -11,6 +11,35 @@ out vec3 Texture_Tangent;		// Tangent, based on texture space
 out vec3 Texture_Bitangent;		// Bitangent, based on texture space
 out vec2 Texture_Coordinates;
 out vec2 Lightmap_Coordinates;
+
+// We'll also output the triple-lightmapping vectors
+out vec3 Lightmap_Vector_0;
+out vec3 Lightmap_Vector_1;
+out vec3 Lightmap_Vector_2;
+
+
+
+void Output_Lightmap_Vectors(vec3 Tangent, vec3 Normal, vec3 Bitangent)
+{
+	const float Sqrt_Sixth = sqrt(1.0f / 6);
+	const float Sqrt_Half = sqrt(0.5f);
+	const float Sqrt_Third = sqrt(1.0f / 3.0f);
+	const float Sqrt_Three_Halves = sqrt(1.5f);
+
+	Normal *= Sqrt_Third;
+	Bitangent *= Sqrt_Half;
+
+	Lightmap_Vector_0 = Normal;
+	Lightmap_Vector_1 = Normal;
+	Lightmap_Vector_2 = Normal;
+
+	Lightmap_Vector_2 += Sqrt_Three_Halves * Tangent;
+
+	Tangent *= Sqrt_Sixth;
+
+	Lightmap_Vector_0 = Tangent + Bitangent;
+	Lightmap_Vector_1 += Bitangent - Tangent;
+}
 
 in DATA
 {
@@ -47,6 +76,9 @@ void main()
 		Texture_Coordinates = Vertex[W].UV;
 		Texture_Tangent = Tangent;
 		Texture_Bitangent = cross(Tangent, Normal);
+
+		Output_Lightmap_Vectors(Tangent, Normal, Texture_Bitangent);
+
 		Lightmap_Coordinates = Vertex[W].Lightmap_Coordinates;
 
 		EmitVertex();

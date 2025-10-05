@@ -197,24 +197,25 @@ namespace Collada
 	void Load_Child_Joint_Name_Map(XML_Document Parent_Node, std::map<std::string, unsigned int>& Bone_Map, std::vector<glm::mat4>& Buffer);
 	int Load_Animation(const XML_Document& Document, Collada_Animation* Target_Animation);
 
-	void Get_UV_Tangent_Bitangent_Vectors(glm::vec3 Positions[3], glm::vec2 Texture_Coordinates[3], glm::vec3 Normal, glm::vec3* Tangent, glm::vec3* Bitangent)
-	{
-		glm::vec2 UV_A, UV_B;
-		glm::vec3 Edge_A, Edge_B;
+	/*
+	
+	-sqrt(1/6), -sqrt(1/2), sqrt(1/3)
 
-		float Inv;
+	-sqrt(1/6), sqrt(1/2), sqrt(1/3)
 
-		UV_A = Texture_Coordinates[1] - Texture_Coordinates[0];
-		UV_B = Texture_Coordinates[2] - Texture_Coordinates[0];
+	sqrt(3/2), 0, sqrt(1/3)
 
-		Edge_A = Positions[1] - Positions[0];
-		Edge_B = Positions[2] - Positions[0];
+	where x is tangent, y is bitangent, and z is normal
+	
+	*/
 
-		Inv = 1.0f / (UV_A.x * UV_B.y - UV_B.x * UV_A.y);
+}
 
-		*Tangent = -glm::normalize(Inv * (Edge_A * UV_B.y - Edge_B * UV_A.y));
-		*Bitangent = glm::normalize(glm::cross(*Tangent, Normal));
-	}
+namespace Jaguar
+{
+	void Get_Triple_Lightmap_Vectors(glm::vec3 Normal, glm::vec3 Tangent, glm::vec3 Bitangent, glm::vec3 Components[3]);
+
+	void Get_UV_Tangent_Bitangent_Vectors(glm::vec3 Positions[3], glm::vec2 Texture_Coordinates[3], glm::vec3 Normal, glm::vec3* Tangent, glm::vec3* Bitangent);
 }
 
 #endif

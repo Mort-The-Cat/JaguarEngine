@@ -56,7 +56,15 @@ namespace Jaguar
 			char Info_Log[512];
 
 			glGetProgramInfoLog(Target_Shader->Program_ID, 512, NULL, Info_Log);
-			printf(" >> Error in shader compilation! \n\t%s\n", Info_Log);
+
+			char Fragment_Info[512];
+			char Vertex_Info[512];
+			char Geometry_Info[512];
+
+			glGetShaderInfoLog(Fragment_Program, 512, NULL, Fragment_Info);
+			glGetShaderInfoLog(Vertex_Program, 512, NULL, Vertex_Info);
+			glGetShaderInfoLog(Geometry_Program, 512, NULL, Geometry_Info);
+			printf(" >> Error in shader compilation! \n\t%s\n\n%s\n\n%s\n\n%s\n", Info_Log, Fragment_Info, Vertex_Info, Geometry_Info);
 		}
 
 		glDeleteShader(Fragment_Program);

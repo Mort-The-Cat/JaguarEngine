@@ -25,5 +25,11 @@ void main()
 {
 	//vec3 Colour = vec3(max(0, dot(normalize(Position - Camera_Position), Lightmap_Surface_Normal))) * Light_Colour;
 
+	vec3 Vector = normalize(Position - Camera_Position);
+
+	Out_Component_0 = vec3(max(0, dot(Vector, Lightmap_Surface_Normal))) * Light_Colour;
+	Out_Component_1 = vec3(max(0, dot(Vector, Lightmap_Surface_Tangent))) * Light_Colour;
+	Out_Component_2 = vec3(max(0, dot(Vector, Lightmap_Surface_Bitangent))) * Light_Colour;
+
 	//Out_Colour = Colour;
 }

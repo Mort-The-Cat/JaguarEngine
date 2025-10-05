@@ -28,9 +28,24 @@ namespace Jaguar
 
 		glUniform1f(glGetUniformLocation(Target_Shader->Program_ID, "Inverse_Lightmap_Size"), Scene->Lighting.Inverse_Lightmap_Scale);
 
+#if TRIPLE_LIGHTMAPPING
+		const char* Names[] = {
+			"Lightmap_0_Texture",
+			"Lightmap_1_Texture",
+			"Lightmap_2_Texture"
+		};
+
+		for (size_t W = 0; W < 3; W++)
+		{
+			glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, Names[W]), 1 + W);
+			glActiveTexture(GL_TEXTURE1 + W);
+			glBindTexture(GL_TEXTURE_2D, Scene->Lighting.Lightmap_Textures[W].Texture_Buffer_ID);
+		}
+#else
 		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Lightmap_Texture"), 1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, Scene->Lighting.Lightmap_Texture.Texture_Buffer_ID);
+#endif
 	}
 
 	void Default_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)

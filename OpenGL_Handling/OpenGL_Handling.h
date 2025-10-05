@@ -3,6 +3,8 @@
 
 #define CRT_SECURE_NO_WARNINGS 1
 
+#define TRIPLE_LIGHTMAPPING 1
+
 #include "../Collada_Loader/Collada_Loader.h"
 
 namespace Jaguar

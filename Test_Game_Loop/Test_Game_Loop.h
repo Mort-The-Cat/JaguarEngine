@@ -169,7 +169,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	
 	Jaguar::Shader Test_Shader;
 #if TRIPLE_LIGHTMAPPING
-	Jaguar::Create_Shader("Shaders/Lightmapped_Shader.frag", "Shaders/Triple_Lightmapped_Shader.vert", &Test_Shader, "Shaders/Test_TBN_Geometry.geom"); // This shader is used if we're using triple lightmapping
+	Jaguar::Create_Shader("Shaders/Triple_Lightmapped_Shader.frag", "Shaders/Triple_Lightmapped_Shader.vert", &Test_Shader, "Shaders/Test_TBN_Geometry.geom"); // This shader is used if we're using triple lightmapping
 #else
 	Jaguar::Create_Shader("Shaders/Lightmapped_Shader.frag", "Shaders/Test_Shader.vert", &Test_Shader);
 #endif
@@ -265,14 +265,14 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 2.1f, 0.0f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 
-	if constexpr (false)
+	if constexpr (true)
 	{
-		Jaguar::Create_Lightmap_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Lightmap_4.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_4.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap_From_File("Test_Game_Loop/Lightmaps/Test_Lightmap_4.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_4.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}
