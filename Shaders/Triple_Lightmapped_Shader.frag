@@ -25,9 +25,9 @@ void main()
 	vec2 LM_Coordinates = Lightmap_Coordinates * vec2(Inverse_Lightmap_Size);
 
 	vec3 Sum_Lighting = 
-		texture(Lightmap_0_Texture, LM_Coordinates).rgb * dot(Normal, Lightmap_Vector_0) + 
-		texture(Lightmap_1_Texture, LM_Coordinates).rgb * dot(Normal, Lightmap_Vector_1) +
-		texture(Lightmap_2_Texture, LM_Coordinates).rgb * dot(Normal, Lightmap_Vector_2);
+		texture(Lightmap_0_Texture, LM_Coordinates).rgb * max(0, dot(Normal, Lightmap_Vector_0)) + 
+		texture(Lightmap_1_Texture, LM_Coordinates).rgb * max(0, dot(Normal, Lightmap_Vector_1)) +
+		texture(Lightmap_2_Texture, LM_Coordinates).rgb * max(0, dot(Normal, Lightmap_Vector_2));
 
 	gl_FragColor = 
 				vec4(

@@ -265,7 +265,15 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 2.1f, 0.0f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 
-	if constexpr (true)
+	/*Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae").Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
+		nullptr, glm::vec3(0.0f, 2.1f, 0.0f));*/
+
+	Object = nullptr;
+
+	if constexpr (false)
 	{
 		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_4.lux");
 	}

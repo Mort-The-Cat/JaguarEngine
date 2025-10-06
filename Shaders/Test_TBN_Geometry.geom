@@ -37,7 +37,7 @@ void Output_Lightmap_Vectors(vec3 Tangent, vec3 Normal, vec3 Bitangent)
 
 	Tangent *= Sqrt_Sixth;
 
-	Lightmap_Vector_0 = Tangent + Bitangent;
+	Lightmap_Vector_0 -= Tangent + Bitangent;
 	Lightmap_Vector_1 += Bitangent - Tangent;
 }
 
