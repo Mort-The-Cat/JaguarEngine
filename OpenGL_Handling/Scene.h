@@ -34,8 +34,8 @@ namespace Jaguar
 
 		void* Uniform_Buffer;	// This is a pointer to any additional uniform buffer information (such as skeletal animations etc)
 
-		Texture Albedo;
-		// Texture Material;
+		Texture Albedo;			// Albedo colour texture
+		Texture Normal;			// Normal map texture
 
 		Vertex_Buffer Mesh;			// Bound and rendered (can be shared by multiple world objects, pulled from same asset pool)
 	};
@@ -45,6 +45,7 @@ namespace Jaguar
 	void Create_World_Object(Jaguar_Engine* Engine, World_Object* Object, Shader* Object_Shader,
 		Vertex_Buffer Mesh_Buffer,
 		Texture Albedo,
+		Texture Normal,
 		Controller* Control,
 		glm::vec3 Position = glm::vec3(0.0f),
 		glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, 1.0f),

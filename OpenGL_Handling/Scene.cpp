@@ -40,6 +40,7 @@ namespace Jaguar
 	void Create_World_Object(Jaguar_Engine* Engine, World_Object* Object, Shader* Object_Shader,
 		Vertex_Buffer Mesh_Buffer,
 		Texture Albedo,
+		Texture Normal,
 		Controller* Control,
 		glm::vec3 Position,
 		glm::vec3 Orientation,
@@ -48,6 +49,7 @@ namespace Jaguar
 	{
 		Object->Mesh = Mesh_Buffer;
 		Object->Albedo = Albedo;
+		Object->Normal = Normal;
 		Object->Control = Control;
 		Object->Position = Position;
 		Object->Orientation = Orientation;

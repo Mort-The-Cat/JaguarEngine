@@ -140,7 +140,9 @@ namespace Jaguar
 		for (size_t Component = 0; Component < 3; Component++)
 		{
 			glBindTexture(GL_TEXTURE_2D, Incident_Texture[Component]);
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data[Component]);
+			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data[Component]);	// This is by far the largest bottleneck
+
+			// Maybe I can do something here with mipmaps to speed it up
 
 			Pixel_Colour = glm::vec3(0.0f);
 

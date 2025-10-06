@@ -37,8 +37,8 @@ namespace Jaguar
 
 		for (size_t W = 0; W < 3; W++)
 		{
-			glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, Names[W]), 1 + W);
-			glActiveTexture(GL_TEXTURE1 + W);
+			glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, Names[W]), 2 + W);
+			glActiveTexture(GL_TEXTURE2 + W);
 			glBindTexture(GL_TEXTURE_2D, Scene->Lighting.Lightmap_Textures[W].Texture_Buffer_ID);
 		}
 #else
@@ -58,6 +58,10 @@ namespace Jaguar
 		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Albedo_Texture"), 0);
 		glActiveTexture(GL_TEXTURE0 + 0);
 		glBindTexture(GL_TEXTURE_2D, Object->Albedo.Texture_Buffer_ID);
+
+		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Normal_Texture"), 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, Object->Normal.Texture_Buffer_ID);
 	}
 
 	void Skeletal_Animation_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)

@@ -188,6 +188,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Viking_Room.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
 		nullptr,
 		glm::vec3(0.0f, -0.5f, 0.0f)
 	);*/
@@ -199,6 +200,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Bricks.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
 			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
 			nullptr
 		);
 
@@ -206,6 +208,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
 			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
+			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
 			nullptr
 		);
 	}
@@ -216,6 +219,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
 			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
 			nullptr
 		);
 
@@ -226,6 +230,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Buffer,			// Model
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Texture.png").Texture,	// Texture
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
 		new Jaguar::Animator_Controller(																	// Controller
 			Object,
 			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Animation,
@@ -239,6 +244,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Buffer,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
 		new Jaguar::Animator_Controller(
 			Object,
 			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Animation,
@@ -269,6 +275,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae").Buffer,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
 		nullptr, glm::vec3(0.0f, 2.1f, 0.0f));*/
 
 	Object = nullptr;

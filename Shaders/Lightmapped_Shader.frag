@@ -1,6 +1,7 @@
 #version 440
 
 uniform sampler2D Albedo_Texture;
+uniform sampler2D Normal_Texture;
 uniform sampler2D Lightmap_Texture;
 
 uniform float Inverse_Lightmap_Size;
