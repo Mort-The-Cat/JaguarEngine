@@ -282,12 +282,12 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_4.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_6.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_4.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_6.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

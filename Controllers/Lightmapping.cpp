@@ -30,9 +30,9 @@ namespace Jaguar
 	}
 
 #if TRIPLE_LIGHTMAPPING
-	void Render_Scene_To_Lightmap3_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, unsigned int Incident_Texture[3], const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[6], glm::vec3 Position, glm::vec3 Normal, glm::vec3 Tangent, glm::vec3 Bitangent, Shader* Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data[3], glm::vec3 Colours[3])
+	void Render_Scene_To_Lightmap3_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Lightmap_Framebuffer, unsigned int Lightmap_Textures[3], unsigned int Incident_Texture[3], const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[6], glm::vec3 Position, glm::vec3 Normal, glm::vec3 Tangent, glm::vec3 Bitangent, Shader* Lightmap_Shader, Shader* Write_Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data[3], size_t X, size_t Y)
 #else
-	glm::vec3 Render_Scene_To_Lightmap_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Incident_Texture, const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[6], glm::vec3 Position, glm::vec3 Normal, Shader* Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data) // Returns average pixel value
+	void Render_Scene_To_Lightmap_Pixel(Jaguar_Engine* Engine, const Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Lightmap_Framebuffer, unsigned int Lightmap_Texture, int Incident_Texture, const Vertex_Buffer& Light_Model, glm::mat4 Projection_Matrices[6], glm::vec3 Position, glm::vec3 Normal, Shader* Lightmap_Shader, Shader* Write_Lightmap_Shader, unsigned int Incident_Texture_Width, glm::vec3* Pixel_Data, size_t X, size_t Y) // Returns average pixel value
 #endif
 	{
 		glm::vec3 Pixel_Colour = glm::vec3(0.0);
@@ -50,10 +50,7 @@ namespace Jaguar
 		// returns
 		// ---------------
 
-		glClearColor(0.f, 0.f, 0.f, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		size_t Pixel_Count = 6 * Incident_Texture_Width * Incident_Texture_Width;
+		size_t Pixel_Count = Incident_Texture_Width * Incident_Texture_Width;
 
 #if TRIPLE_LIGHTMAPPING
 		glm::vec3 Components[3];
@@ -63,9 +60,18 @@ namespace Jaguar
 
 		for (size_t Face = 0; Face < 6; Face++)
 		{
-			//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			Use_Shader(*Lightmap_Shader);
 
-			glViewport(Face * Incident_Texture_Width, 0, Incident_Texture_Width, Incident_Texture_Width);
+			glBindFramebuffer(GL_FRAMEBUFFER, Framebuffer);
+
+			glClearColor(0.f, 0.f, 0.f, 1);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glEnable(GL_DEPTH_TEST);
+
+			glDisable(GL_BLEND);
+
+			glViewport(0 * Incident_Texture_Width, 0, Incident_Texture_Width, Incident_Texture_Width);
 
 			glUniformMatrix4fv(glGetUniformLocation(Lightmap_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Projection_Matrices[Face]));
 
@@ -131,43 +137,40 @@ namespace Jaguar
 
 			// then renders lightsources
 
+			glBindFramebuffer(GL_FRAMEBUFFER, Lightmap_Framebuffer);
+			Use_Shader(*Write_Lightmap_Shader);
+
+#if TRIPLE_LIGHTMAPPING
+			const char* Names[] = {
+				"Lightmap_0_Texture",
+				"Lightmap_1_Texture",
+				"Lightmap_2_Texture"
+			};
+
+			for (size_t W = 0; W < 3; W++)
+			{
+				glUniform1i(glGetUniformLocation(Write_Lightmap_Shader->Program_ID, Names[W]), W);
+				glActiveTexture(GL_TEXTURE0 + W);
+				glBindTexture(GL_TEXTURE_2D, Incident_Texture[W]);
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+#else
+			glUniform1i(glGetUniformLocation(Write_Lightmap_Shader->Program_ID, "Lightmap_0_Texture"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, Incident_Texture);
+			glGenerateMipmap(GL_TEXTURE_2D);				// This is required to average all pixel values
+#endif
+			glDisable(GL_DEPTH_TEST);
+			glEnable(GL_BLEND);
+			glViewport(0, 0, Target_Chart->Sidelength, Target_Chart->Sidelength);
+			glUniform2f(glGetUniformLocation(Write_Lightmap_Shader->Program_ID, "Pixel"), ((0.5f + (float)X) / (float)Target_Chart->Sidelength), ((0.5f + (float)Y) / (float)Target_Chart->Sidelength));
+
+			glDrawArrays(GL_POINTS, 0, 1); // The vertex buffer that's bound doesn't actually matter lol
+
+
 			glfwSwapBuffers(Engine->Window);
 			glfwPollEvents();
 		}
-
-#if TRIPLE_LIGHTMAPPING
-
-		for (size_t Component = 0; Component < 3; Component++)
-		{
-			glBindTexture(GL_TEXTURE_2D, Incident_Texture[Component]);
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data[Component]);	// This is by far the largest bottleneck
-
-			// Maybe I can do something here with mipmaps to speed it up
-
-			Pixel_Colour = glm::vec3(0.0f);
-
-			for (size_t Pixel = 0; Pixel < Pixel_Count; Pixel++)
-				Pixel_Colour += Pixel_Data[Component][Pixel];
-
-			Pixel_Colour /= 5.5f;
-			Pixel_Colour /= (float)(Incident_Texture_Width * Incident_Texture_Width);
-			Colours[Component] = Pixel_Colour;
-		}
-
-#else
-		glBindTexture(GL_TEXTURE_2D, Incident_Texture);
-
-		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Pixel_Data);
-
-		for (size_t Pixel = 0; Pixel < Pixel_Count; Pixel++)	// Now, we pack all 6 views into one texture and just change the viewport position accordingly
-			Pixel_Colour += Pixel_Data[Pixel];
-
-		Pixel_Colour /= 5.5f;	// 5 faces
-		Pixel_Colour /= (float)(Incident_Texture_Width * Incident_Texture_Width); // pixel count
-
-		return Pixel_Colour;
-#endif
-
 	}
 
 	struct Rasterise_Tri_Lightmap_Data
@@ -183,9 +186,12 @@ namespace Jaguar
 		Lightmap_Chart* Target_Chart;
 		int Framebuffer;
 		int Depth_Renderbuffer;
+		int Lightmap_Framebuffer;
 		unsigned int* Incident_Texture;
+		unsigned int* Lightmap_Textures;
 		unsigned int Incident_Texture_Width;
 		Shader* Lightmap_Shader;
+		Shader* Write_Lightmap_Shader;
 		glm::vec3** Lightmap_Texture_Data;
 		glm::vec3** Pixel_Data;
 	};
@@ -208,50 +214,22 @@ namespace Jaguar
 
 		Position = Position + Data.Normal * glm::vec3(0.005f); //Get_Model_Matrix(Data.Target_Chart->Pushed_Objects[0]) * glm::vec4(Position + Data.Normal * glm::vec3(0.001), 1);
 
-		// glm::mat4 Local_View = Data.View_Matrix; // glm::translate(View_Matrix, -Position);
-
 		for (size_t Face = 0; Face < 6; Face++)
 			Local_Projection_Matrices[Face] = Data.Perspective * glm::translate(Data.Projection_Matrices[Face], -Position);
-
-#if TRIPLE_LIGHTMAPPING
-		glm::vec3 Colours[3];
-#endif
-		glm::vec3 Colour;
 		
-		// Position / glm::vec3(2);
-		
-		if constexpr (false)	// This states whether we want to actually use shading or not
-		{
-			Colour = 
-			glm::vec3(
-				glm::max(0.0f, glm::dot(glm::normalize(Position - Data.Engine->Scene.Lighting.Lightsources[0]->Position), -Data.Normal))
-			);
-		}
-		else
-		{
 #if TRIPLE_LIGHTMAPPING
-			Render_Scene_To_Lightmap3_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Tangent, Data.Bitangent, Data.Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data, Colours);
+		Render_Scene_To_Lightmap3_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Lightmap_Framebuffer, Data.Lightmap_Textures, Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Tangent, Data.Bitangent, Data.Lightmap_Shader, Data.Write_Lightmap_Shader, Data.Incident_Texture_Width, Data.Pixel_Data, X, Y);
 #else
-			Colour = Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, *Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Incident_Texture_Width, *Data.Pixel_Data);
-#endif
-		}
-
-		size_t Index = X + Y * Data.Target_Chart->Sidelength;
-
-#if TRIPLE_LIGHTMAPPING
-		for (size_t W = 0; W < 3; W++)
-			Data.Lightmap_Texture_Data[W][Index] = Colours[W]; // Sets colour for each object
-#else
-		(*Data.Lightmap_Texture_Data)[Index] = Colour; // Sets colour
+		Render_Scene_To_Lightmap_Pixel(Data.Engine, Data.Target_Chart, Data.Framebuffer, Data.Depth_Renderbuffer, Data.Lightmap_Framebuffer, Data.Lightmap_Textures[0], *Data.Incident_Texture, Data.Light_Model, Local_Projection_Matrices, Position, Data.Normal, Data.Lightmap_Shader, Data.Write_Lightmap_Shader, Data.Incident_Texture_Width, *Data.Pixel_Data, X, Y);
 #endif
 
 		return false;	// No hit, just continue as normal
 	}
 
 #if TRIPLE_LIGHTMAPPING
-	void Rasterise_Tri_Lightmap3(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, unsigned int Incident_Textures[3], unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data[3], Shader* Lightmap_Shader, glm::vec3* Pixel_Data[3])
+	void Rasterise_Tri_Lightmap3(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Lightmap_Framebuffer, unsigned int Lightmap_Textures[3], unsigned int Incident_Textures[3], unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data[3], Shader* Lightmap_Shader, Shader* Write_Lightmap_Shader, glm::vec3* Pixel_Data[3])
 #else
-	void Rasterise_Tri_Lightmap(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, unsigned int Incident_Texture, unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data, Shader* Lightmap_Shader, glm::vec3* Pixel_Data)
+	void Rasterise_Tri_Lightmap(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, int Framebuffer, int Depth_Renderbuffer, int Lightmap_Framebuffer, unsigned int Lightmap_Texture, unsigned int Incident_Texture, unsigned int Incident_Texture_Width, glm::vec3* Lightmap_Texture_Data, Shader* Lightmap_Shader, Shader* Write_Lightmap_Shader, glm::vec3* Pixel_Data)
 #endif
 	{
 		Vertex_Buffer Light_Model = Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae", 0).Buffer;
@@ -299,17 +277,21 @@ namespace Jaguar
 		Data.Target_Chart = Target_Chart;
 		Data.Framebuffer = Framebuffer;
 		Data.Depth_Renderbuffer = Depth_Renderbuffer;
+		Data.Lightmap_Framebuffer = Lightmap_Framebuffer;
 		Data.Incident_Texture_Width = Incident_Texture_Width;
 		Data.Lightmap_Shader = Lightmap_Shader;
+		Data.Write_Lightmap_Shader = Write_Lightmap_Shader;
 		Data.Normal = Normal;
 		Data.Tangent = Tangent;
 		Data.Bitangent = Bitangent;
 #if TRIPLE_LIGHTMAPPING
 		Data.Incident_Texture = Incident_Textures;
+		Data.Lightmap_Textures = Lightmap_Textures;
 		Data.Lightmap_Texture_Data = Lightmap_Texture_Data;
 		Data.Pixel_Data = Pixel_Data;
 #else
 		Data.Incident_Texture = &Incident_Texture;
+		Data.Lightmap_Textures = &Lightmap_Texture;
 		Data.Lightmap_Texture_Data = &Lightmap_Texture_Data;
 		Data.Pixel_Data = &Pixel_Data;
 #endif
@@ -341,12 +323,13 @@ namespace Jaguar
 			for (size_t W = 0; W < Target_Chart->Sidelength * Target_Chart->Sidelength; W++)
 				Lightmap_Texture_Data[Side][W] = glm::vec3(0.0f);
 
-			Pixel_Data[Side] = new glm::vec3[Incident_Texture_Width * Incident_Texture_Width * 6];
+			Pixel_Data[Side] = new glm::vec3[Incident_Texture_Width * Incident_Texture_Width];
 		}
 
-		unsigned int Framebuffer, Depth_Renderbuffer;
+		unsigned int Framebuffer, Depth_Renderbuffer, Lightmap_Framebuffer;
 
 		unsigned int Incident_Textures[3];
+		unsigned int Lightmap_Textures_ID[3];
 		glGenFramebuffers(1, &Framebuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, Framebuffer);
 
@@ -355,7 +338,8 @@ namespace Jaguar
 		{
 			glBindTexture(GL_TEXTURE_2D, Incident_Textures[W]);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width * 6, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data[W]);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data[W]);
+			glGenerateMipmap(GL_TEXTURE_2D);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + W, GL_TEXTURE_2D, Incident_Textures[W], 0);
 		}
 
@@ -364,11 +348,37 @@ namespace Jaguar
 
 		glGenRenderbuffers(1, &Depth_Renderbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, Depth_Renderbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width * 6, Incident_Texture_Width);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width, Incident_Texture_Width);
 
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, Depth_Renderbuffer);
 
+		glGenFramebuffers(1, &Lightmap_Framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, Lightmap_Framebuffer);
+		glGenTextures(3, Lightmap_Textures_ID);
+		for (size_t W = 0; W < 3; W++)
+		{
+			glBindTexture(GL_TEXTURE_2D, Lightmap_Textures_ID[W]);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Target_Chart->Sidelength, Target_Chart->Sidelength, 0, GL_RGB, GL_FLOAT, Lightmap_Texture_Data[0]);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + W, GL_TEXTURE_2D, Lightmap_Textures_ID[W], 0);
+		}
+
+		glDrawBuffers(3, Draw_Buffers);
+
+		// No depth buffer required for drawing directly to lightmap
+
 		//
+
+		Shader Write_Lightmap_Shader;
+		Create_Shader("Shaders/Write_Pixel_To_Lightmap3_Framebuffer.frag", "Shaders/Write_Pixel_To_Lightmap3_Framebuffer.vert", &Write_Lightmap_Shader);
+
+		Use_Shader(Write_Lightmap_Shader);
+
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+
+		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glEnable(GL_BLEND);
 
 		Shader Lightmap_Shader;
 		Create_Shader("Shaders/Produce_Triple_Lightmap_Shader.frag", "Shaders/Test_Shader.vert", &Lightmap_Shader);
@@ -385,13 +395,19 @@ namespace Jaguar
 		for (size_t Tri = 0; Tri < Target_Chart->Pushed_Tris.size(); Tri++)
 		{
 #if TRIPLE_LIGHTMAPPING
-			Rasterise_Tri_Lightmap3(Engine, Tri, Target_Chart, Framebuffer, Depth_Renderbuffer, Incident_Textures, Incident_Texture_Width, Lightmap_Texture_Data, &Lightmap_Shader, Pixel_Data);
+			Rasterise_Tri_Lightmap3(Engine, Tri, Target_Chart, Framebuffer, Depth_Renderbuffer, Lightmap_Framebuffer, Lightmap_Textures_ID, Incident_Textures, Incident_Texture_Width, Lightmap_Texture_Data, &Lightmap_Shader, &Write_Lightmap_Shader, Pixel_Data);
 #endif
 
 			printf("Tri %lu complete\n", Tri);
 		}
 
 		printf(" >> Successfully created lightmap of %lu dimensions!\n", Target_Chart->Sidelength);
+
+		for (size_t Face = 0; Face < 3; Face++)
+		{
+			glBindTexture(GL_TEXTURE_2D, Lightmap_Textures_ID[Face]);
+			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, Lightmap_Texture_Data[Face]);
+		}
 
 		if (File_Output)
 			Write_Lightmap3_To_File(File_Output, Lightmap_Texture_Data, Target_Chart->Sidelength);
@@ -422,31 +438,47 @@ namespace Jaguar
 		for (size_t W = 0; W < Target_Chart->Sidelength * Target_Chart->Sidelength; W++)
 			Lightmap_Texture_Data[W] = 0.0f * glm::vec3(1.0f, 0.0f, 1.0f);	// zeroes out values
 
-		glm::vec3* Pixel_Data = new glm::vec3[Incident_Texture_Width * Incident_Texture_Width * 6]; // [Incident_Texture_Width * Incident_Texture_Width] ;
+		glm::vec3* Pixel_Data = new glm::vec3[Incident_Texture_Width * Incident_Texture_Width]; // [Incident_Texture_Width * Incident_Texture_Width] ;
 
 		// Change this to render all 6 views to one buffer
 
 		// Note: I initially was going to render to a cubemap using the geometry shader, but I'll just render to each face separately
 
-		unsigned int Framebuffer, Depth_Renderbuffer, Incident_Texture;
+		unsigned int Framebuffer, Depth_Renderbuffer, Incident_Texture, Lightmap_Framebuffer, Lightmap_Texture_ID;
 		glGenFramebuffers(1, &Framebuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, Framebuffer);
 
 		glGenTextures(1, &Incident_Texture);
 		glBindTexture(GL_TEXTURE_2D, Incident_Texture);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width * 6, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Incident_Texture_Width, Incident_Texture_Width, 0, GL_RGB, GL_FLOAT, Pixel_Data);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Incident_Texture, 0);
 
 		glGenRenderbuffers(1, &Depth_Renderbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, Depth_Renderbuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width * 6, Incident_Texture_Width);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Incident_Texture_Width, Incident_Texture_Width);
 
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, Depth_Renderbuffer);
 
+		//
+
+		glGenFramebuffers(1, &Lightmap_Framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, Framebuffer);
+
+		glGenTextures(1, &Lightmap_Texture_ID);
+		glBindTexture(GL_TEXTURE_2D, Lightmap_Texture_ID);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, Target_Chart->Sidelength, Target_Chart->Sidelength, 0, GL_RGB, GL_FLOAT, Lightmap_Texture_Data);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Lightmap_Texture_ID, 0);
+
 		Shader Lightmap_Shader;
 		Create_Shader("Shaders/Produce_Lightmap_Shader.frag", "Shaders/Test_Shader.vert", &Lightmap_Shader);
+
+		Shader Write_Lightmap_Shader;
+		Create_Shader("Shaders/Write_Pixel_To_Lightmap_Framebuffer.frag", "Shaders/Write_Pixel_To_Lightmap3_Framebuffer.vert", &Write_Lightmap_Shader);
 
 		//
 
@@ -466,7 +498,7 @@ namespace Jaguar
 			// Iterate every tri
 
 #if (!TRIPLE_LIGHTMAPPING)
-			Rasterise_Tri_Lightmap(Engine, Tri, Target_Chart, Framebuffer, Depth_Renderbuffer, Incident_Texture, Incident_Texture_Width, Lightmap_Texture_Data, &Lightmap_Shader, Pixel_Data);
+			Rasterise_Tri_Lightmap(Engine, Tri, Target_Chart, Framebuffer, Depth_Renderbuffer, Lightmap_Framebuffer, Lightmap_Texture_ID, Incident_Texture, Incident_Texture_Width, Lightmap_Texture_Data, &Lightmap_Shader, &Write_Lightmap_Shader, Pixel_Data);
 #endif
 
 			printf("Tri %lu complete\n", Tri);

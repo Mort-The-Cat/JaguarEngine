@@ -29,7 +29,7 @@ void Get_Final_Normal()
 {
 	mat3 TBN_Matrix = mat3(Texture_Tangent, Texture_Bitangent, Geometry_Normal);
 
-	vec3 Sampled_Normal = vec3(-2, -2, 2) * texture(Normal_Texture, Texture_Coordinates).xyz + vec3(1, 1, -1);
+	vec3 Sampled_Normal = vec3(-2, -2, 1) * texture(Normal_Texture, Texture_Coordinates).xyz + vec3(1, 1, 0);
 
 	Final_Normal = normalize(TBN_Matrix * Sampled_Normal);
 }
