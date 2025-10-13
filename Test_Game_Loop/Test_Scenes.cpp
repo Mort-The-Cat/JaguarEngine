@@ -12,7 +12,7 @@ void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader
 		nullptr);
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(10.0f);
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(1.0f);
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 0.8f, 0.32f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 }

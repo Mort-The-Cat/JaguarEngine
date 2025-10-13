@@ -77,6 +77,7 @@ namespace Jaguar
 	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory, unsigned char Flags = LOAD_MESH_HINT_SKELETON_INCLUDED);
 	void Delete_All_Mesh_Cache(Asset_Cache_Data* Cache);
 
+	Texture_Cache_Info Get_Texture_From_Buffer_ID(Asset_Cache_Data* Cache, GLuint Buffer_ID);
 	Texture_Cache_Info Pull_Texture(Asset_Cache_Data* Cache, const char* Directory);
 	void Delete_All_Texture_Cache(Asset_Cache_Data* Cache);
 

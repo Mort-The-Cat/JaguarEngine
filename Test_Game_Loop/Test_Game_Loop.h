@@ -196,8 +196,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		glm::vec3(0.0f, -0.5f, 0.0f)
 	);*/
 
-	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
-	Setup_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	//Setup_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Object = new Jaguar::World_Object();
 	Object->Flags[MF_ACTIVE] = true;																		// sets active flag
@@ -239,12 +239,12 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Level.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Cornell_Box.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Level.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Cornell_Box.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

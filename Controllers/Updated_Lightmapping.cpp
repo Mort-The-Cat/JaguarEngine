@@ -8,6 +8,10 @@
 #include<algorithm>
 #include<set>
 
+// https://math.stackexchange.com/questions/4902812/uniformly-sample-a-point-in-a-triangle-1-0-0-0-1-0-0-0-1#:~:text=A%20direct%20way%20to%20get%20a%20uniform%20distribution,where%20%24r_1%2Cr_2%2Cr_3%24%20are%20uniformly%20distributed%20on%20%24%20%5B0%2C1%5D%24.
+
+
+
 namespace Jaguar
 {
 	void Delete_Scene_Lightmap(Lighting_Data* Target_Lighting)
@@ -30,10 +34,36 @@ namespace Jaguar
 	struct Rasterise_Tri_Lightmap_Data
 	{
 		glm::vec3** Lightmap_Texture_Data;
+		const std::vector<Lightsource*>* Lightsources;
 		glm::vec3 Normal, Tangent, Bitangent;
 		Jaguar_Engine* Engine;
 		Lightmap_Chart* Target_Chart;
 	};
+
+	float Sawtooth(float Value)
+	{
+		return 1 - std::fabsf(1 - std::fmodf(Value, 1));
+	}
+
+	template<typename Format>
+	glm::vec3 Read_From_Texture(const void* Pixel_Data, size_t Texture_Width, size_t Texture_Height, glm::vec2 UV)
+	{
+		// Don't bother with interpolation or mipmaps
+
+		size_t X = Sawtooth(UV.x) * Texture_Width;
+		size_t Y = Sawtooth(UV.y) * Texture_Height;
+
+		/*struct RGBA
+		{
+			unsigned R, G, B, A;
+		};*/
+
+		Format* Pixels = (Format*)Pixel_Data;
+
+		Format Pixel = Pixels[X + Y * Texture_Width];
+
+		return glm::vec3(Pixel.X, Pixel.Y, Pixel.Z);
+	}
 
 	float Lightmap_Simple_Area_Of_Triangle(glm::vec3 A, glm::vec3 B, glm::vec3 C)
 	{
@@ -145,7 +175,7 @@ namespace Jaguar
 
 		// For each light in the scene
 
-		Get_Lights_Visibility(Data, Position, Colours, Data->Engine->Scene.Lighting.Lightsources, Vector_Components);
+		Get_Lights_Visibility(Data, Position, Colours, *Data->Lightsources, Vector_Components);
 
 		// Then, we write the colours to the lightmaps
 
@@ -157,7 +187,7 @@ namespace Jaguar
 		return false;	// No "hit" - just continue as normal
 	}
 
-	void Rasterise_Tri_Lightmap3(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3])
+	void Rasterise_Tri_Lightmap3(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], const std::vector<Lightsource*>& Lightsources)
 	{
 		// First, we wanna calculate the normals etc of this tri
 
@@ -182,6 +212,8 @@ namespace Jaguar
 		Data.Engine = Engine;
 		Data.Target_Chart = Target_Chart;
 		Data.Lightmap_Texture_Data = Lightmap_Texture_Data;
+
+		Data.Lightsources = &Lightsources;
 
 		// Then we rasterise this as a triangle to the lightmap texture
 
@@ -215,7 +247,7 @@ namespace Jaguar
 		{
 			// Apply model matrix to each triangle when doing raycast calculations
 
-			Rasterise_Tri_Lightmap3(Engine, W, Target_Chart, Lightmap_Texture_Data);
+			Rasterise_Tri_Lightmap3(Engine, W, Target_Chart, Lightmap_Texture_Data, Engine->Scene.Lighting.Lightsources);
 
 			printf("Tri %d complete\n", W);
 		}

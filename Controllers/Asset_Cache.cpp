@@ -88,15 +88,20 @@ namespace Jaguar
 
 	Mesh_Cache_Info Get_Mesh_From_Buffer_ID(Asset_Cache_Data* Cache, GLuint Buffer_ID)
 	{
-		Mesh_Cache_Info Mesh_Info;
-
-		Mesh_Info = Cache->Mesh_Cache[0];
-
 		for (size_t W = 1; W < Cache->Mesh_Cache.size(); W++)
 			if (Cache->Mesh_Cache[W].Buffer.Vertex_Buffer_ID == Buffer_ID)
 				return Cache->Mesh_Cache[W];
 
-		return Mesh_Info; // Rubbish data
+		return Cache->Mesh_Cache[0]; // Rubbish data
+	}
+
+	Texture_Cache_Info Get_Texture_From_Buffer_ID(Asset_Cache_Data* Cache, GLuint Buffer_ID)
+	{
+		for (size_t W = 1; W < Cache->Texture_Cache.size(); W++)
+			if (Cache->Texture_Cache[W].Texture.Texture_Buffer_ID == Buffer_ID)
+				return Cache->Texture_Cache[W];
+
+		return Cache->Texture_Cache[0];
 	}
 
 	Mesh_Cache_Info Pull_Mesh(Asset_Cache_Data* Cache, const char* Directory, unsigned char Flags)
