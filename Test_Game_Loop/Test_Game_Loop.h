@@ -144,6 +144,9 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 	}
 }
 
+void Setup_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
+void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
+
 void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 {
 	glfwInit();
@@ -193,37 +196,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		glm::vec3(0.0f, -0.5f, 0.0f)
 	);*/
 
-	if constexpr (false)
-	{
-
-		Object = new Jaguar::World_Object();
-		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Bricks.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
-			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
-			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
-			nullptr
-		);
-
-		Object = new Jaguar::World_Object();
-		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Environment_Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
-			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
-			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
-			nullptr
-		);
-	}
-	else
-	{
-
-		Object = new Jaguar::World_Object();
-		Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-			Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
-			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
-			Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
-			nullptr
-		);
-
-	}
+	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	Setup_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Object = new Jaguar::World_Object();
 	Object->Flags[MF_ACTIVE] = true;																		// sets active flag
@@ -259,40 +233,21 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
 	Jaguar::Assemble_Lightmap_Chart(&Lightmap);
 
-	Jaguar::Texture Lightmap_Texture;
-
-	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = 300.0f * glm::vec3(1.0f, 0.5f, 0.85f);
-	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 4.3f);
-	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
-
-	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = 300.0f * glm::vec3(0.5f, 0.5f, 0.85f);
-	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 2.1f, 0.0f);
-	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
-
-	/*Object = new Jaguar::World_Object();
-	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae").Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Tiles.png").Texture,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
-		nullptr, glm::vec3(0.0f, 2.1f, 0.0f));*/
+	
 
 	Object = nullptr;
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap_Texture, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_6.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Level.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Triple_Lightmap_6.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Level.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}
-
-	Jaguar::Destroy_Texture_Buffer(&Lightmap_Texture);
 
 	Jaguar::Delete_All(&Engine->Scene);		// Sets all scene objects for deletion
 	Jaguar::Handle_Deletions(Engine);		// Handles deletion of scene objects (in actual game, perform in game-loop)

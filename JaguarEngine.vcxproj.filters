@@ -848,10 +848,13 @@
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controllers\Lightmapping.cpp">
+    <ClCompile Include="Controllers\Lightmapper_Write_File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controllers\Lightmapper_Write_File.cpp">
+    <ClCompile Include="Test_Game_Loop\Test_Scenes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\Updated_Lightmapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

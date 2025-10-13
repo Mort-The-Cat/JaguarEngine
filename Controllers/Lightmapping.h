@@ -30,12 +30,14 @@ namespace Jaguar
 		size_t Index;
 		int Size;
 		Mesh_Cache_Info Mesh;
+		unsigned int Model_Index;
 
-		Lightmap_Tri(Mesh_Cache_Info Meshp, size_t Indexp, int Sizep)
+		Lightmap_Tri(Mesh_Cache_Info Meshp, size_t Indexp, int Sizep, unsigned int Model_Indexp)
 		{
 			Mesh = Meshp;
 			Index = Indexp;
 			Size = Sizep;
+			Model_Index = Model_Indexp;
 		}
 	};
 
@@ -65,8 +67,8 @@ namespace Jaguar
 
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 	void Push_Queue_Lightmap_Chart(Jaguar_Engine* Engine, const Render_Queue* Queue, Lightmap_Chart* Target_Chart);
-	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
-	void Create_Lightmap3_From_Chart(Jaguar_Engine* Engine, Texture* Lightmap_Texture, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
+	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
+	void Create_Lightmap3_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
 
 	struct Lighting_Data;
 

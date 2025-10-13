@@ -31,7 +31,11 @@ void Get_Final_Normal()
 
 	vec3 Sampled_Normal = vec3(-2, -2, 1) * texture(Normal_Texture, Texture_Coordinates).xyz + vec3(1, 1, 0);
 
+	// Sampled_Normal = vec3(0, 1, 0);
+
 	Final_Normal = normalize(TBN_Matrix * Sampled_Normal);
+
+	// Final_Normal = Normal;
 }
 
 void main()
@@ -49,7 +53,7 @@ void main()
 
 	gl_FragColor = 
 				vec4(
-					pow(Sum_Lighting, vec3(0.5)), 
+					pow(Sum_Lighting, vec3(1.0)), 
 				1) * 
 				vec4(
 					texture(Albedo_Texture, Texture_Coordinates).rgb, 

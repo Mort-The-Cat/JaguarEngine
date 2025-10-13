@@ -77,6 +77,8 @@ void main()
 		Texture_Tangent = Tangent;
 		Texture_Bitangent = cross(Tangent, Normal);
 
+		Geometry_Normal = Normal;
+
 		Output_Lightmap_Vectors(Tangent, Normal, Texture_Bitangent);
 
 		Lightmap_Coordinates = Vertex[W].Lightmap_Coordinates;

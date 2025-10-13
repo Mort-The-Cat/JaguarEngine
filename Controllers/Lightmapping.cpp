@@ -626,7 +626,7 @@ namespace Jaguar
 		);
 	}
 
-	const float Luxel_Scale = 10.0f; // 1 unit squared equals 5x5 pixels of area
+	const float Luxel_Scale = 20.0f; // 1 unit squared equals 5x5 pixels of area
 
 	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart)
 	{
@@ -708,7 +708,7 @@ namespace Jaguar
 					)
 				));
 
-				Target_Chart->Pushed_Tris.push_back(Lightmap_Tri(Mesh_Info, Triangle, Square_Size));
+				Target_Chart->Pushed_Tris.push_back(Lightmap_Tri(Mesh_Info, Triangle, Square_Size, Target_Chart->Pushed_Objects.size() - 1));
 
 				// Square_Size is just the rough size of the tri here
 			}
