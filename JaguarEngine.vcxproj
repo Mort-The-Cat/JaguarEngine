@@ -418,7 +418,7 @@
     <ClCompile Include="Controllers\Lightmapper_Write_File.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.h" />
-    <ClCompile Include="Controllers\Updated_Lightmapping.cpp" />
+    <ClCompile Include="Controllers\Lightmapping.cpp" />
     <ClCompile Include="Libraries\Include\glad\glad.c" />
     <ClCompile Include="Libraries\Include\glm\detail\glm.cpp" />
     <ClCompile Include="Main.cpp" />

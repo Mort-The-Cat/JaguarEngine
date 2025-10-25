@@ -55,7 +55,7 @@ void main()
 					texture(Albedo_Texture, Texture_Coordinates).rgb, 
 				1);
 
-	// gl_FragColor = texture(Lightmap_Texture, LM_Coordinates);
+	//gl_FragColor = texture(Lightmap_Texture, LM_Coordinates);
 
 	//vec4(Normal * 0.5 + 0.5, 1);
 }

@@ -854,7 +854,7 @@
     <ClCompile Include="Test_Game_Loop\Test_Scenes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controllers\Updated_Lightmapping.cpp">
+    <ClCompile Include="Controllers\Lightmapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,10 +13,12 @@ namespace Jaguar
 	{
 		glm::vec3 Colour;
 		glm::vec3 Position;
-		glm::vec3 Direction;	// This is a direction vector
+		glm::vec3 Direction = glm::vec3(0.0f, 0.0f, 1.0f);	// This is a direction vector
 		float Radius = 1.0f;	// Physical radius of this light
 
 		// I'll implement FOV and other things later
+
+		float FOV = 360.0f;
 
 		bool Flags[1] = { false };
 
@@ -28,7 +30,7 @@ namespace Jaguar
 	{
 	public:
 		size_t Index;
-		int Size;
+		float Size;
 		Mesh_Cache_Info Mesh;
 		unsigned int Model_Index;
 
