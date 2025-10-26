@@ -239,12 +239,12 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Cornell_Box_Bounce_Test.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Cornell_Box_Bounce2.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Cornell_Box_Bounce_Test.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Cornell_Box_Bounce2.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

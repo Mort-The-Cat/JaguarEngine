@@ -282,6 +282,8 @@ namespace Jaguar
 						sqrtf(R0) * R1 * Texture_Coordinates[1] +
 						sqrtf(R0) * (1 - R1) * Texture_Coordinates[2];
 
+					// Texture_Coordinate.y *= -1;
+
 					Lightmap_Coordinate =
 						(1.0f - sqrtf(R0)) * Lightmap_UV[0] +
 						sqrtf(R0) * R1 * Lightmap_UV[1] +
@@ -301,10 +303,10 @@ namespace Jaguar
 
 					struct RGB
 					{
-						uint8_t X, Y, Z;
+						uint8_t X, Y, Z, A;	// Typical textures are 4-channel images
 					};
 
-					struct Lightmap_RGB
+					struct Lightmap_RGB		// The lightmap is only 3 channel but they're 32-bit floats each
 					{
 						float X, Y, Z;
 					};
@@ -316,7 +318,7 @@ namespace Jaguar
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[1], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate) +
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[2], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate);
 
-					float Reflection_Coefficient = 0.01f / (255.0f * Scale);
+					float Reflection_Coefficient = 0.07f / (255.0f * Scale);
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
 				}
@@ -351,7 +353,7 @@ namespace Jaguar
 		for (size_t W = 0; W < 3; W++)
 		{
 			for (size_t V = 0; V < Target_Chart->Sidelength * Target_Chart->Sidelength; V++)
-				Lightmap_Texture_Data[W][V] = Lightmap_Bounce_Data[W][V];
+				Lightmap_Texture_Data[W][V] += Lightmap_Bounce_Data[W][V];
 
 			delete Lightmap_Bounce_Data[W];
 		}
