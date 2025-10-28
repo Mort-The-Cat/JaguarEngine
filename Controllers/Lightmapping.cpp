@@ -10,7 +10,7 @@
 
 // https://math.stackexchange.com/questions/4902812/uniformly-sample-a-point-in-a-triangle-1-0-0-0-1-0-0-0-1#:~:text=A%20direct%20way%20to%20get%20a%20uniform%20distribution,where%20%24r_1%2Cr_2%2Cr_3%24%20are%20uniformly%20distributed%20on%20%24%20%5B0%2C1%5D%24.
 
-
+// https://steamcdn-a.akamaihd.net/apps/valve/2004/GDC2004_Half-Life2_Shading.pdf
 
 namespace Jaguar
 {
@@ -232,7 +232,7 @@ namespace Jaguar
 		);
 	}
 
-	const float Luxel_Scale = 30.0f; // 1 unit squared equals 5x5 pixels of area
+	const float Luxel_Scale = 50.0f; // 1 unit squared equals 5x5 pixels of area
 
 	void Generate_Bounced_Light_Lightsources(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data3[3], std::vector<Lightsource*>& Target_Lightsources)
 	{

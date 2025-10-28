@@ -6,7 +6,7 @@ void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader
 
 	Object = new Jaguar::World_Object();
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Cornell_Box.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Nice_Cornell_Box.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Cornell_Box.png").Texture,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,
 		nullptr);
