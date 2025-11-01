@@ -67,7 +67,7 @@ namespace Jaguar
 
 	void Init_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 
-	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart);
+	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart);
 	void Push_Queue_Lightmap_Chart(Jaguar_Engine* Engine, const Render_Queue* Queue, Lightmap_Chart* Target_Chart);
 	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
 	void Create_Lightmap3_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);

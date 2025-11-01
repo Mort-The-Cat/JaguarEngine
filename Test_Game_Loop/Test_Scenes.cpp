@@ -54,12 +54,12 @@ void Setup_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader,
 	}
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(1.0f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.5f, 0.25f, 0.475f);
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 4.3f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.5f, 0.5f, 0.85f);
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.25f, 0.25f, 0.475f);
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 2.1f, 0.0f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 }

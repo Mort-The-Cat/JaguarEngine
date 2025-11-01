@@ -12,7 +12,7 @@ namespace Jaguar
 	// The triangle we're given is guaranteed to have a flat top such that
 
 	/*
-	
+
 		A----------B
 		|        /
 		|      /
@@ -20,11 +20,14 @@ namespace Jaguar
 		|  /
 		|/
 		C
-	
+
 	*/
 
 #define LIGHTMAP_CHART_PADDING 8.0f
 #define LIGHTMAP_CHART_INTERPOLATION_CLAMP 0.06f
+
+
+	// perhaps we can delegate this task using the job system? That'd be awesome!!
 
 	template<bool Interpolate_Values, typename Point, bool(*Perpixel_Function)(size_t, size_t, Point, void*)>
 	bool Lightmap_Chart_Rasterise_Function(glm::vec2 A, glm::vec2 B, glm::vec2 C, Point A_Value, Point B_Value, Point C_Value, int Canvas_Size, void* Data)
@@ -32,7 +35,9 @@ namespace Jaguar
 		if (std::max(B.x, C.x) + LIGHTMAP_CHART_PADDING >= Canvas_Size ||
 			C.y + LIGHTMAP_CHART_PADDING >= Canvas_Size ||
 			C.x < LIGHTMAP_CHART_PADDING)
-			return false;							// (Function failed)
+		{
+			return false;				// (Function failed)
+		}
 
 		glm::vec2 A_C = C - A;
 
@@ -109,7 +114,9 @@ namespace Jaguar
 				}
 
 				if (Perpixel_Function(Pixel, Scanline, Interpolated_Value, Data))	// A HIT will make the function return early
+				{
 					return false;
+				}
 			}
 		}
 

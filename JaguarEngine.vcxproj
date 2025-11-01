@@ -150,6 +150,7 @@
     <ClInclude Include="Collada_Loader\Collada_Loader.h" />
     <ClInclude Include="Controllers\Asset_Cache.h" />
     <ClInclude Include="Controllers\Jaguar_Engine_Wrapper.h" />
+    <ClInclude Include="Controllers\Job_System.h" />
     <ClInclude Include="Controllers\Lightmapping.h" />
     <ClInclude Include="Controllers\Lightmap_Chart_Rasteriser.h" />
     <ClInclude Include="Libraries\Include\glad\glad.h" />
@@ -415,6 +416,7 @@
     <ClCompile Include="Controllers\Asset_Cache.cpp" />
     <ClCompile Include="Controllers\Controller_Handling.cpp" />
     <ClCompile Include="Controllers\Deletion_Handler.cpp" />
+    <ClCompile Include="Controllers\Job_System.cpp" />
     <ClCompile Include="Controllers\Lightmapper_Write_File.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.cpp" />
     <ClCompile Include="Controllers\Skeletal_Animation_Handling.h" />

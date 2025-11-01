@@ -42,7 +42,10 @@ namespace Jaguar
 
 	float Sawtooth(float Value)
 	{
-		return 1.0f - std::fabsf(1.0f - std::fmodf(Value, 1.0f));
+		Value = std::fmodf(Value, 1.0f);
+		if (Value < 0.0f)
+			Value += 1.0f;
+		return Value;
 	}
 
 	template<typename Format>
@@ -238,7 +241,7 @@ namespace Jaguar
 	{
 		// we want a specific value for the resolution of the lights generated i.e. how many lights per face
 
-		const float Scale = 30.0f;
+		const float Scale = 8.0f;
 
 		for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
 		{
@@ -318,11 +321,71 @@ namespace Jaguar
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[1], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate) +
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[2], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate);
 
-					float Reflection_Coefficient = 0.07f / (255.0f * Scale);
+					const float Reflection_Coefficient = 2.0f / (255.0f * Scale * Scale);
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
+				
+					if (glm::length(Lightmap_Value) == 0)
+					{
+						delete Target_Lightsources.back();	// This light has ZERO contribution, deallocate it
+						Target_Lightsources.pop_back();		// remove it from list of lightsources
+					}
 				}
 		}
+	}
+
+	struct Rasterise_Tris_Lightmap3_Data
+	{
+		Jaguar_Engine* Engine; size_t Tri; Lightmap_Chart* Target_Chart; glm::vec3** Lightmap_Texture_Data; const std::vector<Lightsource*>* Lightsources;
+		size_t Step;
+	};
+
+	void Rasterise_Tris_Lightmap3_Worker(void* Datap)
+	{
+		Rasterise_Tris_Lightmap3_Data* Parameters = (Rasterise_Tris_Lightmap3_Data*)Datap;
+
+		for (size_t Tri = Parameters->Tri; Tri < Parameters->Target_Chart->Pushed_Tris.size(); Tri += Parameters->Step)
+		{
+			Rasterise_Tri_Lightmap3(Parameters->Engine, Tri, Parameters->Target_Chart, Parameters->Lightmap_Texture_Data, *Parameters->Lightsources);
+
+			printf("Tri %zu complete!\n", Tri);
+		}
+
+		delete Parameters;
+	}
+
+	void Rasterise_Lightmap3_Job(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], const std::vector<Lightsource*>& Lightsources)
+	{
+		// This will submit all of the jobs for the lightmapping
+
+		const int Job_Count = 8;
+
+		Rasterise_Tris_Lightmap3_Data* Parameters;
+
+		for (size_t Index = 1; Index < Job_Count; Index++)
+		{
+			Parameters = new Rasterise_Tris_Lightmap3_Data();
+			Parameters->Engine = Engine;
+			Parameters->Tri = Index;
+			Parameters->Step = Job_Count;
+			Parameters->Target_Chart = Target_Chart;
+			Parameters->Lightmap_Texture_Data = Lightmap_Texture_Data;
+			Parameters->Lightsources = &Lightsources;
+
+			Submit_Job(&Engine->Job_Handler, Job(Parameters, Rasterise_Tris_Lightmap3_Worker));
+		}
+
+		Parameters = new Rasterise_Tris_Lightmap3_Data();
+		Parameters->Engine = Engine;
+		Parameters->Tri = 0;
+		Parameters->Step = Job_Count;
+		Parameters->Target_Chart = Target_Chart;
+		Parameters->Lightmap_Texture_Data = Lightmap_Texture_Data;
+		Parameters->Lightsources = &Lightsources;
+
+		Rasterise_Tris_Lightmap3_Worker(Parameters);
+
+		Wait_For_Job_System_Completion(&Engine->Job_Handler);
 	}
 
 	void Handle_Bounce_Lighting(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3])
@@ -343,12 +406,14 @@ namespace Jaguar
 
 		Generate_Bounced_Light_Lightsources(Engine, Target_Chart, Lightmap_Texture_Data, Bounce_Lightsources);
 
-		for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
+		/*for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
 		{
 			Rasterise_Tri_Lightmap3(Engine, W, Target_Chart, Lightmap_Bounce_Data, Bounce_Lightsources);
 
 			printf("Bounce pass tri %d complete\n", W);
-		}
+		}*/
+
+		Rasterise_Lightmap3_Job(Engine, Target_Chart, Lightmap_Bounce_Data, Bounce_Lightsources);
 
 		for (size_t W = 0; W < 3; W++)
 		{
@@ -378,14 +443,16 @@ namespace Jaguar
 
 		// We'll generate and rasterise the stuff here
 
-		for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
+		/*for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
 		{
 			// Apply model matrix to each triangle when doing raycast calculations
 
 			Rasterise_Tri_Lightmap3(Engine, W, Target_Chart, Lightmap_Texture_Data, Engine->Scene.Lighting.Lightsources);
 
 			printf("Tri %d complete\n", W);
-		}
+		}*/
+
+		Rasterise_Lightmap3_Job(Engine, Target_Chart, Lightmap_Texture_Data, Engine->Scene.Lighting.Lightsources);
 
 		Handle_Bounce_Lighting(Engine, Target_Chart, Lightmap_Texture_Data);
 
@@ -433,7 +500,7 @@ namespace Jaguar
 		return false;	// No hit, so continue as normal!
 	}
 
-	bool Find_New_Location_Lightmap_Chart(int Area, int* X, int* Y, const Lightmap_Chart* Target_Chart, glm::vec2* Projected_Points)
+	bool Find_New_Location_Lightmap_Chart(Jaguar_Engine* Engine, int Area, int* X, int* Y, const Lightmap_Chart* Target_Chart, glm::vec2* Projected_Points)
 	{
 		// Find area closest to top-left to place square
 
@@ -494,7 +561,7 @@ namespace Jaguar
 		);
 	}
 
-	void Assemble_Lightmap_Chart(Lightmap_Chart* Target_Chart)
+	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart)
 	{
 		std::sort(Target_Chart->Pushed_Tris.begin(), Target_Chart->Pushed_Tris.end(), Lightmap_Tri_Sort_Compare); // Sorts them accordingly
 
@@ -518,7 +585,7 @@ namespace Jaguar
 
 			Lightmap_Chart_Get_Projection(Mesh_Info.Mesh, Triangle, Projected_Points, Luxel_Scale);
 
-			while (!Find_New_Location_Lightmap_Chart(0, &X, &Y, Target_Chart, Projected_Points))
+			while (!Find_New_Location_Lightmap_Chart(Engine, 0, &X, &Y, Target_Chart, Projected_Points))
 				Upsize_Chart(Target_Chart); // Doubles size until there's room somewhere on chart
 
 			Lightmap_Chart_Rasterise_Function<false, int, Perpixel_Rasterise_Fill>(

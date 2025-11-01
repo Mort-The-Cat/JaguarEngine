@@ -166,6 +166,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Set_Input_Keycodes(&Engine->User_Inputs);
 
+	Jaguar::Initialise_Job_System(&Engine->Job_Handler, 7); // initialise 4 worker threads
+
 	//
 
 	Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Collada_Loader/Sphere.dae", 0); // The sphere model must be loaded for the lightmapping to use as the 'light'
@@ -187,17 +189,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Jaguar::World_Object* Object;
 
-	/*Object = new Jaguar::World_Object();
-	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Viking_Room_Test.dae").Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Viking_Room.png").Texture,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
-		nullptr,
-		glm::vec3(0.0f, -0.5f, 0.0f)
-	);*/
-
-	Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
-	//Setup_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	Setup_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Object = new Jaguar::World_Object();
 	Object->Flags[MF_ACTIVE] = true;																		// sets active flag
@@ -231,7 +224,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Init_Lightmap_Chart(&Lightmap);
 
 	Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
-	Jaguar::Assemble_Lightmap_Chart(&Lightmap);
+	Jaguar::Assemble_Lightmap_Chart(Engine, &Lightmap);
 
 	
 
@@ -239,15 +232,17 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Cornell_Box_Bounce.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Scene.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Cornell_Box_Bounce.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Scene.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}
+
+	Jaguar::Terminate_Job_System(&Engine->Job_Handler);
 
 	Jaguar::Delete_All(&Engine->Scene);		// Sets all scene objects for deletion
 	Jaguar::Handle_Deletions(Engine);		// Handles deletion of scene objects (in actual game, perform in game-loop)

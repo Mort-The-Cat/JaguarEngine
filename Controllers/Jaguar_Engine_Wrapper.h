@@ -14,6 +14,8 @@
 
 #include "../Controllers/Lightmapping.h"
 
+#include "Job_System.h"
+
 namespace Jaguar
 {
 	struct Jaguar_Engine
@@ -23,6 +25,8 @@ namespace Jaguar
 		GLFWwindow* Window;			// OpenGL window object
 
 		Input_Data User_Inputs;
+
+		Job_System Job_Handler;
 
 		Scene_Data Scene;
 
