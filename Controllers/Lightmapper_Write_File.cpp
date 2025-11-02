@@ -82,7 +82,11 @@ namespace Jaguar
 		std::ifstream File(Filename, std::ios::binary);
 
 		if (!File.is_open())
+		{
 			printf(" >> ERROR reading lightmap file!\n");
+
+			return;
+		}
 
 		unsigned int Texture_Dimensions;
 		File.read((char*)&Texture_Dimensions, sizeof(Texture_Dimensions));

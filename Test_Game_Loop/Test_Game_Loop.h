@@ -145,6 +145,7 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 }
 
 void Setup_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
+void Setup_New_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
 void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
 
 void Run_Scene(Jaguar::Jaguar_Engine* Engine)
@@ -166,7 +167,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Set_Input_Keycodes(&Engine->User_Inputs);
 
-	Jaguar::Initialise_Job_System(&Engine->Job_Handler, 7); // initialise 4 worker threads
+	Jaguar::Initialise_Job_System(&Engine->Job_Handler, 7); // initialise 7 worker threads
 
 	//
 
@@ -190,7 +191,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::World_Object* Object;
 
 	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
-	Setup_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Object = new Jaguar::World_Object();
 	Object->Flags[MF_ACTIVE] = true;																		// sets active flag
@@ -232,12 +233,12 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Scene.lux");
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Scene_New2.lux");
 	}
 	else
 	{
 
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Scene.lux", &Engine->Scene.Lighting);
+		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Scene_New2.lux", &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

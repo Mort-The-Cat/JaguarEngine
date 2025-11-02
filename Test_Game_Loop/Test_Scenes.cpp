@@ -17,6 +17,53 @@ void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 }
 
+void Setup_New_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader)
+{
+	Jaguar::World_Object* Object;
+
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Brick.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
+		nullptr
+	);
+
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Red_Walls.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
+		nullptr
+	);
+
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles_Normal.png").Texture,	// Normal map
+		nullptr
+	);
+
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Rubble.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Rubble.jpg").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Rubble_Normal.png").Texture,	// Normal map
+		nullptr
+	);
+
+	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.75f, 0.4f, 0.75f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 4.3f);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
+
+	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.4f, 0.4f, 0.75f);
+	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(0.0f, 2.1f, 0.0f);
+	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
+}
+
 void Setup_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader)
 {
 	Jaguar::World_Object* Object;
@@ -54,7 +101,7 @@ void Setup_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader,
 	}
 
 	Engine->Scene.Lighting.Lightsources.push_back(new Jaguar::Lightsource());
-	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.5f, 0.25f, 0.475f);
+	Engine->Scene.Lighting.Lightsources.back()->Colour = glm::vec3(0.75f, 0.4f, 0.75f);
 	Engine->Scene.Lighting.Lightsources.back()->Position = glm::vec3(-1.0f, 1.1f, 4.3f);
 	Engine->Scene.Lighting.Lightsources.back()->Radius = 0.3f;
 

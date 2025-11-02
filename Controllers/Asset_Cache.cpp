@@ -69,6 +69,9 @@ namespace Jaguar
 
 		Texture_Info.Pixel_Data = stbi_load(Directory, &Texture_Info.Width, &Texture_Info.Height, &Texture_Info.Channels, 4);
 
+		if (Texture_Info.Pixel_Data == nullptr)
+			printf(" >> Error loading texture %s\n", Directory);
+
 		Create_Texture_Buffer(
 			&Texture_Info.Texture,
 			GL_RGBA,			// We want to read as 4-channel image

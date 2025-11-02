@@ -53,8 +53,11 @@ namespace Jaguar
 	{
 		// Don't bother with interpolation or mipmaps
 
-		size_t X = Sawtooth(UV.x) * Texture_Width;
-		size_t Y = Sawtooth(UV.y) * Texture_Height;
+		UV.x = Sawtooth(UV.x);
+		UV.y = Sawtooth(UV.y);
+
+		size_t X = UV.x * Texture_Width;
+		size_t Y = UV.y * Texture_Height;
 
 		/*struct RGBA
 		{
@@ -325,7 +328,7 @@ namespace Jaguar
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
 				
-					if (glm::length(Lightmap_Value) == 0)
+					if (glm::length(Lightmap_Value) == 0.0f)
 					{
 						delete Target_Lightsources.back();	// This light has ZERO contribution, deallocate it
 						Target_Lightsources.pop_back();		// remove it from list of lightsources
@@ -405,13 +408,6 @@ namespace Jaguar
 		std::vector<Lightsource*> Bounce_Lightsources;
 
 		Generate_Bounced_Light_Lightsources(Engine, Target_Chart, Lightmap_Texture_Data, Bounce_Lightsources);
-
-		/*for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
-		{
-			Rasterise_Tri_Lightmap3(Engine, W, Target_Chart, Lightmap_Bounce_Data, Bounce_Lightsources);
-
-			printf("Bounce pass tri %d complete\n", W);
-		}*/
 
 		Rasterise_Lightmap3_Job(Engine, Target_Chart, Lightmap_Bounce_Data, Bounce_Lightsources);
 
