@@ -18,6 +18,11 @@ namespace Jaguar
 		{
 			return Buffer.Vertex_Buffer_ID < Other.Buffer.Vertex_Buffer_ID;
 		}
+
+		bool operator==(const Mesh_Cache_Info& Other) const
+		{
+			return Buffer.Vertex_Buffer_ID == Other.Buffer.Vertex_Buffer_ID;
+		}
 	};
 
 	struct Texture_Cache_Info

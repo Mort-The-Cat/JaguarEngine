@@ -190,6 +190,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 	Jaguar::World_Object* Object;
 
+	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Test_Scene";
 	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 	Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
@@ -221,24 +222,24 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		glm::vec3(5, -2, 5)
 	);
 
-	Jaguar::Lightmap_Chart Lightmap;
-	Jaguar::Init_Lightmap_Chart(&Lightmap);
-
-	Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
-	Jaguar::Assemble_Lightmap_Chart(Engine, &Lightmap);
-
-	
-
 	Object = nullptr;
 
 	if constexpr (false)
 	{
-		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, "Test_Game_Loop/Lightmaps/Test_Scene_New2.lux");
+		Jaguar::Lightmap_Chart Lightmap;			// This will be generated during light-baking
+		Jaguar::Init_Lightmap_Chart(&Lightmap);
+
+		Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
+		Jaguar::Assemble_Lightmap_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lmc").c_str());
+
+		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lux").c_str());
 	}
 	else
 	{
-
-		Jaguar::Get_Lightmap3_From_File("Test_Game_Loop/Lightmaps/Test_Scene_New2.lux", &Engine->Scene.Lighting);
+		std::vector<Jaguar::Baked_Lightmap_Chart> Lightmap_Charts;	// This is used when we want to load the lightmap chart instead of generating it
+		Jaguar::Get_Lightmap_Chart_From_File((Lightmap_Directory + ".lmc").c_str(), Lightmap_Charts, &Engine->Asset_Cache);
+		Jaguar::Apply_Baked_Lightmap_Chart(Engine, Lightmap_Charts);
+		Jaguar::Get_Lightmap3_From_File((Lightmap_Directory + ".lux").c_str(), &Engine->Scene.Lighting);
 
 		Test_Engine_Loop(Engine);
 	}

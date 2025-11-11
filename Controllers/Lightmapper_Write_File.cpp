@@ -2,6 +2,8 @@
 #include "../OpenGL_Handling/Scene.h"
 #include "../Collada_Loader/Collada_Loader.h"
 
+#include<set>
+
 namespace Jaguar
 {
 	void Write_Lightmap3_To_File(const char* Filename, glm::vec3* Data[3], unsigned int Texture_Dimensions)
@@ -160,5 +162,76 @@ namespace Jaguar
 
 		*Tangent = -glm::normalize(Inv * (Edge_A * UV_B.y - Edge_B * UV_A.y));
 		*Bitangent = glm::normalize(glm::cross(*Tangent, Normal));
+	}
+
+	//
+
+	// Here, I'll handle the lightmap chart results and writing/reading them to/from files
+
+	void Get_Lightmap_Chart_From_File(const char* Filename, std::vector<Baked_Lightmap_Chart>& Lightmap_Charts, Asset_Cache_Data* Asset_Cache)
+	{
+		std::ifstream File(Filename, std::ios::binary);
+
+		if (!File.is_open())
+		{
+			printf("ERROR reading lightmap chart file! %s\n", Filename);
+
+			return;
+		}
+
+		std::string Chart_Name;
+
+		while (std::getline(File, Chart_Name, '\0'))
+		{
+			// read mesh name
+
+			Baked_Lightmap_Chart Chart;
+
+			Chart.Mesh_Name = std::move(Chart_Name);
+			Chart_Name = std::string();
+
+			//std::getline(File, Chart.Mesh_Name, '\0');	// null-terminated string
+
+			Chart.Lightmap_Coords.resize(Pull_Mesh(Asset_Cache, Chart.Mesh_Name.c_str(), LOAD_MESH_HINT_LIGHTMAP_STATIC).Mesh->Vertices.size()); // We know these will be static
+			File.read((char*)Chart.Lightmap_Coords.data(), Chart.Lightmap_Coords.size() * sizeof(glm::vec2));
+
+			// Once data is read, push to lightmap charts
+
+			Lightmap_Charts.push_back(std::move(Chart));
+		}
+
+		File.close();
+	}
+
+	void Write_Lightmap_Chart_To_File(const char* Filename, const std::vector<Mesh_Cache_Info>& Updated_Meshes)
+	{
+		std::ofstream File(Filename, std::ios::binary);
+
+		// For each object, we state how many vertices it is in a 32-bit unsigned integer
+		// Then, we write the data for all of those vertices
+
+		// this repeats for all meshes until we've reached the end
+
+		if (!File.is_open())
+		{
+			printf("ERROR writing lightmap chart file! %s\n", Filename);
+
+			return;
+		}
+
+		for (const auto& Mesh : Updated_Meshes)
+		{
+			File.write(Mesh.Name, strlen(Mesh.Name) + 1); // include NULL-terminator character
+
+			// writes the number of vertices in the 32-bit count there
+
+			for (size_t Index = 0; Index < Mesh.Mesh->Vertices.size(); Index++)
+			{
+				File.write((const char*)&Mesh.Mesh->Vertices[Index].Lightmap_UV, sizeof(Mesh.Mesh->Vertices[Index].Lightmap_UV));
+				// This just writes the glm::vec2 data directly
+			}
+		}
+
+		File.close();	// We're done! Beautiful
 	}
 }

@@ -16,6 +16,8 @@ namespace Jaguar
 		glm::vec3 Direction = glm::vec3(0.0f, 0.0f, 1.0f);	// This is a direction vector
 		float Radius = 1.0f;	// Physical radius of this light
 
+		bool Bounced = false;
+
 		// I'll implement FOV and other things later
 
 		float FOV = 360.0f;
@@ -62,12 +64,18 @@ namespace Jaguar
 		// Lightmap charts are always squares so sidelength is all that's necessary
 	};
 
+	struct Baked_Lightmap_Chart
+	{
+		std::vector<glm::vec2> Lightmap_Coords;	// saved lightmap coords
+		std::string Mesh_Name;					// Name of mesh
+	};
+
 	struct Render_Queue;
 	struct Jaguar_Engine;
 
 	void Init_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 
-	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart);
+	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* File_Directory);
 	void Push_Queue_Lightmap_Chart(Jaguar_Engine* Engine, const Render_Queue* Queue, Lightmap_Chart* Target_Chart);
 	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
 	void Create_Lightmap3_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
@@ -79,6 +87,12 @@ namespace Jaguar
 
 	void Get_Lightmap3_From_File(const char* Filename, Lighting_Data* Target_Lighting);
 	void Write_Lightmap3_To_File(const char* Filename, glm::vec3* Data[3], unsigned int Texture_Dimensions);
+
+	//
+
+	void Write_Lightmap_Chart_To_File(const char* Filename, const std::vector<Mesh_Cache_Info>& Updated_Meshes);
+	void Get_Lightmap_Chart_From_File(const char* Filename, std::vector<Baked_Lightmap_Chart>& Lightmap_Charts, Asset_Cache_Data* Asset_Cache);
+	void Apply_Baked_Lightmap_Chart(Jaguar_Engine* Engine, const std::vector<Baked_Lightmap_Chart>& Chart);
 
 	struct Shader;
 	struct Scene_Data;

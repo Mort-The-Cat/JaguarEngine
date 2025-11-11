@@ -154,6 +154,9 @@ namespace Jaguar
 			{
 				// Add colours!
 
+				if(Lightsources[W]->Bounced)
+					To_Light_Vector -= glm::vec3(0.006f) * Lightsources[W]->Direction;	// Offset back to original position
+
 				float To_Light_Vector_Length = glm::inversesqrt(glm::dot(To_Light_Vector, To_Light_Vector));
 				To_Light_Vector_Length *= To_Light_Vector_Length;	// Apply basic distance fall-off
 
@@ -244,7 +247,7 @@ namespace Jaguar
 	{
 		// we want a specific value for the resolution of the lights generated i.e. how many lights per face
 
-		const float Scale = 8.0f;
+		const float Scale = 10.0f;
 
 		for (size_t W = 0; W < Target_Chart->Pushed_Tris.size(); W++)
 		{
@@ -324,10 +327,11 @@ namespace Jaguar
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[1], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate) +
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[2], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate);
 
-					const float Reflection_Coefficient = 2.0f / (255.0f * Scale * Scale);
+					const float Reflection_Coefficient = 1.6f / (255.0f * Scale * Scale);
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
-				
+					Target_Lightsources.back()->Bounced = true;
+
 					if (glm::length(Lightmap_Value) == 0.0f)
 					{
 						delete Target_Lightsources.back();	// This light has ZERO contribution, deallocate it
@@ -391,7 +395,7 @@ namespace Jaguar
 		Wait_For_Job_System_Completion(&Engine->Job_Handler);
 	}
 
-	void Handle_Bounce_Lighting(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3])
+	void Handle_Bounce_Lighting(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], int Bounces = 2)
 	{
 		// This will modify the values in Lightmap_Texture_Data according to the bounce lighting
 
@@ -410,6 +414,9 @@ namespace Jaguar
 		Generate_Bounced_Light_Lightsources(Engine, Target_Chart, Lightmap_Texture_Data, Bounce_Lightsources);
 
 		Rasterise_Lightmap3_Job(Engine, Target_Chart, Lightmap_Bounce_Data, Bounce_Lightsources);
+
+		if ((--Bounces) > 0)
+			Handle_Bounce_Lighting(Engine, Target_Chart, Lightmap_Bounce_Data, Bounces);
 
 		for (size_t W = 0; W < 3; W++)
 		{
@@ -557,13 +564,31 @@ namespace Jaguar
 		);
 	}
 
-	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart)
+	void Apply_Baked_Lightmap_Chart(Jaguar_Engine* Engine, const std::vector<Baked_Lightmap_Chart>& Chart)
+	{
+		for (size_t Index = 0; Index < Chart.size(); Index++)
+		{
+			Mesh_Cache_Info Mesh = Pull_Mesh(&Engine->Asset_Cache, Chart[Index].Mesh_Name.c_str(), LOAD_MESH_HINT_LIGHTMAP_STATIC);
+
+			for (size_t Vertex = 0; Vertex < Chart[Index].Lightmap_Coords.size(); Vertex++)
+			{
+				Mesh.Mesh->Vertices[Vertex].Lightmap_UV = Chart[Index].Lightmap_Coords[Vertex];
+			}
+
+			// then we just update the vertex data etc
+
+			Bind_Vertex_Buffer(Mesh.Buffer);
+			Update_Vertex_Buffer_Data(Mesh.Mesh, &Mesh.Buffer);
+		}
+	}
+
+	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* File_Directory = nullptr)
 	{
 		std::sort(Target_Chart->Pushed_Tris.begin(), Target_Chart->Pushed_Tris.end(), Lightmap_Tri_Sort_Compare); // Sorts them accordingly
 
 		// This is because we want to place the largest tris first and fit the smaller ones between them afterwards wherever possible
 
-		std::set<Mesh_Cache_Info> Updated_Meshes;
+		std::vector<Mesh_Cache_Info> Updated_Meshes;
 
 		glm::vec2 Projected_Points[3];
 		Projected_Points[0] = glm::vec2(0.0f);
@@ -573,7 +598,8 @@ namespace Jaguar
 			//int Square_Size = Target_Chart->Pushed_Tris[Tri].Size;
 			Mesh_Cache_Info Mesh_Info = Target_Chart->Pushed_Tris[Tri].Mesh;
 
-			Updated_Meshes.insert(Mesh_Info);
+			if(std::find(Updated_Meshes.begin(), Updated_Meshes.end(), Mesh_Info) == Updated_Meshes.end())	// if not already in vector
+				Updated_Meshes.push_back(Mesh_Info);														// add to back of it
 
 			size_t Triangle = Target_Chart->Pushed_Tris[Tri].Index;
 
@@ -597,7 +623,10 @@ namespace Jaguar
 				Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV = glm::vec2(X, Y) + Projected_Points[Point];
 		}
 
-		for (auto Mesh : Updated_Meshes)											// Updates all of the meshes that need to be updated once
+		if(File_Directory)
+			Jaguar::Write_Lightmap_Chart_To_File(File_Directory, Updated_Meshes);	// This writes it to a file
+
+		for (auto& Mesh : Updated_Meshes)	// Updates all of the meshes that need to be updated once
 		{
 			Bind_Vertex_Buffer(Mesh.Buffer);
 			Update_Vertex_Buffer_Data(Mesh.Mesh, &Mesh.Buffer);
