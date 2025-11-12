@@ -144,7 +144,7 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 	}
 }
 
-void Setup_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
+void Place_Animation_Objects(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
 void Setup_New_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
 void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader);
 
@@ -188,41 +188,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Skeletal_Animation_Shader, 
 		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
-	Jaguar::World_Object* Object;
-
 	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Test_Scene";
-	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	// Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 	Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
-	Object = new Jaguar::World_Object();
-	Object->Flags[MF_ACTIVE] = true;																		// sets active flag
-	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Buffer,			// Model
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Texture.png").Texture,	// Texture
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
-		new Jaguar::Animator_Controller(																	// Controller
-			Object,
-			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Animation,
-			Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Person.dae").Skeleton
-		),
-		glm::vec3(-1, -2, 5)																				// Position
-	);
-
-	Object = new Jaguar::World_Object();
-	Object->Flags[MF_ACTIVE] = true;
-	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick.png").Texture,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Brick_Normal.png").Texture,	// Normal map
-		new Jaguar::Animator_Controller(
-			Object,
-			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Animation,
-			Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/untitled.dae").Skeleton
-		),
-		glm::vec3(5, -2, 5)
-	);
-
-	Object = nullptr;
+	Place_Animation_Objects(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	if constexpr (false)
 	{

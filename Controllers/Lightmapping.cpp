@@ -147,7 +147,7 @@ namespace Jaguar
 
 			bool Intersect_Found = false;
 
-			for (size_t Tri = 0; Tri < Data->Target_Chart->Pushed_Tris.size(); Tri++)
+			for (size_t Tri = 0; Tri < Data->Target_Chart->Pushed_Tris.size() && !Intersect_Found; Tri++)
 				Intersect_Found |= Line_Intersects_Tri(Data, Position, To_Light_Vector, Tri);
 
 			if (!Intersect_Found)
@@ -327,7 +327,7 @@ namespace Jaguar
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[1], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate) +
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[2], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate);
 
-					const float Reflection_Coefficient = 1.6f / (255.0f * Scale * Scale);
+					const float Reflection_Coefficient = 1.5f / (255.0f * Scale * Scale);
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
 					Target_Lightsources.back()->Bounced = true;
