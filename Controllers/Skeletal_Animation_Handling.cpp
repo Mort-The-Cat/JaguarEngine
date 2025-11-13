@@ -12,7 +12,7 @@ namespace Jaguar
 
 		Time += Engine->Time;
 
-		if (Time > 10.0f)
+		if (Time > 5.0f)
 			Time = 0.0f;
 
 		for (size_t W = 0; W < Animation->Keyframes.size(); W++)

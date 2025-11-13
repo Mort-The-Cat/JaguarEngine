@@ -40,8 +40,16 @@ namespace Collada
 
 				if (Skeleton)
 				{
-					Vertex.Joint_ID = Skeleton->Vertex_Weights[Index].back().Joint_Index;
-					Vertex.Joint_Weight = Skeleton->Vertex_Weights[Index].back().Weight;
+					if (Skeleton->Vertex_Weights[Index].size())
+					{
+						Vertex.Joint_ID = Skeleton->Vertex_Weights[Index].back().Joint_Index;
+						Vertex.Joint_Weight = Skeleton->Vertex_Weights[Index].back().Weight;
+					}
+					else
+					{
+						Vertex.Joint_ID = 63;
+						Vertex.Joint_Weight = 0.0f;
+					}
 				}
 
 				Index = std::stoi(Indices[W++]);
