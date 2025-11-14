@@ -36,6 +36,10 @@ namespace Jaguar
 		Mesh_Cache_Info Mesh;
 		unsigned int Model_Index;
 
+		glm::vec3 Points[3];
+		glm::vec3 TBN[3];
+		glm::vec3 Triple_Vectors[3];
+
 		Lightmap_Tri(Mesh_Cache_Info Meshp, size_t Indexp, int Sizep, unsigned int Model_Indexp)
 		{
 			Mesh = Meshp;

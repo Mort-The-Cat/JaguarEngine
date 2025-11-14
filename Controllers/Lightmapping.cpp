@@ -36,6 +36,7 @@ namespace Jaguar
 		glm::vec3** Lightmap_Texture_Data;
 		const std::vector<Lightsource*>* Lightsources;
 		glm::vec3 Normal, Tangent, Bitangent;
+		glm::vec3* Triple_Vectors;
 		Jaguar_Engine* Engine;
 		Lightmap_Chart* Target_Chart;
 	};
@@ -89,19 +90,19 @@ namespace Jaguar
 		// Check if there is an overlap against the Z axis
 		// If there is, check if within triangle at that point
 
-		glm::vec3 Points[3];
+		/*glm::vec3 Points[3];
 		for (size_t W = 0; W < 3; W++)
 		{
 			Points[W] = Get_Model_Matrix(Data->Target_Chart->Pushed_Objects[Data->Target_Chart->Pushed_Tris[Tri].Model_Index]) *
 				glm::vec4(
 					Data->Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Data->Target_Chart->Pushed_Tris[Tri].Index + W].Position, 1);
-		}
+		}*/
 
-		glm::vec3 A_B = Points[1] - Points[0];
-		glm::vec3 A_C = Points[2] - Points[0];
-		glm::vec3 Normal = glm::normalize(glm::cross(A_B, A_C)); // It doesn't actually matter if this is facing the right way
+		glm::vec3 A_B = Data->Target_Chart->Pushed_Tris[Tri].Points[1] - Data->Target_Chart->Pushed_Tris[Tri].Points[0];
+		glm::vec3 A_C = Data->Target_Chart->Pushed_Tris[Tri].Points[2] - Data->Target_Chart->Pushed_Tris[Tri].Points[0];
+		glm::vec3 Normal = Data->Target_Chart->Pushed_Tris[Tri].TBN[2]; // It doesn't actually matter if this is facing the right way
 
-		Position -= Points[0];
+		Position -= Data->Target_Chart->Pushed_Tris[Tri].Points[0];
 
 		glm::vec3 T_Position = Position;
 		glm::vec3 T_To_Light_Vector = To_Light_Vector;
@@ -112,14 +113,14 @@ namespace Jaguar
 		if ((T_Position.z < 0) == (T_To_Light_Vector.z + T_Position.z < 0))	// If they don't overlap the Z axis
 			return false;													// there isn't an intersect to test
 
-		float Factor = -T_Position.z / T_To_Light_Vector.z;
+		float Factor = T_Position.z / T_To_Light_Vector.z;
 
-		if (Factor < 0 || Factor > 1)
+		if (Factor > 0 || Factor < -1)
 			return false;
 
 		// Use the area-method to check if the point lies within the triangle
 
-		T_Position = Position + To_Light_Vector * Factor;
+		T_Position = Position - To_Light_Vector * Factor;
 
 		float Area[4] = {
 			Lightmap_Simple_Area_Of_Triangle(glm::vec3(0.0f), A_B, A_C),
@@ -181,13 +182,13 @@ namespace Jaguar
 
 		glm::vec3 Colours[3] = { glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f) };
 
-		glm::vec3 Vector_Components[3];
+		//glm::vec3 Vector_Components[3];
 
-		Jaguar::Get_Triple_Lightmap_Vectors(Data->Normal, Data->Tangent, Data->Bitangent, Vector_Components); // gets 3 components necessary for normal mapping
+		//Jaguar::Get_Triple_Lightmap_Vectors(Data->Normal, Data->Tangent, Data->Bitangent, Vector_Components); // gets 3 components necessary for normal mapping
 
 		// For each light in the scene
 
-		Get_Lights_Visibility(Data, Position, Colours, *Data->Lightsources, Vector_Components);
+		Get_Lights_Visibility(Data, Position, Colours, *Data->Lightsources, Data->Triple_Vectors);
 
 		// Then, we write the colours to the lightmaps
 
@@ -199,11 +200,31 @@ namespace Jaguar
 		return false;	// No "hit" - just continue as normal
 	}
 
+	void Chart_Tri_Init_Points(Lightmap_Chart* Target_Chart, size_t Tri)
+	{
+		glm::vec2 Texture_Coordinates[3];
+
+		for (size_t Point = 0; Point < 3; Point++)
+		{
+			Target_Chart->Pushed_Tris[Tri].Points[Point] = Get_Model_Matrix(Target_Chart->Pushed_Objects[Target_Chart->Pushed_Tris[Tri].Model_Index]) * glm::vec4(Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + Point].Position, 1);
+		
+			Texture_Coordinates[Point] = Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + Point].Texture_Coordinates;
+		}
+
+		Target_Chart->Pushed_Tris[Tri].TBN[0] = Target_Chart->Pushed_Tris[Tri].Points[1] - Target_Chart->Pushed_Tris[Tri].Points[0];
+		Target_Chart->Pushed_Tris[Tri].TBN[1] = Target_Chart->Pushed_Tris[Tri].Points[2] - Target_Chart->Pushed_Tris[Tri].Points[0];
+		Target_Chart->Pushed_Tris[Tri].TBN[2] = glm::normalize(glm::cross(Target_Chart->Pushed_Tris[Tri].TBN[1], Target_Chart->Pushed_Tris[Tri].TBN[0]));
+
+		Jaguar::Get_UV_Tangent_Bitangent_Vectors(Target_Chart->Pushed_Tris[Tri].Points, Texture_Coordinates, Target_Chart->Pushed_Tris[Tri].TBN[2], &Target_Chart->Pushed_Tris[Tri].TBN[0], &Target_Chart->Pushed_Tris[Tri].TBN[1]);
+	
+		Jaguar::Get_Triple_Lightmap_Vectors(Target_Chart->Pushed_Tris[Tri].TBN[2], Target_Chart->Pushed_Tris[Tri].TBN[0], Target_Chart->Pushed_Tris[Tri].TBN[1], Target_Chart->Pushed_Tris[Tri].Triple_Vectors); // gets 3 components necessary for normal mapping
+	}
+
 	void Rasterise_Tri_Lightmap3(Jaguar_Engine* Engine, size_t Tri, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], const std::vector<Lightsource*>& Lightsources)
 	{
 		// First, we wanna calculate the normals etc of this tri
 
-		glm::vec3 Points[3];
+		/*glm::vec3 Points[3];
 		glm::vec2 Texture_Coordinates[3];
 
 		for (size_t Point = 0; Point < 3; Point++)
@@ -219,7 +240,14 @@ namespace Jaguar
 		Data.Bitangent = Points[2] - Points[0];
 		Data.Normal = glm::normalize(glm::cross(Data.Bitangent, Data.Tangent));
 
-		Jaguar::Get_UV_Tangent_Bitangent_Vectors(Points, Texture_Coordinates, Data.Normal, &Data.Tangent, &Data.Bitangent);
+		//Jaguar::Get_UV_Tangent_Bitangent_Vectors(Points, Texture_Coordinates, Data.Normal, &Data.Tangent, &Data.Bitangent);
+		*/
+
+		Rasterise_Tri_Lightmap_Data Data;
+
+		Data.Normal = Target_Chart->Pushed_Tris[Tri].TBN[2];
+		Data.Tangent = Target_Chart->Pushed_Tris[Tri].TBN[0];
+		Data.Bitangent = Target_Chart->Pushed_Tris[Tri].TBN[1];
 
 		Data.Engine = Engine;
 		Data.Target_Chart = Target_Chart;
@@ -227,15 +255,17 @@ namespace Jaguar
 
 		Data.Lightsources = &Lightsources;
 
+		Data.Triple_Vectors = Target_Chart->Pushed_Tris[Tri].Triple_Vectors;
+
 		// Then we rasterise this as a triangle to the lightmap texture
 
 		Lightmap_Chart_Rasterise_Function<true, glm::vec3, Perpixel_Rasterise_Tri_Lightmap>(
 			Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index].Lightmap_UV,
 			Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + 1].Lightmap_UV,
 			Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + 2].Lightmap_UV,
-			Points[0] + 0.005f * Data.Normal,
-			Points[1] + 0.005f * Data.Normal,
-			Points[2] + 0.005f * Data.Normal,
+			Target_Chart->Pushed_Tris[Tri].Points[0] + 0.005f * Data.Normal,
+			Target_Chart->Pushed_Tris[Tri].Points[1] + 0.005f * Data.Normal,
+			Target_Chart->Pushed_Tris[Tri].Points[2] + 0.005f * Data.Normal,
 			Target_Chart->Sidelength,
 			&Data
 		);
@@ -258,7 +288,7 @@ namespace Jaguar
 				{
 					Target_Lightsources.push_back(new Lightsource());
 
-					glm::vec3 Points[3];
+					glm::vec3* Points = Target_Chart->Pushed_Tris[W].Points;
 
 					glm::vec2 Texture_Coordinates[3];
 
@@ -266,16 +296,12 @@ namespace Jaguar
 
 					for (size_t Point = 0; Point < 3; Point++)
 					{
-						Points[Point] = Get_Model_Matrix(Target_Chart->Pushed_Objects[Target_Chart->Pushed_Tris[W].Model_Index]) * glm::vec4(Target_Chart->Pushed_Tris[W].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[W].Index + Point].Position, 1);
-						
 						Texture_Coordinates[Point] = Target_Chart->Pushed_Tris[W].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[W].Index + Point].Texture_Coordinates;
 							
 						Lightmap_UV[Point] = Target_Chart->Pushed_Tris[W].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[W].Index + Point].Lightmap_UV;
 					}
 
-					glm::vec3 Tangent = Points[1] - Points[0];
-					glm::vec3 Bitangent = Points[2] - Points[0];
-					glm::vec3 Normal = glm::normalize(glm::cross(Bitangent, Tangent));
+					glm::vec3 Normal = Target_Chart->Pushed_Tris[W].TBN[2];
 
 					glm::vec3 Position;
 					glm::vec2 Texture_Coordinate;
@@ -327,7 +353,7 @@ namespace Jaguar
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[1], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate) +
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[2], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate);
 
-					const float Reflection_Coefficient = 1.5f / (255.0f * Scale * Scale);
+					const float Reflection_Coefficient = 0.9f / (255.0f * Scale * Scale);
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
 					Target_Lightsources.back()->Bounced = true;
@@ -395,7 +421,7 @@ namespace Jaguar
 		Wait_For_Job_System_Completion(&Engine->Job_Handler);
 	}
 
-	void Handle_Bounce_Lighting(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], int Bounces = 2)
+	void Handle_Bounce_Lighting(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], int Bounces = 4)
 	{
 		// This will modify the values in Lightmap_Texture_Data according to the bounce lighting
 
@@ -618,6 +644,8 @@ namespace Jaguar
 				Target_Chart->Sidelength,
 				Target_Chart
 			);
+
+			Chart_Tri_Init_Points(Target_Chart, Tri);
 
 			for (size_t Point = 0; Point < 3; Point++)
 				Mesh_Info.Mesh->Vertices[Triangle++].Lightmap_UV = glm::vec2(X, Y) + Projected_Points[Point];
