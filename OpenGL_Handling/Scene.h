@@ -5,6 +5,8 @@
 #include "Render_Queue.h"
 #include "Texture_Uniform_Buffer.h"
 
+#include "../Controllers/Lightmapping.h"
+
 namespace Jaguar
 {
 	struct Jaguar_Engine;
@@ -63,6 +65,8 @@ namespace Jaguar
 #else
 		Texture Lightmap_Texture;
 #endif
+
+		Lighting_Node_Data Lighting_Nodes;
 
 		float Inverse_Lightmap_Scale;
 

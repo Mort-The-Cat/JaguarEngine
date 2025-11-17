@@ -28,7 +28,6 @@ namespace Jaguar
 		glBindTexture(GL_TEXTURE_2D, Target_Lighting->Lightmap_Texture.Texture_Buffer_ID);
 		Destroy_Texture_Buffer(&Target_Lighting->Lightmap_Texture);
 #endif
-
 	}
 
 	struct Rasterise_Tri_Lightmap_Data
@@ -80,7 +79,7 @@ namespace Jaguar
 		return glm::length(glm::cross(A_B, A_C));
 	}
 
-	bool Line_Intersects_Tri(Rasterise_Tri_Lightmap_Data* Data, glm::vec3 Position, glm::vec3 To_Light_Vector, size_t Tri)
+	bool Line_Intersects_Tri(Lightmap_Chart* Target_Chart, glm::vec3 Position, glm::vec3 To_Light_Vector, size_t Tri)
 	{
 		// Get tri transformed points
 		// Get tri normal
@@ -98,11 +97,11 @@ namespace Jaguar
 					Data->Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Data->Target_Chart->Pushed_Tris[Tri].Index + W].Position, 1);
 		}*/
 
-		glm::vec3 A_B = Data->Target_Chart->Pushed_Tris[Tri].Points[1] - Data->Target_Chart->Pushed_Tris[Tri].Points[0];
-		glm::vec3 A_C = Data->Target_Chart->Pushed_Tris[Tri].Points[2] - Data->Target_Chart->Pushed_Tris[Tri].Points[0];
-		glm::vec3 Normal = Data->Target_Chart->Pushed_Tris[Tri].TBN[2]; // It doesn't actually matter if this is facing the right way
+		glm::vec3 A_B = Target_Chart->Pushed_Tris[Tri].Points[1] - Target_Chart->Pushed_Tris[Tri].Points[0];
+		glm::vec3 A_C = Target_Chart->Pushed_Tris[Tri].Points[2] - Target_Chart->Pushed_Tris[Tri].Points[0];
+		glm::vec3 Normal = Target_Chart->Pushed_Tris[Tri].TBN[2]; // It doesn't actually matter if this is facing the right way
 
-		Position -= Data->Target_Chart->Pushed_Tris[Tri].Points[0];
+		Position -= Target_Chart->Pushed_Tris[Tri].Points[0];
 
 		glm::vec3 T_Position = Position;
 		glm::vec3 T_To_Light_Vector = To_Light_Vector;
@@ -133,7 +132,7 @@ namespace Jaguar
 		return Area[1] + Area[2] + Area[3] <= Area[0] + 0.002f;
 	}
 
-	void Get_Lights_Visibility(Rasterise_Tri_Lightmap_Data* Data, glm::vec3 Position, glm::vec3* Colours, const std::vector<Lightsource*>& Lightsources, glm::vec3* Vector_Components)
+	void Get_Lights_Visibility(Lightmap_Chart* Target_Chart, glm::vec3 Position, glm::vec3* Colours, const std::vector<Lightsource*>& Lightsources, glm::vec3* Vector_Components)
 	{
 		for (size_t W = 0; W < Lightsources.size(); W++)
 		{
@@ -148,8 +147,8 @@ namespace Jaguar
 
 			bool Intersect_Found = false;
 
-			for (size_t Tri = 0; Tri < Data->Target_Chart->Pushed_Tris.size() && !Intersect_Found; Tri++)
-				Intersect_Found |= Line_Intersects_Tri(Data, Position, To_Light_Vector, Tri);
+			for (size_t Tri = 0; Tri < Target_Chart->Pushed_Tris.size() && !Intersect_Found; Tri++)
+				Intersect_Found |= Line_Intersects_Tri(Target_Chart, Position, To_Light_Vector, Tri);
 
 			if (!Intersect_Found)
 			{
@@ -188,7 +187,7 @@ namespace Jaguar
 
 		// For each light in the scene
 
-		Get_Lights_Visibility(Data, Position, Colours, *Data->Lightsources, Data->Triple_Vectors);
+		Get_Lights_Visibility(Data->Target_Chart, Position, Colours, *Data->Lightsources, Data->Triple_Vectors);
 
 		// Then, we write the colours to the lightmaps
 
@@ -387,6 +386,41 @@ namespace Jaguar
 		delete Parameters;
 	}
 
+	void Accumulate_Lighting_Node_Lights(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const std::vector<Lightsource*>& Lightsources, Lighting_Node* Node)
+	{
+		// This'll just add all of the lighting to the light node (note we're ADDING instead of setting because we want to accumulate bounced lighting)
+
+		// call function twice for positive and negative direction
+
+		glm::vec3 Colours[3] = { glm::vec3(0), glm::vec3(0), glm::vec3(0) };
+
+		glm::vec3 Vector_Components[6] =
+		{
+			{ 1, 0, 0 },
+			{ 0, 1, 0 },
+			{ 0, 0, 1 },
+
+			{ -1, 0, 0 },
+			{ 0, -1, 0 },
+			{ 0, 0, -1 }
+		};
+
+		Get_Lights_Visibility(Target_Chart, Node->Position, Colours, Lightsources, Vector_Components);
+
+		for (size_t W = 0; W < 3; W++)
+		{
+			Node->Illumination[W] += Colours[W];
+			Colours[W] = glm::vec3(0);
+		}
+
+		Get_Lights_Visibility(Target_Chart, glm::vec3(0.0f), Colours, Lightsources, Vector_Components + 3);
+
+		for (size_t W = 0; W < 3; W++)
+		{
+			Node->Illumination[3 + W] += Colours[W];
+		}
+	}
+
 	void Rasterise_Lightmap3_Job(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, glm::vec3* Lightmap_Texture_Data[3], const std::vector<Lightsource*>& Lightsources)
 	{
 		// This will submit all of the jobs for the lightmapping
@@ -417,6 +451,8 @@ namespace Jaguar
 		Parameters->Lightsources = &Lightsources;
 
 		Rasterise_Tris_Lightmap3_Worker(Parameters);
+
+		Accumulate_Lighting_Node_Lights(Engine, Target_Chart, Lightsources, Engine->Scene.Lighting.Lighting_Nodes.Nodes.data());
 
 		Wait_For_Job_System_Completion(&Engine->Job_Handler);
 	}
@@ -480,6 +516,8 @@ namespace Jaguar
 
 			printf("Tri %d complete\n", W);
 		}*/
+
+		// Engine->Scene.Lighting.Lighting_Nodes.Nodes.resize(1);	// Creates 1 lighting node that we want to use
 
 		Rasterise_Lightmap3_Job(Engine, Target_Chart, Lightmap_Texture_Data, Engine->Scene.Lighting.Lightsources);
 

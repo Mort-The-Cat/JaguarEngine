@@ -54,7 +54,7 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 {
 	float Camera_X_Direction = 0;
 	float Camera_Y_Direction = 0;
-	glm::vec3 Player_Position = glm::vec3(0.0f);
+	glm::vec3 Player_Position = glm::vec3(0.0f, 0.8f, 0.0f);
 
 	auto Previous_Time = std::chrono::high_resolution_clock::now();
 
@@ -188,9 +188,9 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Skeletal_Animation_Shader, 
 		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
-	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Cornell_Box_Quad_Bounce";
-	Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
-	//Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Test_Scene_Quad_Bounce";
+	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Place_Animation_Objects(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
@@ -202,7 +202,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
 		Jaguar::Assemble_Lightmap_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lmc").c_str());
 
+		Engine->Scene.Lighting.Lighting_Nodes.Nodes.push_back(Jaguar::Lighting_Node(glm::vec3(0.0f, 0.8f, 0.0f)));
+
 		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lux").c_str());
+
+		Jaguar::Write_Lighting_Nodes_To_File((Lightmap_Directory + ".ln").c_str(), Engine->Scene.Lighting.Lighting_Nodes);
 	}
 	else
 	{
@@ -210,6 +214,8 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Get_Lightmap_Chart_From_File((Lightmap_Directory + ".lmc").c_str(), Lightmap_Charts, &Engine->Asset_Cache);
 		Jaguar::Apply_Baked_Lightmap_Chart(Engine, Lightmap_Charts);
 		Jaguar::Get_Lightmap3_From_File((Lightmap_Directory + ".lux").c_str(), &Engine->Scene.Lighting);
+
+		Jaguar::Get_Lighting_Nodes_From_File((Lightmap_Directory + ".ln").c_str(), Engine->Scene.Lighting.Lighting_Nodes);
 
 		Test_Engine_Loop(Engine);
 	}

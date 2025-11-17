@@ -234,4 +234,51 @@ namespace Jaguar
 
 		File.close();	// We're done! Beautiful
 	}
+
+	//
+
+	void Write_Lighting_Nodes_To_File(const char* Filename, const Lighting_Node_Data& Node_Data)
+	{
+		// This will just add all of the lighting node data 1:1 into the file
+
+		std::ofstream File(Filename, std::ios::binary);
+
+		if (!File.is_open())
+		{
+			printf("ERROR writing to lighting node file %s !\n", Filename);
+
+			return;
+		}
+
+		File.write((const char*)Node_Data.Nodes.data(), Node_Data.Nodes.size() * sizeof(Lighting_Node));
+
+		File.close();
+	}
+
+	void Get_Lighting_Nodes_From_File(const char* Filename, Lighting_Node_Data& Node_Data)
+	{
+		std::ifstream File(Filename, std::ios::binary);
+
+		if (!File.is_open())
+		{
+			printf("ERROR reading from lighting node file! %s\n", Filename);
+
+			return;
+		}
+
+		size_t Index = 0;
+
+		while (File.peek() != EOF)
+		{
+			Node_Data.Nodes.resize(Index + 1);	// increase size by 1
+
+			// write to buffer
+
+			File.read((char*)(Node_Data.Nodes.data() + Index), sizeof(Lighting_Node));
+
+			Index++;
+		}
+
+		File.close();
+	}
 }

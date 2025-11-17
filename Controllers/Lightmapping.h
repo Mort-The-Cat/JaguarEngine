@@ -7,6 +7,20 @@
 
 namespace Jaguar
 {
+	class Lighting_Node	// This is used for applying approximate baked lighting to dynamic objects
+	{
+	public:
+		glm::vec3 Position;
+		glm::vec3 Illumination[6] = { glm::vec3(0), glm::vec3(0), glm::vec3(0), glm::vec3(0), glm::vec3(0), glm::vec3(0) };	// six of these for all 6 faces
+			// 0,1,2 is xyz positive and +3 is negative
+
+		// for now, we'll default the position to (0,0,0)
+		Lighting_Node() {}
+		Lighting_Node(glm::vec3 Positionp)
+		{
+			Position = Positionp;
+		}
+	};
 
 #define LF_STATIC 1u
 	struct Lightsource
@@ -77,17 +91,24 @@ namespace Jaguar
 	struct Render_Queue;
 	struct Jaguar_Engine;
 
+	struct Lighting_Node_Data
+	{
+		std::vector<Lighting_Node> Nodes;
+	};
+
 	void Init_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 
 	void Assemble_Lightmap_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* File_Directory);
 	void Push_Queue_Lightmap_Chart(Jaguar_Engine* Engine, const Render_Queue* Queue, Lightmap_Chart* Target_Chart);
-	void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
+	//void Create_Lightmap_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
 	void Create_Lightmap3_From_Chart(Jaguar_Engine* Engine, Lightmap_Chart* Target_Chart, const char* Filename = nullptr);
 
 	struct Lighting_Data;
 
-	void Get_Lightmap_From_File(const char* Filename, Lighting_Data* Target_Lighting);	// Loads lightmap data and generates texture from it
-	void Write_Lightmap_To_File(const char* Filename, glm::vec3* Data, unsigned int Texture_Dimensions);
+	//void Get_Lightmap_From_File(const char* Filename, Lighting_Data* Target_Lighting);	// Loads lightmap data and generates texture from it
+	//void Write_Lightmap_To_File(const char* Filename, glm::vec3* Data, unsigned int Texture_Dimensions);
+
+	// Regular lightmap has been deprecated in favour of 3-vector lightmap
 
 	void Get_Lightmap3_From_File(const char* Filename, Lighting_Data* Target_Lighting);
 	void Write_Lightmap3_To_File(const char* Filename, glm::vec3* Data[3], unsigned int Texture_Dimensions);
@@ -97,6 +118,9 @@ namespace Jaguar
 	void Write_Lightmap_Chart_To_File(const char* Filename, const std::vector<Mesh_Cache_Info>& Updated_Meshes);
 	void Get_Lightmap_Chart_From_File(const char* Filename, std::vector<Baked_Lightmap_Chart>& Lightmap_Charts, Asset_Cache_Data* Asset_Cache);
 	void Apply_Baked_Lightmap_Chart(Jaguar_Engine* Engine, const std::vector<Baked_Lightmap_Chart>& Chart);
+
+	void Write_Lighting_Nodes_To_File(const char* Filename, const Lighting_Node_Data& Node_Data);
+	void Get_Lighting_Nodes_From_File(const char* Filename, Lighting_Node_Data& Node_Data);
 
 	struct Shader;
 	struct Scene_Data;
