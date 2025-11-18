@@ -57,7 +57,7 @@ void Place_Animation_Objects(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_
 			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Murderer.dae").Animation,
 			Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Murderer.dae").Skeleton
 		),
-		glm::vec3(0, 0, 0)
+		glm::vec3(0, 0, -0.8)
 	);
 
 	Object = nullptr;

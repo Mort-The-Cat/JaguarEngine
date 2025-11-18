@@ -223,25 +223,6 @@ namespace Jaguar
 	{
 		// First, we wanna calculate the normals etc of this tri
 
-		/*glm::vec3 Points[3];
-		glm::vec2 Texture_Coordinates[3];
-
-		for (size_t Point = 0; Point < 3; Point++)
-		{
-			Points[Point] = Get_Model_Matrix(Target_Chart->Pushed_Objects[Target_Chart->Pushed_Tris[Tri].Model_Index]) * glm::vec4(Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + Point].Position, 1);
-
-			Texture_Coordinates[Point] = Target_Chart->Pushed_Tris[Tri].Mesh.Mesh->Vertices[Target_Chart->Pushed_Tris[Tri].Index + Point].Texture_Coordinates;
-		}
-
-		Rasterise_Tri_Lightmap_Data Data;
-
-		Data.Tangent = Points[1] - Points[0];
-		Data.Bitangent = Points[2] - Points[0];
-		Data.Normal = glm::normalize(glm::cross(Data.Bitangent, Data.Tangent));
-
-		//Jaguar::Get_UV_Tangent_Bitangent_Vectors(Points, Texture_Coordinates, Data.Normal, &Data.Tangent, &Data.Bitangent);
-		*/
-
 		Rasterise_Tri_Lightmap_Data Data;
 
 		Data.Normal = Target_Chart->Pushed_Tris[Tri].TBN[2];
@@ -413,7 +394,7 @@ namespace Jaguar
 			Colours[W] = glm::vec3(0);
 		}
 
-		Get_Lights_Visibility(Target_Chart, glm::vec3(0.0f), Colours, Lightsources, Vector_Components + 3);
+		Get_Lights_Visibility(Target_Chart, Node->Position, Colours, Lightsources, Vector_Components + 3);
 
 		for (size_t W = 0; W < 3; W++)
 		{

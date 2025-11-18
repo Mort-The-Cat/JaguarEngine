@@ -181,16 +181,16 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 #endif
 
 	Jaguar::Shader Test_Skeletal_Animation_Shader;
-	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader);
+	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader, "Shaders/Dynamic_TBN_Geometry.geom");
 
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader,
 		Jaguar::Lightmapped_Shader_Init_Function, Jaguar::Default_Uniform_Assign_Function);
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Skeletal_Animation_Shader, 
 		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
-	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Test_Scene_Quad_Bounce";
-	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
-	Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Cornell_Box_Quad_Bounce";
+	Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	//Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Place_Animation_Objects(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
@@ -202,7 +202,7 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
 		Jaguar::Assemble_Lightmap_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lmc").c_str());
 
-		Engine->Scene.Lighting.Lighting_Nodes.Nodes.push_back(Jaguar::Lighting_Node(glm::vec3(0.0f, 0.8f, 0.0f)));
+		Engine->Scene.Lighting.Lighting_Nodes.Nodes.push_back(Jaguar::Lighting_Node(glm::vec3(0.0f, 0.8f, -0.8f)));
 
 		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lux").c_str());
 

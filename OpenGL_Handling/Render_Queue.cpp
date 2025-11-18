@@ -62,6 +62,11 @@ namespace Jaguar
 		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Normal_Texture"), 1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, Object->Normal.Texture_Buffer_ID);
+
+		// This will also parse the baked lighting node for the dynamic object
+
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node"), 6, glm::value_ptr(Scene->Lighting.Lighting_Nodes.Nodes[0].Illumination[0]));
+		// We'll improve this later
 	}
 
 	void Skeletal_Animation_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
