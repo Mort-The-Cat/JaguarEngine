@@ -14,9 +14,100 @@
 
 namespace Jaguar
 {
+	void Get_Nearest_Lighting_Node(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node** Target_Nodes)
+	{
+		// Find the smallest length
+
+		glm::vec3 Vector = Node_Data->Nodes[0].Position - Position;
+
+		float Shortest_Length = glm::dot(Vector, Vector);
+		size_t Shortest_Index = 0;
+
+		for (size_t Index = 1; Index < Node_Data->Nodes.size(); Index++)
+		{
+			Vector = Node_Data->Nodes[Index].Position - Position;
+			float New_Length = glm::dot(Vector, Vector);
+			if (New_Length < Shortest_Length)
+			{
+				Shortest_Length = New_Length;
+				Shortest_Index = Index;
+			}
+		}
+
+		Target_Nodes[0] = &Node_Data->Nodes[Shortest_Index];	// get address of this node
+	}
+
+	bool Line_Intersects_Tri(Lightmap_Chart* Target_Chart, glm::vec3 Position, glm::vec3 To_Light_Vector, size_t Tri);
+
+	bool Flood_Fill_Lighting_Nodes_Check_Node(Lightmap_Chart* Target_Chart, glm::ivec3 Origin, glm::ivec3 Position, float Size, std::map<int, std::map<int, std::map<int, bool>>>& Grid, std::vector<glm::ivec3>& Node_Positions)
+	{
+		if (Grid[Position.x][Position.y].find(Position.z) == Grid[Position.x][Position.y].end())
+		{
+			// CHECK if there's any intersection...
+
+			bool Intersection = false;
+
+			for (size_t Index = 0; Index < Target_Chart->Pushed_Tris.size() && !Intersection; Index++)
+				Intersection = Line_Intersects_Tri(Target_Chart, glm::vec3(Origin) * Size, glm::vec3(Position - Origin) * Size, Index);
+
+			if (Intersection)
+				return 0;
+
+			Grid[Position.x][Position.y][Position.z] = true;
+			Node_Positions.push_back(Position);
+
+			return 1;
+		}
+
+		return 0;
+	}
+
+	void Flood_Fill_Lighting_Nodes(Lightmap_Chart* Target_Chart, glm::vec3 Origin, float Size, Lighting_Data* Target_Lighting)
+	{
+		std::vector<glm::ivec3> Node_Positions = { glm::ivec3(Origin / glm::vec3(Size)) };
+		std::map<int, std::map<int, std::map<int, bool>>> Grid;
+
+		size_t Added = 1;
+
+		while (Added)
+		{
+			size_t End = Node_Positions.size();
+			size_t Index = End - Added;
+			Added = 0;
+			for (; Index < End; Index++)
+			{
+				// add new thing if there's space!
+
+				const glm::ivec3 Deltas[6] =
+				{
+					{ 1, 0, 0 },
+					{ 0, 1, 0 },
+					{ 0, 0, 1 },
+					{ -1, 0, 0 },
+					{ 0, -1, 0 },
+					{ 0, 0, -1 }
+				};
+
+				for (size_t Face = 0; Face < 6; Face++)
+					Added += Flood_Fill_Lighting_Nodes_Check_Node(Target_Chart, Node_Positions[Index], Node_Positions[Index] + Deltas[Face], Size, Grid, Node_Positions);
+			}
+		}
+
+		// Add all of the node_positions as actual lighting nodes
+
+		Target_Lighting->Lighting_Nodes.Nodes.resize(Node_Positions.size());
+
+		for (size_t Index = 0; Index < Node_Positions.size(); Index++)
+		{
+			Target_Lighting->Lighting_Nodes.Nodes[Index].Position = glm::vec3(Node_Positions[Index]) * glm::vec3(Size);
+		}
+	}
+
 	void Delete_Scene_Lightmap(Lighting_Data* Target_Lighting)
 	{
 		// Lightmap_Texture needs to be deleted
+
+		Target_Lighting->Lighting_Nodes.Nodes.clear();
 
 #if TRIPLE_LIGHTMAPPING
 		for (size_t W = 0; W < 3; W++)
@@ -333,7 +424,7 @@ namespace Jaguar
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[1], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate) +
 						Read_From_Texture<Lightmap_RGB>(Lightmap_Texture_Data3[2], Target_Chart->Sidelength, Target_Chart->Sidelength, Lightmap_Coordinate);
 
-					const float Reflection_Coefficient = 0.9f / (255.0f * Scale * Scale);
+					const float Reflection_Coefficient = 0.97f / (255.0f * Scale * Scale);
 
 					Target_Lightsources.back()->Colour = Lightmap_Value * Albedo_Colour * glm::vec3(Reflection_Coefficient); // This will then rewrite the lightmap accordingly
 					Target_Lightsources.back()->Bounced = true;
@@ -433,7 +524,8 @@ namespace Jaguar
 
 		Rasterise_Tris_Lightmap3_Worker(Parameters);
 
-		Accumulate_Lighting_Node_Lights(Engine, Target_Chart, Lightsources, Engine->Scene.Lighting.Lighting_Nodes.Nodes.data());
+		for(size_t W = 0; W < Engine->Scene.Lighting.Lighting_Nodes.Nodes.size(); W++)
+			Accumulate_Lighting_Node_Lights(Engine, Target_Chart, Lightsources, Engine->Scene.Lighting.Lighting_Nodes.Nodes.data() + W);
 
 		Wait_For_Job_System_Completion(&Engine->Job_Handler);
 	}
@@ -499,6 +591,12 @@ namespace Jaguar
 		}*/
 
 		// Engine->Scene.Lighting.Lighting_Nodes.Nodes.resize(1);	// Creates 1 lighting node that we want to use
+
+		for (size_t W = 0; W < Engine->Scene.Lighting.Lighting_Nodes.Nodes.size(); W++)
+			for(size_t V = 0; V < 6; V++)
+				Engine->Scene.Lighting.Lighting_Nodes.Nodes[W].Illumination[V] = glm::vec3(0.0f);	// We don't want this to have any initial lighting when we're accumulating light in the nodes
+
+		// 
 
 		Rasterise_Lightmap3_Job(Engine, Target_Chart, Lightmap_Texture_Data, Engine->Scene.Lighting.Lightsources);
 

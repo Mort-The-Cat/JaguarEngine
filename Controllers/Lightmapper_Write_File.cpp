@@ -263,6 +263,8 @@ namespace Jaguar
 		{
 			printf("ERROR reading from lighting node file! %s\n", Filename);
 
+			Node_Data.Nodes.push_back(Lighting_Node(glm::vec3(0.f, 0.8f, -0.4f)));	// Eh we just want a random node (at least one)
+
 			return;
 		}
 

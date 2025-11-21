@@ -5,6 +5,8 @@ layout(location = 1) in vec3 In_Normal;
 layout(location = 2) in vec2 In_Texture_Coordinates;
 layout(location = 3) in vec2 In_Lightmap_Coordinates;
 
+// Really simple program, this is just for testing purposes
+
 uniform mat4 Projection_Matrix;
 uniform mat4 Model_Matrix;
 

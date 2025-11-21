@@ -35,22 +35,8 @@ void Place_Animation_Objects(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_
 	Object = new Jaguar::World_Object();
 	Object->Flags[MF_ACTIVE] = true;
 	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
-		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Test_Drill.dae").Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles.png").Texture,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles_Normal.png").Texture,	// Normal map
-		new Jaguar::Animator_Controller(
-			Object,
-			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Test_Drill.dae").Animation,
-			Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Test_Drill.dae").Skeleton
-		),
-		glm::vec3(-4, 2, 0)
-	);
-
-	Object = new Jaguar::World_Object();
-	Object->Flags[MF_ACTIVE] = true;
-	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Murderer.dae").Buffer,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Rubble.jpg").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Grey.png").Texture,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Rubble_Normal.png").Texture,	// Normal map
 		new Jaguar::Animator_Controller(
 			Object,
@@ -58,6 +44,20 @@ void Place_Animation_Objects(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_
 			Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Murderer.dae").Skeleton
 		),
 		glm::vec3(0, 0, -0.8)
+	);
+
+	Object = new Jaguar::World_Object();
+	Object->Flags[MF_ACTIVE] = true;
+	Jaguar::Create_World_Object(Engine, Object, &Test_Skeletal_Animation_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Test_Drill.dae").Buffer,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Grey.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles_Normal.png").Texture,	// Normal map
+		new Jaguar::Animator_Controller(
+			Object,
+			Jaguar::Pull_Animation(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Test_Drill.dae").Animation,
+			Jaguar::Pull_Skeleton(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Test_Drill.dae").Skeleton
+		),
+		glm::vec3(-4, 2, 0)
 	);
 
 	Object = nullptr;

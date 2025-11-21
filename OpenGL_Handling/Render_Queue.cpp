@@ -8,6 +8,8 @@
 
 #include "../Controllers/Skeletal_Animation_Handling.h"
 
+#include "../Controllers/Lightmapping.h"
+
 namespace Jaguar
 {
 	// Note that this likely will NOT include particle rendering as that's so fundamentally different to how we're rendering actors here
@@ -65,7 +67,10 @@ namespace Jaguar
 
 		// This will also parse the baked lighting node for the dynamic object
 
-		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node"), 6, glm::value_ptr(Scene->Lighting.Lighting_Nodes.Nodes[0].Illumination[0]));
+		const Lighting_Node* Node = nullptr;
+		Get_Nearest_Lighting_Node(&Scene->Lighting.Lighting_Nodes, Object->Position, &Node);
+
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node"), 6, glm::value_ptr(Node->Illumination[0]));
 		// We'll improve this later
 	}
 

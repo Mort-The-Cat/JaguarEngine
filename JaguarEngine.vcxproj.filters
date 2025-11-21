@@ -1271,5 +1271,7 @@
     <None Include="Libraries\Include\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Shaders\Test_Shader.vert" />
+    <None Include="Shaders\Test_Shader.frag" />
   </ItemGroup>
 </Project>

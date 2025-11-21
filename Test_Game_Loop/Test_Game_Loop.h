@@ -22,6 +22,9 @@ enum Controls
 
 	Look_Up, 
 	Look_Down,
+
+	Interact,
+
 	Number_Of_Keys
 };
 
@@ -30,17 +33,19 @@ void Set_Input_Keycodes(Jaguar::Input_Data* Inputs)
 	Inputs->Keys.resize(Controls::Number_Of_Keys);
 	Inputs->Keys[Controls::Forwards].Keycode		=		GLFW_KEY_W;
 	Inputs->Keys[Controls::Backwards].Keycode		=		GLFW_KEY_S;
-	Inputs->Keys[Controls::Left].Keycode		=		GLFW_KEY_A;
-	Inputs->Keys[Controls::Right].Keycode = GLFW_KEY_D;
+	Inputs->Keys[Controls::Left].Keycode			=		GLFW_KEY_A;
+	Inputs->Keys[Controls::Right].Keycode			=		GLFW_KEY_D;
 
 
-	Inputs->Keys[Controls::Up].Keycode = GLFW_KEY_SPACE;
-	Inputs->Keys[Controls::Down].Keycode = GLFW_KEY_LEFT_SHIFT;
+	Inputs->Keys[Controls::Up].Keycode				=		GLFW_KEY_SPACE;
+	Inputs->Keys[Controls::Down].Keycode			=		GLFW_KEY_LEFT_SHIFT;
 
-	Inputs->Keys[Controls::Look_Left].Keycode = GLFW_KEY_LEFT;
-	Inputs->Keys[Controls::Look_Right].Keycode = GLFW_KEY_RIGHT;
-	Inputs->Keys[Controls::Look_Up].Keycode = GLFW_KEY_UP;
-	Inputs->Keys[Controls::Look_Down].Keycode = GLFW_KEY_DOWN;
+	Inputs->Keys[Controls::Look_Left].Keycode		=		GLFW_KEY_LEFT;
+	Inputs->Keys[Controls::Look_Right].Keycode		=		GLFW_KEY_RIGHT;
+	Inputs->Keys[Controls::Look_Up].Keycode			=		GLFW_KEY_UP;
+	Inputs->Keys[Controls::Look_Down].Keycode		=		GLFW_KEY_DOWN;
+
+	Inputs->Keys[Controls::Interact].Keycode		 =		GLFW_KEY_F;
 }
 
 glm::vec3 Get_Direction_Vector(float X_Direction)
@@ -48,6 +53,20 @@ glm::vec3 Get_Direction_Vector(float X_Direction)
 	float Z = cos(X_Direction), X = sin(X_Direction);
 
 	return glm::vec3(X, 0, Z);
+}
+
+void Place_Lighting_Node_Visuals(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Node_Shader)
+{
+	Jaguar::World_Object* Object;
+
+	Object = new Jaguar::World_Object();
+	Jaguar::Create_World_Object(Engine, Object, &Node_Shader,
+		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Light_Source.dae").Buffer,			// Doesn't matter what mesh hint we give
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Grey.png").Texture,
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
+		nullptr,
+		Engine->Scene.Lighting.Lighting_Nodes.Nodes.back().Position
+	);
 }
 
 void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
@@ -83,6 +102,16 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Get_User_Inputs(Engine->Window, &Engine->User_Inputs);
 
 		glm::mat4 View_Matrix = glm::mat4(1.0f);
+
+		if (Engine->User_Inputs.Keys[Controls::Interact].Pressed) // && Engine->User_Inputs.Keys[Controls::Interact].Changed) // if newly pressed
+		{
+			//Engine->Scene.Lighting.Lighting_Nodes.Nodes.push_back(Jaguar::Lighting_Node(Player_Position));
+
+			//Place_Lighting_Node_Visuals(Engine, Engine->Pipeline.Render_Queues.back().Queue_Shader);	// This is a bit of a botch, but it's fine for testing!
+			
+			Engine->Pipeline.Render_Queues[1].Objects.back()->Position = Player_Position - glm::vec3(0, 0.1, 0) + glm::vec3(0.5f) * Get_Direction_Vector(Camera_X_Direction + 0.25f);
+			Engine->Pipeline.Render_Queues[1].Objects.back()->Orientation = Get_Direction_Vector(Camera_X_Direction);
+		}
 
 		if (Engine->User_Inputs.Keys[Controls::Forwards].Pressed)
 			Player_Position += 2 * Engine->Time * Get_Direction_Vector(Camera_X_Direction);
@@ -181,16 +210,22 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 #endif
 
 	Jaguar::Shader Test_Skeletal_Animation_Shader;
-	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader, "Shaders/Dynamic_TBN_Geometry.geom");
+	Jaguar::Create_Shader("Shaders/Dynamic_Shader.frag", "Shaders/Test_Skeletal_Animation.vert", &Test_Skeletal_Animation_Shader, "Shaders/Dynamic_TBN_Geometry.geom");
+
+	Jaguar::Shader Lighting_Node_Shader;
+	Jaguar::Create_Shader("Shaders/Test_Shader.frag", "Shaders/Test_Shader.vert", &Lighting_Node_Shader);
 
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Shader,
 		Jaguar::Lightmapped_Shader_Init_Function, Jaguar::Default_Uniform_Assign_Function);
 	Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Test_Skeletal_Animation_Shader, 
 		Jaguar::Default_Shader_Init_Function, Jaguar::Skeletal_Animation_Uniform_Assign_Function);
 
-	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Cornell_Box_Quad_Bounce";
-	Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
-	//Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	//Jaguar::Push_Render_Pipeline_Queue(&Engine->Pipeline, Lighting_Node_Shader,
+	//	Jaguar::Default_Shader_Init_Function, Jaguar::Default_Uniform_Assign_Function);
+
+	std::string Lightmap_Directory = "Test_Game_Loop/Lightmaps/Test_Scene_Flood_Light";
+	//Setup_Cornell_Box(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
+	Setup_New_Test_Level(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
 	Place_Animation_Objects(Engine, Test_Shader, Test_Skeletal_Animation_Shader);
 
@@ -202,7 +237,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Push_Queue_Lightmap_Chart(Engine, Jaguar::Get_Render_Queue(&Engine->Pipeline, &Test_Shader), &Lightmap);
 		Jaguar::Assemble_Lightmap_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lmc").c_str());
 
-		Engine->Scene.Lighting.Lighting_Nodes.Nodes.push_back(Jaguar::Lighting_Node(glm::vec3(0.0f, 0.8f, -0.8f)));
+		// Jaguar::Get_Lighting_Nodes_From_File((Lightmap_Directory + ".ln").c_str(), Engine->Scene.Lighting.Lighting_Nodes);
+
+		Jaguar::Flood_Fill_Lighting_Nodes(&Lightmap, glm::vec3(0.0f), 0.5f, &Engine->Scene.Lighting);
+
+		//Engine->Scene.Lighting.Lighting_Nodes.Nodes.push_back(Jaguar::Lighting_Node(glm::vec3(0.0f, 0.8f, -0.8f)));
 
 		Jaguar::Create_Lightmap3_From_Chart(Engine, &Lightmap, (Lightmap_Directory + ".lux").c_str());
 
@@ -217,7 +256,13 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 
 		Jaguar::Get_Lighting_Nodes_From_File((Lightmap_Directory + ".ln").c_str(), Engine->Scene.Lighting.Lighting_Nodes);
 
+		// Place_Lighting_Node_Visuals(Engine, Lighting_Node_Shader);
+
 		Test_Engine_Loop(Engine);
+
+		//
+
+		// Jaguar::Write_Lighting_Nodes_To_File((Lightmap_Directory + ".ln").c_str(), Engine->Scene.Lighting.Lighting_Nodes);
 	}
 
 	Jaguar::Terminate_Job_System(&Engine->Job_Handler);
