@@ -109,8 +109,10 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 
 			//Place_Lighting_Node_Visuals(Engine, Engine->Pipeline.Render_Queues.back().Queue_Shader);	// This is a bit of a botch, but it's fine for testing!
 			
-			Engine->Pipeline.Render_Queues[1].Objects.back()->Position = Player_Position - glm::vec3(0, 0.1, 0) + glm::vec3(0.5f) * Get_Direction_Vector(Camera_X_Direction + 0.25f);
+			Engine->Pipeline.Render_Queues[1].Objects.back()->Position = Player_Position - glm::vec3(0, 0.3, 0) + glm::vec3(0.5f) * Get_Direction_Vector(Camera_X_Direction + 0.25f);
 			Engine->Pipeline.Render_Queues[1].Objects.back()->Orientation = Get_Direction_Vector(Camera_X_Direction);
+
+			// This code right now is fairly awful but it's just a test obviously
 		}
 
 		if (Engine->User_Inputs.Keys[Controls::Forwards].Pressed)

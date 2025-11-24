@@ -14,27 +14,60 @@
 
 namespace Jaguar
 {
-	void Get_Nearest_Lighting_Node(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node** Target_Nodes)
+	class Sorted_List_Of_Lighting_Nodes
 	{
-		// Find the smallest length
+	public:
+		float Shortest_Length[4];
+		size_t Shortest_Index[4];
 
+		Sorted_List_Of_Lighting_Nodes(float Length)
+		{
+			// This initialises the distances etc and orders them accordingly
+
+			for (size_t W = 0; W < 3; W++)
+			{
+				Shortest_Length[W] = Length;
+				Shortest_Index[W] = 0;
+			}
+		}
+
+		void Insert_Element(float New_Length, size_t Index)
+		{
+			// bubbles up from index 3
+
+			Shortest_Length[3] = New_Length;
+			Shortest_Index[3] = Index;
+
+			size_t Bubble_Index = 3;
+			while (Bubble_Index)	// (until it underflows to above 2)
+			{
+				if (Shortest_Length[Bubble_Index - 1] > Shortest_Length[Bubble_Index])
+				{
+					std::swap(Shortest_Length[Bubble_Index - 1], Shortest_Length[Bubble_Index]);
+					std::swap(Shortest_Index[Bubble_Index - 1], Shortest_Index[Bubble_Index]);
+
+					Bubble_Index--;
+				}
+				else
+					return;
+			}
+		}
+	};
+
+	void Get_Nearest_Lighting_Nodes(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node* Target_Nodes[3])
+	{
 		glm::vec3 Vector = Node_Data->Nodes[0].Position - Position;
 
-		float Shortest_Length = glm::dot(Vector, Vector);
-		size_t Shortest_Index = 0;
+		Sorted_List_Of_Lighting_Nodes List(glm::dot(Vector, Vector));
 
 		for (size_t Index = 1; Index < Node_Data->Nodes.size(); Index++)
 		{
 			Vector = Node_Data->Nodes[Index].Position - Position;
-			float New_Length = glm::dot(Vector, Vector);
-			if (New_Length < Shortest_Length)
-			{
-				Shortest_Length = New_Length;
-				Shortest_Index = Index;
-			}
+			List.Insert_Element(glm::dot(Vector, Vector), Index);
 		}
 
-		Target_Nodes[0] = &Node_Data->Nodes[Shortest_Index];	// get address of this node
+		for (size_t Index = 0; Index < 3; Index++)
+			Target_Nodes[Index] = &Node_Data->Nodes[List.Shortest_Index[Index]];
 	}
 
 	bool Line_Intersects_Tri(Lightmap_Chart* Target_Chart, glm::vec3 Position, glm::vec3 To_Light_Vector, size_t Tri);

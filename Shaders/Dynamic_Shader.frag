@@ -3,8 +3,10 @@
 uniform sampler2D Albedo_Texture;
 uniform sampler2D Normal_Texture;
 
-uniform vec3 Lighting_Node[6];	// Illumination for each cardinal direction of the lighting node
+//uniform vec3 Lighting_Node[6][3];	// Illumination for each cardinal direction of the lighting node
 // (we can apply fancy interpolation to this later)
+
+in vec3 Lighting_Node[6];
 
 in vec2 Texture_Coordinates;
 in vec3 Position;

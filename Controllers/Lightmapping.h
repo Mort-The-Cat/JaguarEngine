@@ -96,7 +96,7 @@ namespace Jaguar
 		std::vector<Lighting_Node> Nodes;
 	};
 
-	void Get_Nearest_Lighting_Node(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node** Target_Nodes);
+	void Get_Nearest_Lighting_Nodes(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node* Target_Nodes[3]);
 
 	void Init_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 

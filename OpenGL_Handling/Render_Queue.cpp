@@ -50,6 +50,16 @@ namespace Jaguar
 #endif
 	}
 
+	void Lighting_Node_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
+	{
+		Default_Uniform_Assign_Function(Target_Shader, Object, Scene);
+
+		const Lighting_Node* Node[3];
+		Get_Nearest_Lighting_Nodes(&Scene->Lighting.Lighting_Nodes, Object->Position, Node);
+
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node"), 6, glm::value_ptr(Node[0]->Illumination[0]));
+	}
+
 	void Default_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
 	{
 		// This assumes that the orientation vectors are already normalized
@@ -64,14 +74,6 @@ namespace Jaguar
 		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Normal_Texture"), 1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, Object->Normal.Texture_Buffer_ID);
-
-		// This will also parse the baked lighting node for the dynamic object
-
-		const Lighting_Node* Node = nullptr;
-		Get_Nearest_Lighting_Node(&Scene->Lighting.Lighting_Nodes, Object->Position, &Node);
-
-		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node"), 6, glm::value_ptr(Node->Illumination[0]));
-		// We'll improve this later
 	}
 
 	void Skeletal_Animation_Uniform_Assign_Function(const Shader* Target_Shader, const World_Object* Object, const Scene_Data* Scene)
@@ -85,6 +87,19 @@ namespace Jaguar
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Joint_Matrices"), 
 			JOINT_BUFFER_COUNT, GL_FALSE, 
 			glm::value_ptr(*Animator_Object->Joint_Buffer));
+
+		//
+
+		const Lighting_Node* Node[3];
+		Get_Nearest_Lighting_Nodes(&Scene->Lighting.Lighting_Nodes, Object->Position, Node);
+
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_0"), 6, glm::value_ptr(Node[0]->Illumination[0]));
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_1"), 6, glm::value_ptr(Node[1]->Illumination[0]));
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_2"), 6, glm::value_ptr(Node[2]->Illumination[0]));
+
+		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Positions[0]"), Node[0]->Position.x, Node[0]->Position.y, Node[0]->Position.z);
+		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Positions[1]"), Node[1]->Position.x, Node[1]->Position.y, Node[1]->Position.z);
+		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Positions[2]"), Node[2]->Position.x, Node[2]->Position.y, Node[2]->Position.z);
 
 		// This parses the joint buffer to the shader
 	}
