@@ -84,6 +84,22 @@ namespace Collada
 				}
 
 				std::sort(Target_Skeleton->Vertex_Weights[W].begin(), Target_Skeleton->Vertex_Weights[W].end());
+
+				Target_Skeleton->Vertex_Weights[W].resize(MAX_WEIGHTS_IN_SKELETON);
+
+				// Normalize first 2 weights
+
+				// find value L such that L(weight_0 + weight_1) = 65,535
+
+				// then multiply both values by L
+
+				// This ensures that the sum weights add up to 1.0f
+
+				float L = 65535.0f / (Target_Skeleton->Vertex_Weights[W][0].Weight + Target_Skeleton->Vertex_Weights[W][1].Weight);
+
+				Target_Skeleton->Vertex_Weights[W][0].Weight *= L;
+
+				Target_Skeleton->Vertex_Weights[W][1].Weight *= L;
 			}
 
 			// Create Joint hierarchy

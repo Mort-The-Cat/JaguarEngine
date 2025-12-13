@@ -36,7 +36,7 @@ namespace Jaguar
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(6 * 4));	// Texture coordinates
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Collada::Collada_Vertex), (void*)(8 * 4));	// Joint weight
+		glVertexAttribIPointer(3, 1, GL_UNSIGNED_INT, sizeof(Collada::Collada_Vertex), (void*)(8 * 4));	// Joint weight
 		glEnableVertexAttribArray(3);
 
 		glVertexAttribIPointer(4, 1, GL_UNSIGNED_INT, sizeof(Collada::Collada_Vertex), (void*)(9 * 4));		// Joint index

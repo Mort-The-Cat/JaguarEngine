@@ -89,8 +89,8 @@ namespace Collada
 									// May change this later... Particles and 2d UI elements will most likely need their own special kind of vertex buffer object
 			struct 
 			{
-				float Joint_Weight;
-				uint32_t Joint_ID;
+				uint32_t Joint_Weight;	// I'll pack 2 bytes (0-255) into this
+				uint32_t Joint_ID;		// I'll pack 2 bytes into this as well
 			};
 
 			glm::vec2 Lightmap_UV;		// IMPORTANT: Note that "Lightmap_UV" takes up same amount of memory as Joint_Weight and Joint_ID
@@ -119,15 +119,17 @@ namespace Collada
 		glm::vec4 Final_Matrix;		// This is the final transformation matrix when updating the animation of a bone (likely will be changed later)
 	};
 
+#define MAX_WEIGHTS_IN_SKELETON 2
+
 	class Collada_Vertex_Weight
 	{
 	public:
-		size_t Joint_Index;
-		float Weight;
+		size_t Joint_Index = 63;
+		float Weight = 0.0f;
 
 		bool operator<(const Collada_Vertex_Weight& Other)
 		{
-			return Weight < Other.Weight;
+			return Weight > Other.Weight;
 		}
 	};
 

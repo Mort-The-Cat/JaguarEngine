@@ -42,12 +42,19 @@ namespace Collada
 				{
 					if (Skeleton->Vertex_Weights[Index].size())
 					{
-						Vertex.Joint_ID = Skeleton->Vertex_Weights[Index].back().Joint_Index;
-						Vertex.Joint_Weight = Skeleton->Vertex_Weights[Index].back().Weight;
+						Vertex.Joint_ID = 
+							Skeleton->Vertex_Weights[Index][0].Joint_Index +
+							(Skeleton->Vertex_Weights[Index][1].Joint_Index << 16);
+
+
+
+						Vertex.Joint_Weight =
+							(int)Skeleton->Vertex_Weights[Index][0].Weight +
+							((int)Skeleton->Vertex_Weights[Index][1].Weight << 16);
 					}
 					else
 					{
-						Vertex.Joint_ID = 63;
+						Vertex.Joint_ID = 63 + (63 << 16);
 						Vertex.Joint_Weight = 0.0f;
 					}
 				}
