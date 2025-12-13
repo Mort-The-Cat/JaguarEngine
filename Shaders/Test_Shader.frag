@@ -1,8 +1,10 @@
 #version 440
 
+out vec4 Out_Colour;
+
 // Really simple program, this is just for testing purposes
 
 void main()
 {
-	gl_FragColor = vec4(1, 1, 1, 0.5);
+	Out_Colour = vec4(1, 1, 1, 0.5);
 }

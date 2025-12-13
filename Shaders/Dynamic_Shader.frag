@@ -1,5 +1,7 @@
 #version 440
 
+out vec4 Out_Colour;
+
 uniform sampler2D Albedo_Texture;
 uniform sampler2D Normal_Texture;
 
@@ -50,7 +52,7 @@ void main()
 
 	vec3 Illumination = Lighting();
 
-	gl_FragColor = vec4(
+	Out_Colour = vec4(
 		texture(Albedo_Texture, Texture_Coordinates).rgb * Illumination,
 	1);
 
