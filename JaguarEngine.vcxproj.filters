@@ -1273,5 +1273,6 @@
     </None>
     <None Include="Shaders\Test_Shader.vert" />
     <None Include="Shaders\Test_Shader.frag" />
+    <None Include="Shaders\Dynamic_TBN_Geometry.geom" />
   </ItemGroup>
 </Project>

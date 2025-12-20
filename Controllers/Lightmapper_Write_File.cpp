@@ -250,7 +250,17 @@ namespace Jaguar
 			return;
 		}
 
-		File.write((const char*)Node_Data.Nodes.data(), Node_Data.Nodes.size() * sizeof(Lighting_Node));
+		File.write((const char*)&Node_Data.Size, sizeof(Node_Data.Size));
+
+		for (size_t W = 0; W < Node_Data.Nodes.size(); W++)
+		{
+			File.write((const char*)(Node_Data.Nodes.data() + W), sizeof(Lighting_Node::Position) + sizeof(Lighting_Node::Illumination));
+
+			// These are the only things that are written to the file
+			// adjacent indices etc are evaluated during file loading
+		}
+
+		// File.write((const char*)Node_Data.Nodes.data(), Node_Data.Nodes.size() * sizeof(Lighting_Node));
 
 		File.close();
 	}
@@ -270,17 +280,67 @@ namespace Jaguar
 
 		size_t Index = 0;
 
+		File.read((char*)&Node_Data.Size, sizeof(Node_Data.Size));
+
 		while (File.peek() != EOF)
 		{
 			Node_Data.Nodes.resize(Index + 1);	// increase size by 1
 
 			// write to buffer
 
-			File.read((char*)(Node_Data.Nodes.data() + Index), sizeof(Lighting_Node));
+			File.read((char*)(Node_Data.Nodes.data() + Index), sizeof(Lighting_Node::Position) + sizeof(Lighting_Node::Illumination));
+
+			// File.read((char*)(Node_Data.Nodes.data() + Index), sizeof(Lighting_Node));
 
 			Index++;
 		}
 
 		File.close();
+
+		// Once we've loaded the file, set up the *adjacent* indices
+
+		// for all 6 directions, find node that fits criteria
+
+		// Otherwise, reference self
+
+		
+
+		// For each node,
+			// for each cardinal direction,
+			// search for the immediate (direction) node
+			// if found?
+				// reference that index
+			// if not?
+				// reference self
+
+		for (size_t Index = 0; Index < Node_Data.Nodes.size(); Index++)
+		{
+			glm::vec3 Directions[] = 
+			{
+				glm::vec3(1, 0, 0),
+				glm::vec3(0, 1, 0),
+				glm::vec3(0, 0, 1),
+
+				glm::vec3(-1, 0, 0),
+				glm::vec3(0, -1, 0),
+				glm::vec3(0, 0, -1)
+			};
+
+			for (size_t Direction = 0; Direction < 6; Direction++)
+			{
+				size_t Found_Index = Index;
+
+				for (size_t Search_Index = 0; Search_Index < Node_Data.Nodes.size(); Search_Index++)
+					if (Node_Data.Nodes[Search_Index].Position == (Node_Data.Nodes[Index].Position + Directions[Direction] * Node_Data.Size))
+					{
+						Found_Index = Search_Index;
+						break;
+					}
+
+				Node_Data.Nodes[Index].Adjacent_Indices[Direction] = Found_Index;
+			}
+		}
+
+		// Got adjacent indices! Easy
 	}
 }

@@ -15,6 +15,9 @@ namespace Jaguar
 			// 0,1,2 is xyz positive and +3 is negative
 
 		// for now, we'll default the position to (0,0,0)
+
+		size_t Adjacent_Indices[6];
+
 		Lighting_Node() {}
 		Lighting_Node(glm::vec3 Positionp)
 		{
@@ -94,9 +97,12 @@ namespace Jaguar
 	struct Lighting_Node_Data
 	{
 		std::vector<Lighting_Node> Nodes;
+		float Size;					// This is the distance between nodes
 	};
 
-	void Get_Nearest_Lighting_Nodes(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node* Target_Nodes[3]);
+	void Get_Nearest_Lighting_Nodes(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node* Target_Nodes[4]);
+
+	void Get_Nearest_Lighting_Node(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node** Target_Node);
 
 	void Init_Lightmap_Chart(Lightmap_Chart* Target_Chart);
 

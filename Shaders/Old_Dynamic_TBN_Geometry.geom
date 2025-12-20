@@ -7,9 +7,7 @@ uniform vec3 Lighting_Node_Uniform_0[6];			// this will be interpolated accordin
 uniform vec3 Lighting_Node_Uniform_1[6];			// this will be interpolated accordingly
 uniform vec3 Lighting_Node_Uniform_2[6];			// this will be interpolated accordingly
 uniform vec3 Lighting_Node_Uniform_3[6];			// this will be interpolated accordingly
-uniform vec3 Lighting_Node_Position;
-
-uniform vec3 Lighting_Node_Deltas;
+uniform vec3 Lighting_Node_Positions[4];	// these are the positions we'll use to interpolate on a vertex-basis
 
 out vec3 Lighting_Node[6];
 
@@ -31,33 +29,37 @@ in DATA
 
 void Interpolate_Lighting_Nodes(vec3 Sample_Position)
 {
-	vec3 Delta = Sample_Position - Lighting_Node_Position;
+	float Distances[4];
+	float Inverse_Distance = 0;
 
-	Delta *= Lighting_Node_Deltas;	// If -2.0f, then a delta of -0.5f will become a factor of 1 (because we want to use THAT node instead)
+	for(int Index = 0; Index < 4; Index++)
+	{
+		vec3 Delta = Lighting_Node_Positions[Index] - Sample_Position;
+		Distances[Index] = length(Delta);
+		Inverse_Distance += Distances[Index];
+	}
 
-	Delta[0] = clamp(Delta[0], 0, 1);
-	Delta[1] = clamp(Delta[1], 0, 1);
-	Delta[2] = clamp(Delta[2], 0, 1);
+	Inverse_Distance = 0.25f / Inverse_Distance;
 
-	float Factors[4];
+	float A, B, C, D;
 
-	Factors[0] = 1 - Delta[0];
-	Factors[1] = 1 - Delta[2];
-	Factors[2] = Factors[0] * Delta[2];
-	Factors[3] = Delta[0] * Delta[2];
+	A = (Distances[1] + Distances[2] + Distances[3]) * Inverse_Distance;
+	B = (Distances[0] + Distances[2] + Distances[3]) * Inverse_Distance;
+	C = (Distances[1] + Distances[0] + Distances[3]) * Inverse_Distance;
+	D = (Distances[1] + Distances[2] + Distances[0]) * Inverse_Distance;
 
-	Factors[0] *= Factors[1];
-	Factors[1] *= Delta[0];
+	//Lighting_Node = 
+	//	A * Lighting_Node_Uniform_0 + 
+	//	B * Lighting_Node_Uniform_1 +
+	//	C * Lighting_Node_Uniform_2;			// This likely won't work because they're arrays
 
-	// That does all of the factors! Great!
-
-	for(uint Index = 0; Index < 6; Index++) // This gets all 6 faces
+	for(int Index = 0; Index < 6; Index++)
 	{
 		Lighting_Node[Index] = 
-			Factors[0] * Lighting_Node_Uniform_0[Index] +
-			Factors[1] * Lighting_Node_Uniform_1[Index] +
-			Factors[2] * Lighting_Node_Uniform_2[Index] +
-			Factors[3] * Lighting_Node_Uniform_3[Index];
+			A * Lighting_Node_Uniform_0[Index] + 
+			B * Lighting_Node_Uniform_1[Index] + 
+			C * Lighting_Node_Uniform_2[Index] +
+			D * Lighting_Node_Uniform_3[Index];
 	}
 }
 
@@ -85,7 +87,7 @@ void main()
 		Normal = Vertex[W].Normal;
 		Texture_Coordinates = Vertex[W].UV;
 		Texture_Tangent = Tangent;
-		Texture_Bitangent = -cross(Tangent, Normal);
+		Texture_Bitangent = cross(Tangent, Normal);
 
 		Geometry_Normal = Normal;
 

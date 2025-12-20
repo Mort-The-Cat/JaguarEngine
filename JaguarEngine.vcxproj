@@ -574,6 +574,7 @@
     <None Include="Libraries\Include\glm\gtx\vector_angle.inl" />
     <None Include="Libraries\Include\glm\gtx\vector_query.inl" />
     <None Include="Libraries\Include\glm\gtx\wrap.inl" />
+    <None Include="Shaders\Dynamic_TBN_Geometry.geom" />
     <None Include="Shaders\Test_Shader.frag" />
     <None Include="Shaders\Test_Shader.vert" />
   </ItemGroup>

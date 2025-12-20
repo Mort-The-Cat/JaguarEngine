@@ -24,7 +24,7 @@ namespace Jaguar
 		{
 			// This initialises the distances etc and orders them accordingly
 
-			for (size_t W = 0; W < 3; W++)
+			for (size_t W = 0; W < 4; W++)
 			{
 				Shortest_Length[W] = Length;
 				Shortest_Index[W] = 0;
@@ -54,7 +54,33 @@ namespace Jaguar
 		}
 	};
 
-	void Get_Nearest_Lighting_Nodes(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node* Target_Nodes[3])
+	void Get_Nearest_Lighting_Node(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node** Target_Node)
+	{
+		// This just gets closest node
+
+		*Target_Node = &Node_Data->Nodes[0];
+
+		glm::vec3 Delta_Vector = Position - Target_Node[0]->Position;
+
+		float Shortest_Distance = glm::dot(Delta_Vector, Delta_Vector);
+
+		for (size_t Index = 1; Index < Node_Data->Nodes.size(); Index++)
+		{
+			bool Is_Closer = true;
+
+			Delta_Vector = Position - Node_Data->Nodes[Index].Position;
+
+			float Distance = glm::dot(Delta_Vector, Delta_Vector);
+
+			if (Distance < Shortest_Distance)
+			{
+				Shortest_Distance = Distance;
+				*Target_Node = &Node_Data->Nodes[Index];
+			}
+		}
+	}
+
+	void Get_Nearest_Lighting_Nodes(const Lighting_Node_Data* Node_Data, glm::vec3 Position, const Lighting_Node* Target_Nodes[4])
 	{
 		glm::vec3 Vector = Node_Data->Nodes[0].Position - Position;
 
@@ -66,7 +92,7 @@ namespace Jaguar
 			List.Insert_Element(glm::dot(Vector, Vector), Index);
 		}
 
-		for (size_t Index = 0; Index < 3; Index++)
+		for (size_t Index = 0; Index < 4; Index++)
 			Target_Nodes[Index] = &Node_Data->Nodes[List.Shortest_Index[Index]];
 	}
 
