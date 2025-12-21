@@ -7,6 +7,11 @@ uniform vec3 Lighting_Node_Uniform_0[6];			// this will be interpolated accordin
 uniform vec3 Lighting_Node_Uniform_1[6];			// this will be interpolated accordingly
 uniform vec3 Lighting_Node_Uniform_2[6];			// this will be interpolated accordingly
 uniform vec3 Lighting_Node_Uniform_3[6];			// this will be interpolated accordingly
+uniform vec3 Lighting_Node_Uniform_4[6];			// this will be interpolated accordingly
+uniform vec3 Lighting_Node_Uniform_5[6];			// this will be interpolated accordingly
+uniform vec3 Lighting_Node_Uniform_6[6];			// this will be interpolated accordingly
+uniform vec3 Lighting_Node_Uniform_7[6];			// this will be interpolated accordingly
+
 uniform vec3 Lighting_Node_Position;
 
 uniform vec3 Lighting_Node_Deltas;
@@ -39,7 +44,7 @@ void Interpolate_Lighting_Nodes(vec3 Sample_Position)
 	Delta[1] = clamp(Delta[1], 0, 1);
 	Delta[2] = clamp(Delta[2], 0, 1);
 
-	float Factors[4];
+	float Factors[8];
 
 	Factors[0] = 1 - Delta[0];
 	Factors[1] = 1 - Delta[2];
@@ -49,6 +54,18 @@ void Interpolate_Lighting_Nodes(vec3 Sample_Position)
 	Factors[0] *= Factors[1];
 	Factors[1] *= Delta[0];
 
+	Factors[4] = Delta[1] * Factors[0];
+	Factors[5] = Delta[1] * Factors[1];
+	Factors[6] = Delta[1] * Factors[2];
+	Factors[7] = Delta[1] * Factors[3];
+
+	Delta[1] = 1 - Delta[1];
+
+	Factors[0] *= Delta[1];
+	Factors[1] *= Delta[1];
+	Factors[2] *= Delta[1];
+	Factors[3] *= Delta[1];
+
 	// That does all of the factors! Great!
 
 	for(uint Index = 0; Index < 6; Index++) // This gets all 6 faces
@@ -57,7 +74,12 @@ void Interpolate_Lighting_Nodes(vec3 Sample_Position)
 			Factors[0] * Lighting_Node_Uniform_0[Index] +
 			Factors[1] * Lighting_Node_Uniform_1[Index] +
 			Factors[2] * Lighting_Node_Uniform_2[Index] +
-			Factors[3] * Lighting_Node_Uniform_3[Index];
+			Factors[3] * Lighting_Node_Uniform_3[Index] +
+			
+			Factors[4] * Lighting_Node_Uniform_4[Index] +
+			Factors[5] * Lighting_Node_Uniform_5[Index] +
+			Factors[6] * Lighting_Node_Uniform_6[Index] + 
+			Factors[7] * Lighting_Node_Uniform_7[Index];
 	}
 }
 

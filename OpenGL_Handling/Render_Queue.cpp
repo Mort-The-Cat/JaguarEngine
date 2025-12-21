@@ -102,7 +102,7 @@ namespace Jaguar
 
 		//
 
-		const Lighting_Node* Node[4];
+		const Lighting_Node* Node[8];
 		Get_Nearest_Lighting_Node(&Scene->Lighting.Lighting_Nodes, Object->Position, Node);
 
 		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_0"), 6, glm::value_ptr(Node[0]->Illumination[0]));
@@ -115,11 +115,17 @@ namespace Jaguar
 		Node[2] = &Scene->Lighting.Lighting_Nodes.Nodes[Node[0]->Adjacent_Indices[Delta[2] > 0 ? 2 : 5]]; // get forward or get back
 		Node[3] = &Scene->Lighting.Lighting_Nodes.Nodes[Node[1]->Adjacent_Indices[Delta[2] > 0 ? 2 : 5]]; // from left/right node, get forward or back
 
+		Node[4] = &Scene->Lighting.Lighting_Nodes.Nodes[Node[0]->Adjacent_Indices[Delta[1] > 0 ? 1 : 4]]; // get up/down
+		Node[5] = &Scene->Lighting.Lighting_Nodes.Nodes[Node[1]->Adjacent_Indices[Delta[1] > 0 ? 1 : 4]]; // get up/down
+		Node[6] = &Scene->Lighting.Lighting_Nodes.Nodes[Node[2]->Adjacent_Indices[Delta[1] > 0 ? 1 : 4]]; // get up/down
+		Node[7] = &Scene->Lighting.Lighting_Nodes.Nodes[Node[3]->Adjacent_Indices[Delta[1] > 0 ? 1 : 4]]; // get up/down
+
 		// Then just do the same for all other nodes but do up/down instead!
 
-		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_1"), 6, glm::value_ptr(Node[1]->Illumination[0]));
-		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_2"), 6, glm::value_ptr(Node[2]->Illumination[0]));
-		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_3"), 6, glm::value_ptr(Node[3]->Illumination[0]));
+		for(size_t Index = 1; Index < 8; Index++)
+			glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, ("Lighting_Node_Uniform_" + std::to_string(Index)).c_str()), 6, glm::value_ptr(Node[Index]->Illumination[0]));
+		//glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_2"), 6, glm::value_ptr(Node[2]->Illumination[0]));
+		//glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Uniform_3"), 6, glm::value_ptr(Node[3]->Illumination[0]));
 
 		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Lighting_Node_Position"), Node[0]->Position.x, Node[0]->Position.y, Node[0]->Position.z);
 		
