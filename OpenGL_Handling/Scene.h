@@ -7,6 +7,8 @@
 
 #include "../Controllers/Lightmapping.h"
 
+#include "../Controllers/Cubemap_Reflection_Generation.h"
+
 namespace Jaguar
 {
 	struct Jaguar_Engine;
@@ -66,6 +68,8 @@ namespace Jaguar
 		Texture Lightmap_Texture;
 #endif
 
+		Cubemap Environment_Map;
+
 		Lighting_Node_Data Lighting_Nodes;
 
 		float Inverse_Lightmap_Scale;
@@ -82,6 +86,7 @@ namespace Jaguar
 		Lighting_Data Lighting;
 
 		glm::mat4 Camera_Projection_Matrix;
+		glm::vec3 Camera_Position;
 	};
 
 	void Handle_Scene_Deletions(Scene_Data* Target_Scene);

@@ -5,6 +5,10 @@ out vec4 Out_Colour;
 uniform sampler2D Albedo_Texture;
 uniform sampler2D Normal_Texture;
 
+uniform samplerCube Environment_Cubemap;
+
+uniform vec3 Camera_Position;
+
 //uniform vec3 Lighting_Node[6][3];	// Illumination for each cardinal direction of the lighting node
 // (we can apply fancy interpolation to this later)
 
@@ -19,6 +23,11 @@ in vec3 Texture_Tangent;		// Tangent, based on texture space
 in vec3 Texture_Bitangent;		// Bitangent, based on texture space
 
 vec3 Final_Normal;
+
+float square(float value)
+{
+	return value * value;
+}
 
 void Get_Final_Normal()
 {
@@ -52,9 +61,27 @@ void main()
 
 	vec3 Illumination = Lighting();
 
+	vec3 Camera_To_Pixel = normalize(Position - Camera_Position);
+
+	vec3 Reflection = texture(
+						Environment_Cubemap, 
+						reflect(
+							Camera_To_Pixel,
+							Final_Normal
+						)
+					).xyz;
+
+	Reflection *= sqrt(1 - square(dot(Camera_To_Pixel, Final_Normal))) * 0.1f;					
+	//  * 0.6f;
+
 	Out_Colour = vec4(
-		texture(Albedo_Texture, Texture_Coordinates).rgb * Illumination,
+		texture(Albedo_Texture, Texture_Coordinates).rgb * Illumination
+		+ Reflection,
 	1);
+
+	//Out_Colour = vec4(
+	//				Reflection,
+	//			1);
 
 	//vec4(Normal * 0.5 + 0.5, 1);
 }

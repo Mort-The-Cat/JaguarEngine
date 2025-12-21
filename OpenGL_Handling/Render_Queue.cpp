@@ -34,11 +34,21 @@ namespace Jaguar
 	void Default_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene)
 	{
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));
+	
+		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Camera_Position"), Scene->Camera_Position.x, Scene->Camera_Position.y, Scene->Camera_Position.z);
+
+		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Environment_Cubemap"), 5);
+		//glActiveTexture(GL_TEXTURE_CUBEMAP0 + 0);
+		// glActiveTexture()
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Scene->Lighting.Environment_Map.Cubemap_Texture);
 	}
 
 	void Lightmapped_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene)
 	{
-		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));
+		Default_Shader_Init_Function(Target_Shader, Scene);
+
+		//glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));
 
 		glUniform1f(glGetUniformLocation(Target_Shader->Program_ID, "Inverse_Lightmap_Size"), Scene->Lighting.Inverse_Lightmap_Scale);
 

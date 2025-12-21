@@ -112,6 +112,8 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 			Engine->Pipeline.Render_Queues[1].Objects.back()->Position = Player_Position - glm::vec3(0, 0.3, 0) + glm::vec3(0.5f) * Get_Direction_Vector(Camera_X_Direction + 0.25f);
 			Engine->Pipeline.Render_Queues[1].Objects.back()->Orientation = Get_Direction_Vector(Camera_X_Direction);
 
+			// printf("Position: %f %f %f\n", Player_Position.x, Player_Position.y, Player_Position.z);
+
 			// This code right now is fairly awful but it's just a test obviously
 		}
 
@@ -162,6 +164,8 @@ void Test_Engine_Loop(Jaguar::Jaguar_Engine* Engine)
 
 		Engine->Scene.Camera_Projection_Matrix = glm::perspective(glm::radians(85.0f), 1.0f, 0.01f, 100.0f) // Sets nice camera projection matrix
 			* View_Matrix;
+
+		Engine->Scene.Camera_Position = Player_Position;
 
 		Jaguar::Handle_Scene_Controllers(Engine);
 
@@ -257,6 +261,11 @@ void Run_Scene(Jaguar::Jaguar_Engine* Engine)
 		Jaguar::Get_Lightmap3_From_File((Lightmap_Directory + ".lux").c_str(), &Engine->Scene.Lighting);
 
 		Jaguar::Get_Lighting_Nodes_From_File((Lightmap_Directory + ".ln").c_str(), Engine->Scene.Lighting.Lighting_Nodes);
+
+		Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(0.0f, 0.8f, 0.0f);
+			//glm::vec3(-0.006598f, 1.049228f, 3.835901f);
+
+		Jaguar::Generate_Cubemap(Engine, &Engine->Scene.Lighting.Environment_Map);
 
 		// Place_Lighting_Node_Visuals(Engine, Lighting_Node_Shader);
 

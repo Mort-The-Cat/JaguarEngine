@@ -47,6 +47,8 @@ namespace Collada
 		std::vector<glm::mat4> Bind_Poses_Array;
 		std::vector<glm::vec1> Weights;
 
+		//
+
 		const std::vector<XML_Document> Skins = Document["COLLADA"].back()["library_controllers"].back()["controller"].back()["skin"];
 
 		for (const auto& Skin : Skins) // Iterates through skins

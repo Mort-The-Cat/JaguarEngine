@@ -35,6 +35,14 @@ namespace Jaguar
 			Skeleton = Skeletonp;
 		}
 
+		Animator_Controller(World_Object* Objectp)
+		{
+			Object = Objectp;
+
+			for (size_t Index = 0; Index < JOINT_BUFFER_COUNT; Index++)
+				Joint_Buffer[Index] = glm::mat4(1.0f);
+		}
+
 		void Control_Function(Jaguar_Engine* Engine) override;
 	};
 }
