@@ -31,17 +31,31 @@ namespace Jaguar
 		return &Target_Pipeline->Render_Queues[Target_Pipeline->Queue_Table.at(Target_Shader->Program_ID)];
 	}
 
+	void Shader_Parse_Environment_Map(const Shader* Target_Shader, const Scene_Data* Scene)
+	{
+		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Environment_Cubemap"), 5);
+		//glActiveTexture(GL_TEXTURE_CUBEMAP0 + 0);
+		// glActiveTexture()
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Scene->Lighting.Environment_Map.Cubemap_Texture);
+
+		// we also need to parse the bounds of the cubemap
+
+		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Cubemap_Origin"), 
+			Scene->Lighting.Environment_Map.Origin.x, 
+			Scene->Lighting.Environment_Map.Origin.y, 
+			Scene->Lighting.Environment_Map.Origin.z);
+
+		glUniform3fv(glGetUniformLocation(Target_Shader->Program_ID, "Cubemap_AABB"), 2, glm::value_ptr(Scene->Lighting.Environment_Map.A));
+	}
+
 	void Default_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene)
 	{
 		glUniformMatrix4fv(glGetUniformLocation(Target_Shader->Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Scene->Camera_Projection_Matrix));
 	
 		glUniform3f(glGetUniformLocation(Target_Shader->Program_ID, "Camera_Position"), Scene->Camera_Position.x, Scene->Camera_Position.y, Scene->Camera_Position.z);
 
-		glUniform1i(glGetUniformLocation(Target_Shader->Program_ID, "Environment_Cubemap"), 5);
-		//glActiveTexture(GL_TEXTURE_CUBEMAP0 + 0);
-		// glActiveTexture()
-		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, Scene->Lighting.Environment_Map.Cubemap_Texture);
+		Shader_Parse_Environment_Map(Target_Shader, Scene);
 	}
 
 	void Lightmapped_Shader_Init_Function(const Shader* Target_Shader, const Scene_Data* Scene)

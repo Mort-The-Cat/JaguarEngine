@@ -82,6 +82,14 @@ void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader
 {
 	Jaguar::World_Object* Object;
 
+	//Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(0.0f, 0.338f, -3.7411f);
+	Engine->Scene.Lighting.Environment_Map.A = glm::vec3(-1.207f, -1.00f, -4.832f);
+	Engine->Scene.Lighting.Environment_Map.B = glm::vec3(1.02f, 1.067f, 1.0017f);
+
+	Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(0.5f) * (Engine->Scene.Lighting.Environment_Map.A + Engine->Scene.Lighting.Environment_Map.B);
+
+	// Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(-0.170224, 0.023105, -3.891045);
+
 	Object = new Jaguar::World_Object();
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Nice_Cornell_Box.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
@@ -98,6 +106,10 @@ void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader
 void Setup_New_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader, Jaguar::Shader Test_Skeletal_Animation_Shader)
 {
 	Jaguar::World_Object* Object;
+
+	Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(0.0f, 0.8f, 0.0f);
+	Engine->Scene.Lighting.Environment_Map.A = glm::vec3(-2.76f, -0.02f, -2.774f);
+	Engine->Scene.Lighting.Environment_Map.B = glm::vec3(2.76f, 5.53f, 2.7339f);
 
 	Object = new Jaguar::World_Object();
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
@@ -119,7 +131,7 @@ void Setup_New_Test_Level(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Sha
 	Jaguar::Create_World_Object(Engine, Object, &Test_Shader,
 		Jaguar::Pull_Mesh(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Models/Test_Level/Tiles.dae", LOAD_MESH_HINT_LIGHTMAP_STATIC).Buffer,
 		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles.png").Texture,
-		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Floor_Tiles_Normal.png").Texture,	// Normal map
+		Jaguar::Pull_Texture(&Engine->Asset_Cache, "Test_Game_Loop/Assets/Textures/Default_Normal.png").Texture,	// Normal map
 		nullptr
 	);
 

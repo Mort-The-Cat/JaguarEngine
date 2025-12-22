@@ -6,6 +6,8 @@ uniform sampler2D Albedo_Texture;
 uniform sampler2D Normal_Texture;
 
 uniform samplerCube Environment_Cubemap;
+uniform vec3 Cubemap_Origin;
+uniform vec3 Cubemap_AABB[2];	// 0 is A, 1 is B
 
 uniform vec3 Camera_Position;
 
@@ -23,6 +25,26 @@ in vec3 Texture_Tangent;		// Tangent, based on texture space
 in vec3 Texture_Bitangent;		// Bitangent, based on texture space
 
 vec3 Final_Normal;
+
+vec3 Parallax_Corrected_Reflection_Vector(vec3 Reflection_Vector)
+{
+	vec3 Side;
+
+	vec3 Lambdas;
+
+	for(uint Face = 0; Face < 3; Face++)
+		Side[Face] = Cubemap_AABB[ int(Reflection_Vector[Face] > 0.0f) ][Face];
+
+	Lambdas.x = (Side.x - Position.x) / Reflection_Vector.x;
+	Lambdas.y = (Side.y - Position.y) / Reflection_Vector.y;
+	Lambdas.z = (Side.z - Position.z) / Reflection_Vector.z;
+
+	float L = min(min(Lambdas.x, Lambdas.y), Lambdas.z); // If we get a negative value, it's because we're outside the cube... That's okay it'll just be an erroneous value
+
+	vec3 Intersection_Vector = Reflection_Vector * L + Position - Cubemap_Origin;
+
+	return Intersection_Vector / abs(Side - Cubemap_Origin);
+}
 
 float square(float value)
 {
@@ -63,15 +85,20 @@ void main()
 
 	vec3 Camera_To_Pixel = normalize(Position - Camera_Position);
 
+	vec3 Reflection_Vector = Parallax_Corrected_Reflection_Vector(
+		reflect(
+			Camera_To_Pixel,
+			Final_Normal
+		)
+	);
+
 	vec3 Reflection = texture(
 						Environment_Cubemap, 
-						reflect(
-							Camera_To_Pixel,
-							Final_Normal
-						)
+						Reflection_Vector
 					).xyz;
 
-	Reflection *= sqrt(1 - square(dot(Camera_To_Pixel, Final_Normal))) * 0.1f;					
+	Reflection *= sqrt(1 - square(dot(Camera_To_Pixel, Final_Normal))) * 0.2f;
+	
 	//  * 0.6f;
 
 	Out_Colour = vec4(
