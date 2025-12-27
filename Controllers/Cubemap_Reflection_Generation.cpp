@@ -29,11 +29,33 @@ namespace Jaguar
 
 		float Z_Delta;
 
+		if (Direction.z == 1.0f)
+		{
+			X_Length *= -1.0f;
+			X_Delta *= -1.0f;
+
+			Y_Length *= -1.0f;
+			Y_Delta *= -1.0f;
+		}
+		else if (Direction.z == -1.0f)
+		{
+			X_Length *= -1.0f;
+			X_Delta *= -1.0f;
+		}
+		else if (Direction.x == 1.0f)
+		{
+			Y_Length *= -1.0f;
+			Y_Delta *= -1.0f;
+		}
+
 		if (glm::dot(glm::vec3(1), Direction) < 0) // Some kind of negative direction?
 		{
 			// Use A
 
 			Z_Delta = glm::dot(Target_Cubemap->Origin - Target_Cubemap->A, Direction);
+
+			//X_Delta *= -1.0f;
+			//Y_Delta *= -1.0f;
 		}
 		else
 		{
@@ -62,10 +84,10 @@ namespace Jaguar
 
 		glm::mat4 Final_P =
 			glm::mat4(
-				-2.0f * Z_Delta / X_Length,		0,							0,					0,
-				0,								2.0f * Z_Delta / Y_Length,	0,					0,
-				2.0f * X_Delta / X_Length,		-2.0f * Y_Delta / Y_Length,	-(Far + Near) / (Far - Near),		-1.0f,
-				0,								0,							-2 * Far * Near / (Far - Near),		0
+				-2.0f * Z_Delta / X_Length,			0,								0,					0,
+				0,									2.0f * Z_Delta / Y_Length,		0,					0,
+				-2.0f * X_Delta / X_Length,			-2.0f * Y_Delta / Y_Length,		-(Far + Near) / (Far - Near),		-1.0f,
+				0,									0,								-2 * Far * Near / (Far - Near),		0
 			);
 			
 			
@@ -158,14 +180,14 @@ namespace Jaguar
 
 			const glm::vec3 Up_Vectors[6] =
 			{
-				glm::vec3(0, 1, 0),
 				glm::vec3(0, -1, 0),
+				glm::vec3(0, 1, 0),
 
-				glm::vec3(0, 0, 1),
+				glm::vec3(0, 0, -1),
 				glm::vec3(0, 0, -1),
 
-				glm::vec3(0, 1, 0),
-				glm::vec3(0, -1, 0)
+				glm::vec3(0, -1, 0),
+				glm::vec3(0, 1, 0)
 			};
 
 			//
@@ -181,7 +203,7 @@ namespace Jaguar
 
 			Engine->Scene.Camera_Projection_Matrix =
 				Engine->Scene.Camera_Projection_Matrix *
-				glm::lookAt(Target_Cubemap->Origin, Target_Cubemap->Origin + Directions[Face], -glm::abs(Up_Vectors[Face]));
+				glm::lookAt(Target_Cubemap->Origin, Target_Cubemap->Origin + Directions[Face], (Up_Vectors[Face]));
 
 			Draw_Render_Pipeline(&Engine->Pipeline, &Engine->Scene);
 

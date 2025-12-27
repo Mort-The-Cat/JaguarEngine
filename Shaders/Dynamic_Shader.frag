@@ -41,9 +41,23 @@ vec3 Parallax_Corrected_Reflection_Vector(vec3 Reflection_Vector)
 
 	float L = min(min(Lambdas.x, Lambdas.y), Lambdas.z); // If we get a negative value, it's because we're outside the cube... That's okay it'll just be an erroneous value
 
-	vec3 Intersection_Vector = Reflection_Vector * L + Position - Cubemap_Origin;
+	if(L < 0.0f)
+	{
+		return Reflection_Vector;
+	}
 
-	return Intersection_Vector / abs(Side - Cubemap_Origin);
+	vec3 Origin;// = Cubemap_AABB[0] + Cubemap_AABB[1];
+
+	//Origin *= 0.5f;
+
+	Origin = Cubemap_Origin;
+
+	vec3 Intersection_Vector = Reflection_Vector * L + Position - Origin;
+
+	for(uint Face = 0; Face < 3; Face++)
+		Side[Face] = Cubemap_AABB[ int(Intersection_Vector[Face] > 0.0f) ][Face];
+
+	return Intersection_Vector / abs(Side - Origin);
 }
 
 float square(float value)
