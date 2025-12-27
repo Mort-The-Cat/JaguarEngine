@@ -88,6 +88,8 @@ void Setup_Cornell_Box(Jaguar::Jaguar_Engine* Engine, Jaguar::Shader Test_Shader
 
 	Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(0.5f) * (Engine->Scene.Lighting.Environment_Map.A + Engine->Scene.Lighting.Environment_Map.B);
 
+	Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(0.016530f, 0.519270f, -2.537436f);
+
 	// Engine->Scene.Lighting.Environment_Map.Origin = glm::vec3(-0.170224, 0.023105, -3.891045);
 
 	Object = new Jaguar::World_Object();

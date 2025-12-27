@@ -46,7 +46,9 @@ namespace Collada
 				//Cumulative_Time += Times[V].x;
 				Keyframe.Time = Times[V].x;// Cumulative_Time;
 				Keyframe.Transformation_Matrix = Transformations[V];
-				Target_Animation->Keyframes[Index].push_back(Keyframe);
+
+				if(Index < Target_Animation->Keyframes.size())
+					Target_Animation->Keyframes[Index].push_back(Keyframe);
 			}
 		}
 
@@ -58,7 +60,7 @@ namespace Collada
 
 				Collada::Collada_Keyframe Keyframe;
 				Keyframe.Time = 0.0f;
-				Keyframe.Transformation_Matrix = Joint_Matrix_Buffer[W];
+				Keyframe.Transformation_Matrix = Joint_Matrix_Buffer[W]; //glm::inverse(Joint_Matrix_Buffer[W]);
 				Target_Animation->Keyframes[W].push_back(Keyframe);
 			}
 		}

@@ -4,7 +4,84 @@
 
 namespace Jaguar
 {
+	glm::mat4 Get_Perspective_Matrix(Jaguar::Cubemap* Target_Cubemap, glm::vec3 Direction, glm::vec3 Up_Vector)
+	{
+		// Get left/right difference and get up/down difference in cubemap AABB
 
+		// Then, get forward distance to edge of cubemap
+
+		float Near = 0.0001f, Far = 100.0f;
+
+		glm::mat4 Perspective_Test = glm::mat4(1.0f); // glm::perspective(glm::radians(90.0f), 1.0f, 0.0f, 100.0f);
+
+		glm::vec3 Right_Vector = glm::cross(Direction, Up_Vector);
+
+		float X_Length = glm::dot(Target_Cubemap->B - Target_Cubemap->A, Right_Vector);
+		float X_Delta = glm::dot((Target_Cubemap->B + Target_Cubemap->A) * glm::vec3(0.5f)
+			- Target_Cubemap->Origin
+			, Right_Vector);
+
+		float Y_Length = glm::dot(Target_Cubemap->B - Target_Cubemap->A, Up_Vector);
+		float Y_Delta = glm::dot((Target_Cubemap->B + Target_Cubemap->A) * glm::vec3(0.5f) 
+			- Target_Cubemap->Origin
+			, Up_Vector);
+
+
+		float Z_Delta;
+
+		if (glm::dot(glm::vec3(1), Direction) < 0) // Some kind of negative direction?
+		{
+			// Use A
+
+			Z_Delta = glm::dot(Target_Cubemap->Origin - Target_Cubemap->A, Direction);
+		}
+		else
+		{
+			// Use B
+
+			Z_Delta = glm::dot(Target_Cubemap->B - Target_Cubemap->Origin, Direction);
+		}
+
+		//Z_Delta = glm::dot(Target_Cubemap->Origin - Target_Cubemap->A, Direction);
+
+		//if(Z_Delta < 0.0f)
+		//	Z_Delta = glm::dot(Target_Cubemap->B - Target_Cubemap->Origin, Direction);
+
+		//
+
+		float X_Skew = X_Delta / Z_Delta;
+		float Y_Skew = Y_Delta / Z_Delta;
+
+		//float X_Factor = Z_Delta / X_Length;
+		//float Y_Factor = Z_Delta / Y_Length;
+
+		//X_Skew *= X_Factor;
+		//Y_Skew *= Y_Factor;
+
+		glm::mat4 Test_P = glm::perspective(glm::radians(90.0f), 1.0f, 0.001f, 100.0f);
+
+		glm::mat4 Final_P =
+			glm::mat4(
+				-2.0f * Z_Delta / X_Length,		0,							0,					0,
+				0,								2.0f * Z_Delta / Y_Length,	0,					0,
+				2.0f * X_Delta / X_Length,		-2.0f * Y_Delta / Y_Length,	-(Far + Near) / (Far - Near),		-1.0f,
+				0,								0,							-2 * Far * Near / (Far - Near),		0
+			);
+			
+			
+			/*=
+			glm::mat4(
+				2.0f * Z_Delta / X_Length, 0, 2.0f * X_Delta / X_Length, 0,
+				0, 2.0f * Z_Delta / Y_Length, 2.0f * Y_Delta / Y_Length, 0,
+				0, 0, -(Far + Near) / (Far - Near), -2 * Far * Near / (Far - Near),
+				0, 0, -1.0f, 0
+
+			);*/
+
+		return Final_P;
+
+		//return glm::perspective(glm::radians(90.0f), 1.0f, 0.0001f, 100.0f);
+	}
 
 	void Generate_Cubemap(Jaguar::Jaguar_Engine* Engine, Cubemap* Target_Cubemap, unsigned int Width, unsigned Height)
 	{
@@ -36,30 +113,6 @@ namespace Jaguar
 			glTexParameteri(GL_TEXTURE_CUBE_MAP_POSITIVE_X + Face, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		}
 
-		glm::vec3 Directions[6] =
-		{
-			glm::vec3(1, 0, 0),
-			glm::vec3(-1, 0, 0),
-
-			glm::vec3(0, 1, 0),
-			glm::vec3(0, -1, 0),
-
-			glm::vec3(0, 0, 1),
-			glm::vec3(0, 0, -1)
-		};
-
-		glm::vec3 Up_Vectors[6] =
-		{
-			glm::vec3(0, -1, 0),
-			glm::vec3(0, -1, 0),
-
-			glm::vec3(0, 0, 1),
-			glm::vec3(0, 0, -1),
-
-			glm::vec3(0, -1, 0),
-			glm::vec3(0, -1, 0)
-		};
-
 		//
 
 		glViewport(0, 0, Width, Height);
@@ -67,9 +120,9 @@ namespace Jaguar
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
-		glEnable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
-		glFrontFace(GL_CCW);
+		glFrontFace(GL_CW);
 
 		//
 
@@ -91,11 +144,44 @@ namespace Jaguar
 			glClearColor(0.3, 0.3, 0.2, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			const glm::vec3 Directions[6] =
+			{
+				glm::vec3(1, 0, 0),
+				glm::vec3(-1, 0, 0),
+
+				glm::vec3(0, 1, 0),
+				glm::vec3(0, -1, 0),
+
+				glm::vec3(0, 0, 1),
+				glm::vec3(0, 0, -1)
+			};
+
+			const glm::vec3 Up_Vectors[6] =
+			{
+				glm::vec3(0, 1, 0),
+				glm::vec3(0, -1, 0),
+
+				glm::vec3(0, 0, 1),
+				glm::vec3(0, 0, -1),
+
+				glm::vec3(0, 1, 0),
+				glm::vec3(0, -1, 0)
+			};
+
 			//
 
-			Engine->Scene.Camera_Projection_Matrix = 
-				glm::perspective(glm::radians(90.0f), 1.0f, 0.0001f, 100.0f) * 
-				glm::lookAt(Target_Cubemap->Origin, Target_Cubemap->Origin + Directions[Face], Up_Vectors[Face]);
+			//Engine->Scene.Camera_Projection_Matrix =
+			//	glm::perspective(glm::radians(90.0f), 1.0f, 0.0001f, 100.0f);
+
+			// Get FOV for y and x
+
+			Engine->Scene.Camera_Projection_Matrix = Get_Perspective_Matrix(Target_Cubemap, Directions[Face], Up_Vectors[Face]);
+
+			// 
+
+			Engine->Scene.Camera_Projection_Matrix =
+				Engine->Scene.Camera_Projection_Matrix *
+				glm::lookAt(Target_Cubemap->Origin, Target_Cubemap->Origin + Directions[Face], -glm::abs(Up_Vectors[Face]));
 
 			Draw_Render_Pipeline(&Engine->Pipeline, &Engine->Scene);
 
