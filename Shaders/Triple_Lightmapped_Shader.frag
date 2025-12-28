@@ -58,16 +58,19 @@ vec3 Parallax_Corrected_Reflection_Vector(vec3 Reflection_Vector)
 		return Reflection_Vector;
 	}
 
-	vec3 Origin;// = Cubemap_AABB[0] + Cubemap_AABB[1];
+	vec3 Origin = Cubemap_AABB[0] + Cubemap_AABB[1];
 
-	//Origin *= 0.5f;
+	Origin *= 0.5f;
 
-	Origin = Cubemap_Origin;
+	//Origin = Cubemap_Origin;
 
 	vec3 Intersection_Vector = Reflection_Vector * L + Position - Origin;
 
 	for(uint Face = 0; Face < 3; Face++)
 		Side[Face] = Cubemap_AABB[ int(Intersection_Vector[Face] > 0.0f) ][Face];
+
+	//Origin = Cubemap_AABB[0] + Cubemap_AABB[1];
+	//Origin *= 0.5f;
 
 	return Intersection_Vector / abs(Side - Origin);
 }
@@ -107,7 +110,7 @@ void main()
 						Reflection_Vector
 					).xyz;
 
-	Reflection *= sqrt(1 - square(dot(Camera_To_Pixel, Final_Normal))) * 1.2f;
+	Reflection *= sqrt(1 - square(dot(Camera_To_Pixel, Final_Normal))) * 0.2f;
 
 	Out_Colour = 
 				vec4(
