@@ -1,6 +1,0 @@
-#ifndef JAGUAR_ENGINE_WRAPPER
-#define JAGUAR_ENGINE_WRAPPER
-
-
-
-#endif

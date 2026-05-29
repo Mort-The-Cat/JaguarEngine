@@ -18,9 +18,24 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\JaguarEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JaguarEngine\Libraries\Include\glad\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="JaguarEngine\JaguarEngine.h">
+    <ClInclude Include="JaguarEngine\JaguarEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\Scene\World_Object_Declarations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\JSON_IO\JSON_Declarations.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
