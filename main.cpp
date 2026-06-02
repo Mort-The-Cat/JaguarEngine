@@ -18,6 +18,10 @@ int main()
 		return 1;
 	}
 
+	JSON::JSON_Object Object;
+
+	JSON::Read_JSON_Object(&Object, Jaguar::Load_File_Contents("JaguarEngine/JSON_IO/cube.gltf").c_str());
+
 	while (!glfwWindowShouldClose(Engine.Window_Info.Window))
 	{
 		glfwPollEvents();

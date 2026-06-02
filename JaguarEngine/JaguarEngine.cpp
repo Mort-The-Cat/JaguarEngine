@@ -1,7 +1,37 @@
 #include "JaguarEngine.hpp"
 
+#include<fstream>
+
 namespace Jaguar
 {
+	std::string Load_File_Contents(const char* Filename)
+	{
+		std::ifstream File(Filename); // Start at end of file
+
+		if (!File.is_open())
+		{
+			printf(" >> Fatal error! Unable to load file contents: %s\n", Filename);
+
+			return ""; // nothing to return...
+		}
+
+		// Otherwise, we can continue
+
+		File.seekg(0, std::ios::end);
+
+		std::string Contents;
+		size_t Size = File.tellg();
+
+		File.seekg(0, std::ios::beg);
+
+		Contents.resize(Size); // Fits buffer
+
+		File.read((char*)Contents.data(), Size);
+
+		File.close();
+
+		return Contents;
+	}
 
 	int Init_Jaguar(JaguarEngine* Engine)
 	{
