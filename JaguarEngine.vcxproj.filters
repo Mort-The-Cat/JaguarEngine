@@ -41,5 +41,8 @@
     <ClInclude Include="JaguarEngine\JSON_IO\JSON_Declarations.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

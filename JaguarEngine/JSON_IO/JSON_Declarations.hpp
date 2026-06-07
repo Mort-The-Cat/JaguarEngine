@@ -8,9 +8,16 @@
 //#include<memory>
 #include<string>
 
+#include<cassert>
+
 namespace JSON
 {
 	struct Value;
+
+	struct JSON_Reader	// This is a wrapper for a JSON file that can be used for including accessors, bufferviews, buffers, etc (as defined in .gltf files)
+	{
+
+	};
 
 	struct JSON_Object
 	{
@@ -21,6 +28,8 @@ namespace JSON
 			return Fields[Key];
 		}
 	};
+
+	//
 
 	struct Value
 	{
@@ -50,7 +59,20 @@ namespace JSON
 
 		Value& operator[](size_t Index)
 		{
+#if DEBUG
+			assert(Flag == Type::T_Array);
+#endif
+
 			return Array.at(Index);
+		}
+
+		Value& operator[](std::string Key)
+		{
+#if DEBUG
+			assert(Flag == Type::T_Object);
+#endif
+
+			return Object[Key];
 		}
 	};
 

@@ -4,7 +4,7 @@
 //
 
 #ifndef DEBUG
-	#define DEBUG 1
+	#define DEBUG 0
 #endif
 
 //
@@ -16,6 +16,7 @@
 
 namespace Jaguar
 {
+	std::string Load_File_Contents(const char* Filename);
 
 	struct JaguarEngine
 	{
