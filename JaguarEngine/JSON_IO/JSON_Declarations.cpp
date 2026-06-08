@@ -1,4 +1,5 @@
 #include "JSON_Declarations.hpp"
+#include "../JaguarEngine.hpp"
 
 namespace JSON
 {
@@ -136,23 +137,55 @@ namespace JSON
 
 	//
 
-	int Read_JSON_Object(JSON_Object* Target_Object, const char* String)
+	int Load_JSON_Object(JSON_Object* Target_Object, const char* Filename)
 	{
-		if (!String)
+		if (!Filename)
 		{
-			printf("Bad string!");
+			printf(" >> Bad directory!\n");
 			return 1;
 		}
+
+		std::vector<char> String = Jaguar::Load_File_Contents(Filename);
+
+		//if (!String)
+		//{
+		//	printf("Bad string!");
+		//	return 1;
+		//}
 
 		size_t Index = 0;
 
 		Value Read_Value;
 		
-		Index = IO::Scan_JSON_Objects(String, &Read_Value);
+		Index = IO::Scan_JSON_Objects(String.data(), &Read_Value);
 
 		*Target_Object = std::move(Read_Value.Object);
+
+		Target_Object->Fields[JSON_Object_Filename].String = Filename;
+		Target_Object->Fields[JSON_Object_Filename].Flag = Value::Type::T_String;
 
 		return 0;
 	}
 
+	int Load_JSON_Reader_Buffers(JSON_Reader* Target_Reader, const char* Buffers)
+	{
+		std::string Parent_Directory = Target_Reader->Object[JSON_Object_Filename].String;
+
+		size_t Index = Parent_Directory.find_last_of("/");
+		Parent_Directory = Parent_Directory.substr(0, Index == std::string::npos ? 0 : Index + 1);	// Crude solution to get the parent 'local' directory of the .json file
+
+		if (!Target_Reader->Object.Fields.count(Buffers))
+		{
+			printf(" >> No buffers on JSON reader");
+			return 0;
+		}
+
+		for (Index = 0; Index < Target_Reader->Object[Buffers].Array.size(); Index++)
+		{
+			std::string URI = Parent_Directory + Target_Reader->Object[Buffers][Index]["uri"].String;
+			Target_Reader->Buffer.push_back(Jaguar::Load_File_Contents(URI.c_str()));					// This loads the binary and adds it to the list of buffers
+		}
+
+		return 0;
+	}
 }

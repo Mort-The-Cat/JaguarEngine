@@ -16,7 +16,7 @@
 
 namespace Jaguar
 {
-	std::string Load_File_Contents(const char* Filename);
+
 
 	struct JaguarEngine
 	{
@@ -31,7 +31,7 @@ namespace Jaguar
 
 	void End_Jaguar(JaguarEngine* Engine);
 
-	std::string Load_File_Contents(const char* Filename);
+	std::vector<char> Load_File_Contents(const char* Filename);
 }
 
 #endif

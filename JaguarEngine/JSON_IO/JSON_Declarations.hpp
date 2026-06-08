@@ -5,7 +5,6 @@
 
 #include<map>
 #include<vector>
-//#include<memory>
 #include<string>
 
 #include<cassert>
@@ -14,10 +13,7 @@ namespace JSON
 {
 	struct Value;
 
-	struct JSON_Reader	// This is a wrapper for a JSON file that can be used for including accessors, bufferviews, buffers, etc (as defined in .gltf files)
-	{
-
-	};
+#define JSON_Object_Filename "%filename%"
 
 	struct JSON_Object
 	{
@@ -27,6 +23,13 @@ namespace JSON
 		{
 			return Fields[Key];
 		}
+	};
+
+	struct JSON_Reader	// This is a wrapper for a JSON file that can be used for including accessors, bufferviews, buffers, etc (as defined in .gltf files)
+	{
+		JSON_Object Object;
+
+		std::vector<std::vector<char>> Buffer;	// This is the data, stored in 'buffer'
 	};
 
 	//
@@ -78,7 +81,8 @@ namespace JSON
 
 	//
 
-	int Read_JSON_Object(JSON_Object* Target_Object, const char* String);
+	int Load_JSON_Object(JSON_Object* Target_Object, const char* String);				// Loads standalone JSON object
+	int Load_JSON_Reader_Buffers(JSON_Reader* Target_Reader, const char* Buffers = "buffers");		// Loads JSON reader 
 }
 
 #endif

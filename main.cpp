@@ -18,9 +18,12 @@ int main()
 		return 1;
 	}
 
-	JSON::JSON_Object Object;
+	//JSON::JSON_Object Object;
 
-	JSON::Read_JSON_Object(&Object, Jaguar::Load_File_Contents("JaguarEngine/JSON_IO/cube.gltf").c_str());
+	JSON::JSON_Reader Reader;
+
+	JSON::Load_JSON_Object(&Reader.Object, "JaguarEngine/JSON_IO/cube.gltf");
+	JSON::Load_JSON_Reader_Buffers(&Reader);
 
 	while (!glfwWindowShouldClose(Engine.Window_Info.Window))
 	{

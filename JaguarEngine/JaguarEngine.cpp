@@ -4,22 +4,24 @@
 
 namespace Jaguar
 {
-	std::string Load_File_Contents(const char* Filename)
+	//std::string Load_File_Contents(const char* Filename)
+	std::vector<char> Load_File_Contents(const char* Filename) // We'll use this unsigned char instead of a string so that this can handle binaries
 	{
-		std::ifstream File(Filename); // Start at end of file
+		std::ifstream File(Filename, std::ios::binary); // Start at end of file
 
 		if (!File.is_open())
 		{
 			printf(" >> Fatal error! Unable to load file contents: %s\n", Filename);
 
-			return ""; // nothing to return...
+			return std::vector<char>(); // nothing to return...
 		}
 
 		// Otherwise, we can continue
 
 		File.seekg(0, std::ios::end);
 
-		std::string Contents;
+		//std::string Contents;
+		std::vector<char> Contents;
 		size_t Size = File.tellg();
 
 		File.seekg(0, std::ios::beg);

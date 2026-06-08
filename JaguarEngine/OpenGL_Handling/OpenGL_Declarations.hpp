@@ -3,6 +3,12 @@
 
 #include<vector>
 
+#include "../Libraries/Include/glm/glm.hpp"
+
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtx/transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include "../Libraries/Include/glad/glad.h"
 #include "../Libraries/Include/GLFW/glfw3.h"
 
