@@ -27,6 +27,9 @@
     <ClCompile Include="JaguarEngine\JSON_IO\JSON_Declarations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp">

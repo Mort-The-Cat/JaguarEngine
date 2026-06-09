@@ -1,2 +1,5 @@
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\JaguarEngine.obj
-C:\JaguarEngine\JaguarEngine\main.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\main.obj
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp;D:\JaguarEngine\JaguarEngine\x64\Debug\GLTF_Declarations.obj
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp;D:\JaguarEngine\JaguarEngine\x64\Debug\JaguarEngine.obj
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.cpp;D:\JaguarEngine\JaguarEngine\x64\Debug\JSON_Declarations.obj
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Libraries\Include\glad\glad.c;D:\JaguarEngine\JaguarEngine\x64\Debug\glad.obj
+D:\JaguarEngine\JaguarEngine\main.cpp;D:\JaguarEngine\JaguarEngine\x64\Debug\main.obj

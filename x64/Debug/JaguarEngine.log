@@ -1,4 +1,165 @@
-﻿  JaguarEngine.cpp
+﻿  GLTF_Declarations.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(136,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(137,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(138,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(139,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(143,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(169,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(174,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(52,38): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(54,38): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(76,111): warning C4244: 'argument': conversion from 'double' to 'uint64_t', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(80,83): warning C4244: 'argument': conversion from 'const double' to 'uint64_t', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,13): warning C4267: 'argument': conversion from 'size_t' to 'glm::mat<4,4,glm::f32,glm::packed_highp>::length_type', possible loss of data
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,13):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(29,4):
+          see reference to function template instantiation 'void GLTF::Value_Array_To_Matrix<glm::mat4>(std::vector<JSON::Value,std::allocator<JSON::Value>> &,T)' being compiled
+          with
+          [
+              T=glm::mat4
+          ]
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,21): warning C4267: 'argument': conversion from 'size_t' to 'glm::vec<4,float,glm::packed_highp>::length_type', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,41): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,41): warning C4244:         with
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,41): warning C4244:         [
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,41): warning C4244:             T=float
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(17,41): warning C4244:         ]
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,11): warning C4267: 'argument': conversion from 'size_t' to 'glm::qua<float,glm::packed_highp>::length_type', possible loss of data
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,11):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(38,5):
+          see reference to function template instantiation 'void GLTF::Value_Array_To_Vector<glm::quat>(std::vector<JSON::Value,std::allocator<JSON::Value>> &,T)' being compiled
+          with
+          [
+              T=glm::quat
+          ]
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:         with
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:         [
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:             T=float
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:         ]
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,11): warning C4267: 'argument': conversion from 'size_t' to 'glm::vec<3,float,glm::packed_highp>::length_type', possible loss of data
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,11):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(43,5):
+          see reference to function template instantiation 'void GLTF::Value_Array_To_Vector<glm::vec3>(std::vector<JSON::Value,std::allocator<JSON::Value>> &,T)' being compiled
+          with
+          [
+              T=glm::vec3
+          ]
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:         with
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:         [
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:             _Ty=uint16_t
+D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33): warning C4244:         ]
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(57,4):
+          see reference to function template instantiation 'void GLTF::Value_Array_To_Vector<std::vector<uint16_t,std::allocator<uint16_t>>>(std::vector<JSON::Value,std::allocator<JSON::Value>> &,T)' being compiled
+          with
+          [
+              T=std::vector<uint16_t,std::allocator<uint16_t>>
+          ]
+  
+  JaguarEngine.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(136,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(137,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(138,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(139,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(143,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(169,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(174,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+  JSON_Declarations.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(136,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(137,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(138,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(139,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(143,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(169,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(174,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
   main.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(136,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(137,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(138,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(139,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(143,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(169,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(174,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'main.cpp')
+  
   Generating Code...
-  JaguarEngine.vcxproj -> C:\JaguarEngine\JaguarEngine\x64\Debug\JaguarEngine.exe
+  glad.c
+glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(window.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_thread.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_thread.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
+  JaguarEngine.vcxproj -> D:\JaguarEngine\JaguarEngine\JaguarEngine.exe

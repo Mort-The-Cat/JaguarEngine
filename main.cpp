@@ -25,6 +25,9 @@ int main()
 	JSON::Load_JSON_Object(&Reader.Object, "JaguarEngine/JSON_IO/cube.gltf");
 	JSON::Load_JSON_Reader_Buffers(&Reader);
 
+	GLTF::GLTF_Object Object;
+	GLTF::Load_GLTF_Object(&Object, &Reader);	// This loads the GLTF object
+
 	while (!glfwWindowShouldClose(Engine.Window_Info.Window))
 	{
 		glfwPollEvents();

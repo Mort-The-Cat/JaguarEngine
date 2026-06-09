@@ -13,6 +13,7 @@
 #include "OpenGL_Handling/OpenGL_Declarations.hpp"
 
 #include "JSON_IO/JSON_Declarations.hpp"
+#include "GLTF_Reader/GLTF_Declarations.hpp"
 
 namespace Jaguar
 {

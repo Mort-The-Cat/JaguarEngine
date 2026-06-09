@@ -74,11 +74,21 @@
     <OutDir>$(SolutionDir)</OutDir>
     <IncludePath>$(SolutionDir)JaguarEngine\Libraries\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)JaguarEngine\Libraries\Lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)</OutDir>
     <IncludePath>$(SolutionDir)JaguarEngine\Libraries\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)JaguarEngine\Libraries\Lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -141,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp" />
     <ClCompile Include="JaguarEngine\JaguarEngine.cpp" />
     <ClCompile Include="JaguarEngine\JSON_IO\JSON_Declarations.cpp" />
     <ClCompile Include="JaguarEngine\Libraries\Include\glad\glad.c" />
