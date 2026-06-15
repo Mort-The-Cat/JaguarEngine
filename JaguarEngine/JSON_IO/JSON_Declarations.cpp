@@ -27,7 +27,7 @@ namespace JSON
 
 			size_t Delta;
 
-			Value Buffer_Value;
+			//Value Buffer_Value;
 
 			std::string Buffer;
 
@@ -109,6 +109,8 @@ namespace JSON
 					Index++;
 					while (String[Index] != ']')
 					{
+						Value Buffer_Value;
+
 						Buffer_Value.Flag = Value::Type::T_Unassigned;
 						Index += Scan_JSON_Objects(String + Index, &Buffer_Value, true);
 						if (Buffer_Value.Flag)

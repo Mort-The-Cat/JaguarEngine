@@ -54,7 +54,10 @@ namespace GLTF
 			Target_Node->Mesh = Object["mesh"].Float;
 
 		if (Object.Fields.count("children"))
+		{
+			Target_Node->Children.resize(Object["children"].Array.size());
 			Value_Array_To_Vector<std::vector<uint16_t>>(Object["children"].Array, Target_Node->Children);
+		}
 
 		if (Object.Fields.count("name"))
 			Target_Node->Name = Object["name"].String;

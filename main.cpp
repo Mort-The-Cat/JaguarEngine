@@ -22,7 +22,7 @@ int main()
 
 	JSON::JSON_Reader Reader;
 
-	JSON::Load_JSON_Object(&Reader.Object, "JaguarEngine/JSON_IO/cube.gltf");
+	JSON::Load_JSON_Object(&Reader.Object, "JaguarEngine/JSON_IO/animation.gltf");
 	JSON::Load_JSON_Reader_Buffers(&Reader);
 
 	GLTF::GLTF_Object Object;
