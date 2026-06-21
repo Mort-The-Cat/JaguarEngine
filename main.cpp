@@ -8,14 +8,14 @@ int main()
 	{
 		printf(" >> Failed to init JaguarEngine!\n\n");
 
-		return 1;
+		return -1;
 	}
 
 	if (Jaguar::Init_Window(&Engine))
 	{
 		printf(" >> Failed to init window!\n\n");
 
-		return 1;
+		return -1;
 	}
 
 	//JSON::JSON_Object Object;

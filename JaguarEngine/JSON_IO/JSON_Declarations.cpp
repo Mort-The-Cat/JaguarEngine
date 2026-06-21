@@ -98,9 +98,8 @@ namespace JSON
 				case '{':	// a new object!
 					Index++;
 					while (String[Index] != '}')
-					{
 						Index += Scan_JSON_Objects(String + Index, Object, false);
-					}
+
 					Object->Flag = Value::Type::T_Object;
 					Index++;
 					return Index;

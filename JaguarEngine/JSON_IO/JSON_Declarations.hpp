@@ -14,26 +14,64 @@
 namespace GLTF
 {
 
-	template<typename T>
-	struct Attrib_Buffer			// A simple wrapper that allows for easy access of an attribute's data
-	{
-		T* Data;
-		size_t Count;
-	};
-
 	struct Attribute					// Attribute data and datatype
 	{
-		std::vector<char> Data;
-		GLint Size;						// The size of 1 entry
-
-		template<typename T>
-		Attrib_Buffer<T> Get_Attribute_Buffer()
+	private:
+		template<const int Dimension, typename T_1, typename T_0>
+		void Copy_To_Buffer(std::vector<T_0>& Buffer, std::vector<char>& Bytes)
 		{
-			Attrib_Buffer<T> Buffer;
-			Buffer.Data = Data.data();
-			Buffer.Count = Data.size() / sizeof(T);
+			Buffer.resize(Data.size() / (Dimension * sizeof(T_1)));
 
-			return Buffer;
+			T_1* Read = (T_1*)Bytes.data();
+			for (size_t Index = 0, Read_Index = 0; Index < Buffer.size(); Index++)
+				for (size_t D = 0; D < Dimension; D++, Read_Index++)
+					Buffer[Index][D] = Read[Read_Index];
+		}
+
+		template<const int Dimension, typename T_1, typename T_0>
+		void Copy_To_Buffer(std::vector<glm::mat<Dimension, Dimension, T_0>>& Buffer, std::vector<char>& Bytes)
+		{
+			Buffer.resize(Data.size() / (Dimension * sizeof(T_1)));
+
+			T_1* Read = (T_1*)Bytes.data();
+			for (size_t Index = 0, Read_Index = 0; Index < Buffer.size(); Index++)
+				for (size_t Column = 0; Column < Dimension; Column++)
+					for (size_t Row = 0; Row < Dimension; Row++, Read_Index++)
+						Buffer[Index][Column][Row] = Read[Read_Index];
+		}
+	public:
+		std::vector<char> Data;
+		GLint Dimension;				// 1 - scalar, 2/3/4 - vector, 9/16 - matrix
+											// This is important because rotation can be either defined by a quaternion (vec4) OR a matrix of some kind (mat3 or mat4)
+		GLint Type;						// the type of a single value of this attribute (i.e. float int32 uint32 int16 uint16 etc
+
+		template<typename T> // This uses glm-style structures with a [] accessor and a ::length() term (representing number of elements)
+		std::vector<T> Get_Attribute_Buffer()
+		{
+			std::vector<T> Buffer;
+
+
+			switch (Type)
+			{
+			case GL_FLOAT:
+				Copy_To_Buffer<T::length(), float>(Buffer, Data);
+				return Buffer;
+			case GL_INT:
+			case GL_UNSIGNED_INT:
+				Copy_To_Buffer<T::length(), int>(Buffer, Data);
+				return Buffer;
+			case GL_SHORT:
+			case GL_UNSIGNED_SHORT:
+				Copy_To_Buffer<T::length(), short>(Buffer, Data);
+				return Buffer;
+			default:
+
+#if DEBUG
+				printf(" >> Invalid attribute type! %d\n", Type);
+#endif
+
+				return std::vector<T>(0u);					// return nothing
+			}
 		}
 	};
 
@@ -160,18 +198,26 @@ namespace JSON
 				Size = 1;			// assume 8-bits by default
 			}
 
+			if (Dimensions[0] == 2)
+				Dimensions[1] *= Dimensions[1];
+
 			if (Dimensions[0])		// if vector or matrix, multiply by number of axes
 				Size *= Dimensions[1];
+			else
+				Dimensions[1] = 1;
 
-			if (Dimensions[0] == 2)	// if matrix, multiply it again
-				Size *= Dimensions[1];	// The size of 1 entry
+			//if (Dimensions[0] == 2)	// if matrix, multiply it again
+			//	Size *= Dimensions[1];	// The size of 1 entry
 
 			size_t Count = Object["accessors"][Accessor_Index]["count"].Float;	// Number of entries
 
 			Count *= Size;	// Size of all entries from this accessor
 
 			GLTF::Attribute Accessor;
-			Accessor.Size = Size;
+			//Accessor.Size = Size;
+
+			Accessor.Dimension = Dimensions[1];	// 1 - scalar, 2/3/4 - vector, 9/16 - matrix
+			Accessor.Type = Type;
 			Accessor.Data.resize(Count);	// Number of bytes total
 			memcpy(Accessor.Data.data(), Buffer[Buffer_Index].data() + Byte_Offset, Count);	// Copies the memory from the buffer
 

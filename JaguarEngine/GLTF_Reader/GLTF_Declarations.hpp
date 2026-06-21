@@ -16,24 +16,25 @@ namespace GLTF
 
 		// This object will be used primarily for loading and converting .gltf object files into the engine
 		// The model and animation data will be converted to a more OpenGL-friendly format when loaded for graphical use
+		// The format which the object will be stored in will be user-defined and dependent on the shader.
+		// Note that a world-object could have more than 1 mesh / shader associated with it.
 
 		struct Node
 		{
 			std::string Name;
-			std::vector<uint16_t> Children;	// There shouldn't ever be more than 65,535 nodes anyways
+			std::vector<uint16_t> Children;		// There shouldn't ever be more than 65,535 nodes anyways
 			int Mesh = -1;						// optional mesh index, default is -1
 			int Skin = -1;						// an optional skin index, default is -1
-			glm::mat4 Matrix = glm::mat4(1.0f);					// This node's transformation matrix
+			glm::mat4 Matrix = glm::mat4(1.0f);	// This node's transformation matrix
 		};
 
 		struct Mesh
 		{
 			std::string Name;
 
-			std::map<std::string, Attribute> Attributes;	// These are the binaries for the attributes. Typepunning is used here to read the values themselves
+			std::map<std::string, Attribute> Attributes;	// These are the binaries for the attributes. 'Attributes' can be easily converted to any desired glm type vector
 
-			Attribute Indices;				// Index data (type-punning is used here because different datatypes can be specified)
-											// index can either be GL_UNSIGNED_BYTE or GL_UNSIGNED_SHORT or GL_UNSIGNED_INT depending on the type of the bufferview
+			Attribute Indices;
 		};
 
 		struct Skin
@@ -43,21 +44,19 @@ namespace GLTF
 			std::vector<uint16_t> Joints;
 		};
 
-		std::vector<Node> Nodes;
-		std::vector<Mesh> Meshes;
-		std::vector<Skin> Skins;
-
 		struct Animation
 		{
 			enum Path_Type
 			{
 				Undefined = 0,
-				Scale,
-				Translation,
-				Rotation
+				Scale,				// uses a vec3 typically
+				Translation,		// uses a vec3 typically
+				Rotation			// uses a quat typically (i.e. vec4)
+
+				//					These will be ideally converted into a matrix for skeletal animation
 			};
 
-			std::map<int, Attribute> Sampler_IO;	// All the input/outputs
+			std::map<int, Attribute> Sampler_IO;	// All the input/output values
 
 			struct Sampler
 			{
@@ -66,6 +65,8 @@ namespace GLTF
 				int Interpolation;		// 0 step, 1 linear, 2 quadratic, 3 cubic, etc
 			};
 
+			std::vector<Sampler> Samplers;	// sampler wrappers
+
 			struct Channel
 			{
 				int Sampler;
@@ -73,9 +74,14 @@ namespace GLTF
 				Path_Type Path;				// scale, translation, or rotation
 			};
 
+			std::vector<Channel> Channels;	// channels
+
 			std::string Name;
 		};
-		
+
+		std::vector<Node> Nodes;
+		std::vector<Mesh> Meshes;
+		std::vector<Skin> Skins;
 		std::vector<Animation> Animations;
 	}; 
 

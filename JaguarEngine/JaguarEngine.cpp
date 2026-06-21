@@ -45,7 +45,7 @@ namespace Jaguar
 		if (gladLoadGL())
 		{
 			printf(" >> Failed to initialise glad!\n");
-			return 1;
+			return -1;
 		}
 
 		return 0;
@@ -58,7 +58,7 @@ namespace Jaguar
 		if (Engine->Window_Info.Window == nullptr)
 		{
 			printf(" >> Failed to initialise OpenGL window!\n");
-			return 1;
+			return -1;
 		}
 
 		glfwMakeContextCurrent(Engine->Window_Info.Window);

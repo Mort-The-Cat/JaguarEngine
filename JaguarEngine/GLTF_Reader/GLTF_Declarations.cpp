@@ -98,6 +98,50 @@ namespace GLTF
 		// for now, don't store material index or anything
 	}
 
+	void Get_Skin_Info(GLTF_Object::Skin* Target_Skin, JSON::JSON_Reader& Reader, size_t Skin_Index)
+	{
+		Target_Skin->Inverse_Bind_Matrices = Reader.Get_Accessor_Buffer(Reader["skins"][Skin_Index]["inverseBindMatrices"].Float);
+		
+		Target_Skin->Joints.resize(Reader["skins"][Skin_Index]["joints"].Array.size());
+		Value_Array_To_Vector(Reader["skins"][Skin_Index]["joints"].Array, Target_Skin->Joints);
+
+		Target_Skin->Name = Reader["skins"][Skin_Index]["name"].String;
+	}
+
+	void Get_Animation_Info(GLTF_Object::Animation* Target_Animation, JSON::JSON_Reader& Reader, size_t Animation_Index)
+	{
+		// Add all of the samplers
+
+		Target_Animation->Samplers.resize(Reader["animations"][Animation_Index]["samplers"].Array.size());
+		for (size_t Index = 0; Index < Target_Animation->Samplers.size(); Index++)
+		{
+			size_t Key = Reader["animations"][Animation_Index]["samplers"][Index]["input"].Float;
+
+			if (Target_Animation->Sampler_IO.count(Key) == 0)
+				Target_Animation->Sampler_IO[Key] = Reader.Get_Accessor_Buffer(Key);
+
+			Target_Animation->Samplers[Index].Input = Key;
+
+			Key = Reader["animations"][Animation_Index]["samplers"][Index]["output"].Float;
+
+			if (Target_Animation->Sampler_IO.count(Key) == 0)
+				Target_Animation->Sampler_IO[Key] = Reader.Get_Accessor_Buffer(Key);
+
+			Target_Animation->Samplers[Index].Output = Key;
+
+			Target_Animation->Samplers[Index].Interpolation = Reader["animations"][Animation_Index]["samplers"][Index]["interpolation"].String[0] == 'L'; // 0 - step, 1 - linear
+					// TODO: Add support for more interpolation types later
+
+			// then, we'll make the sampler object 
+		}
+
+		//
+
+		// std::vector<glm::quat> Matrices = Target_Animation->Sampler_IO[10].Get_Attribute_Buffer<glm::quat>();
+
+		// Then, add all of the channels
+	}
+
 	void Load_GLTF_Object(GLTF_Object* Target_Object, JSON::JSON_Reader* Reader)
 	{
 		// Load the nodes of this scene
@@ -116,6 +160,22 @@ namespace GLTF
 
 			for (size_t Index = 0; Index < Target_Object->Meshes.size(); Index++)
 				Get_Mesh_Info(&Target_Object->Meshes[Index], *Reader, Index);
+		}
+		
+		if(Reader->Object.Fields.count("skins"))
+		{
+			Target_Object->Skins.resize(Reader->Object["skins"].Array.size());
+
+			for (size_t Index = 0; Index < Target_Object->Skins.size(); Index++)
+				Get_Skin_Info(&Target_Object->Skins[Index], *Reader, Index);
+		}
+
+		if (Reader->Object.Fields.count("animations"))
+		{
+			Target_Object->Animations.resize(Reader->Object["animations"].Array.size());
+
+			for (size_t Index = 0; Index < Target_Object->Animations.size(); Index++)
+				Get_Animation_Info(&Target_Object->Animations[Index], *Reader, Index);
 		}
 
 		// TODO: skins and animations
