@@ -137,7 +137,21 @@ namespace GLTF
 
 		//
 
-		// std::vector<glm::quat> Matrices = Target_Animation->Sampler_IO[10].Get_Attribute_Buffer<glm::quat>();
+		Target_Animation->Channels.resize(Reader["animations"][Animation_Index]["channels"].Array.size());
+		for (size_t Index = 0; Index < Target_Animation->Channels.size(); Index++)
+		{
+			Target_Animation->Channels[Index].Sampler = Reader["animations"][Animation_Index]["channels"][Index]["sampler"].Float;
+			Target_Animation->Channels[Index].Target_Node = Reader["animations"][Animation_Index]["channels"][Index]["target"]["node"].Float;
+			const std::map<std::string, GLTF_Object::Animation::Path_Type> Types =
+			std::map<std::string, GLTF_Object::Animation::Path_Type>{
+				{ "scale", GLTF_Object::Animation::Path_Type::Scale },
+				{ "translation", GLTF_Object::Animation::Path_Type::Translation },
+				{ "rotation", GLTF_Object::Animation::Path_Type::Rotation }
+			};
+			Target_Animation->Channels[Index].Path = Types.at(Reader["animations"][Animation_Index]["channels"][Index]["target"]["path"].String);
+		}
+
+		//std::vector<glm::quat> Rotation = Target_Animation->Sampler_IO[10].Get_Attribute_Buffer<glm::quat>();
 
 		// Then, add all of the channels
 	}

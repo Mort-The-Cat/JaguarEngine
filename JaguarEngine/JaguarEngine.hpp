@@ -7,6 +7,13 @@
 	#define DEBUG 0
 #endif
 
+
+// This is user-defined and game-dependent. Can be replaced using a #define before the #include<JaguarEngine/JaguarEngine.hpp>
+
+#ifndef JAGUAR_GAME_TYPENAME
+#define JAGUAR_GAME_TYPENAME char
+#endif
+
 //
 
 #include<string>
@@ -24,6 +31,8 @@ namespace Jaguar
 		Window_Data Window_Info;
 
 
+
+		JAGUAR_GAME_TYPENAME Game_Info;
 	};
 
 	int Init_Jaguar(JaguarEngine* Engine);

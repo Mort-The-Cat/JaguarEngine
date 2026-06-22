@@ -148,12 +148,6 @@ namespace JSON
 
 		std::vector<char> String = Jaguar::Load_File_Contents(Filename);
 
-		//if (!String)
-		//{
-		//	printf("Bad string!");
-		//	return 1;
-		//}
-
 		size_t Index = 0;
 
 		Value Read_Value;
