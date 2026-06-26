@@ -162,6 +162,9 @@ namespace GLTF
 
 		if (Reader->Object.Fields.count("nodes"))	// if there are nodes? add them
 		{
+			Target_Object->Parent_Node = Reader->Object["scenes"][Reader->Object["scene"].Float]["nodes"].Array.back().Float; 
+				// This only allows for a single parent node in the scene at once.
+
 			Target_Object->Nodes.resize(Reader->Object["nodes"].Array.size());
 
 			for (size_t Index = 0; Index < Target_Object->Nodes.size(); Index++)

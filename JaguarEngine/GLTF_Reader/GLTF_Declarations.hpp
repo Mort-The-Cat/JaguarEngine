@@ -79,6 +79,8 @@ namespace GLTF
 			std::string Name;
 		};
 
+		size_t Parent_Node;
+
 		std::vector<Node> Nodes;
 		std::vector<Mesh> Meshes;
 		std::vector<Skin> Skins;
