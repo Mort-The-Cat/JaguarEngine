@@ -30,6 +30,12 @@
     <ClCompile Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\Asset_Cache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp">
@@ -45,6 +51,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\Scene\Model_Declarations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\Asset_Cache.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\Jaguar_Config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

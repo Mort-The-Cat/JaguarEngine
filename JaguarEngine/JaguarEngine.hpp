@@ -1,6 +1,8 @@
 #ifndef JAGUAR_ENGINE_WRAPPER
 #define JAGUAR_ENGINE_WRAPPER
 
+#include "Jaguar_Config.hpp"
+
 //
 
 #ifndef DEBUG
@@ -21,6 +23,9 @@
 
 #include "JSON_IO/JSON_Declarations.hpp"
 #include "GLTF_Reader/GLTF_Declarations.hpp"
+#include "Asset_Cache.hpp"
+
+#include "Scene/Model_Declarations.hpp"
 
 namespace Jaguar
 {
@@ -30,9 +35,11 @@ namespace Jaguar
 	{
 		Window_Data Window_Info;
 
+		Render_Pipeline Pipeline;		// Collection of render queues
 
+		Asset_Cache_Data Asset_Cache;	// Responsible for handling all assets loaded at runtime (i.e. meshes, textures, audio, etc)
 
-		JAGUAR_GAME_TYPENAME Game_Info;
+		JAGUAR_GAME_TYPENAME Game_Info;	// This is the relevant data for the game that JaguarEngine is running
 	};
 
 	int Init_Jaguar(JaguarEngine* Engine);

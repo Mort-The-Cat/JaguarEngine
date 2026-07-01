@@ -138,23 +138,40 @@ namespace JSON
 
 	//
 
-	int Load_JSON_Object(JSON_Object* Target_Object, const char* Filename)
+	int Read_JSON_Object(JSON_Object* Target_Object, const char* String)	// Loads from string
 	{
-		if (!Filename)
+		if (!String)
 		{
-			printf(" >> Bad directory!\n");
-			return 1;
+			printf(" >> Bad string!\n");
+			return -1;
 		}
-
-		std::vector<char> String = Jaguar::Load_File_Contents(Filename);
 
 		size_t Index = 0;
 
 		Value Read_Value;
-		
-		Index = IO::Scan_JSON_Objects(String.data(), &Read_Value);
+
+		Index = IO::Scan_JSON_Objects(String, &Read_Value);
 
 		*Target_Object = std::move(Read_Value.Object);
+
+		return 0;
+	}
+
+	int Load_JSON_Object(JSON_Object* Target_Object, const char* Filename)	// Loads from file
+	{
+		if (!Filename)
+		{
+			printf(" >> Bad directory!\n");
+			return -1;
+		}
+
+		std::vector<char> String = Jaguar::Load_File_Contents(Filename);
+
+		if (Read_JSON_Object(Target_Object, String.data()))
+		{
+			printf(" >> Failed to parse JSON string!\n");
+			return -1;
+		}
 
 		Target_Object->Fields[JSON_Object_Filename].String = Filename;
 		Target_Object->Fields[JSON_Object_Filename].Flag = Value::Type::T_String;
@@ -169,11 +186,13 @@ namespace JSON
 		size_t Index = Parent_Directory.find_last_of("/");
 		Parent_Directory = Parent_Directory.substr(0, Index == std::string::npos ? 0 : Index + 1);	// Crude solution to get the parent 'local' directory of the .json file
 
+		#if DEBUG
 		if (!Target_Reader->Object.Fields.count(Buffers))
 		{
 			printf(" >> No buffers on JSON reader");
-			return 0;
+			return 0;									// Not necessarily an error
 		}
+		#endif
 
 		for (Index = 0; Index < Target_Reader->Object[Buffers].Array.size(); Index++)
 		{

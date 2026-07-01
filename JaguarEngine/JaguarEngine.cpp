@@ -42,12 +42,6 @@ namespace Jaguar
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
-		if (gladLoadGL())
-		{
-			printf(" >> Failed to initialise glad!\n");
-			return -1;
-		}
-
 		return 0;
 	}
 
@@ -62,6 +56,12 @@ namespace Jaguar
 		}
 
 		glfwMakeContextCurrent(Engine->Window_Info.Window);
+
+		if (!gladLoadGL())
+		{
+			printf(" >> Failed to initialise glad!\n");
+			return -2;
+		}
 
 		glfwGetWindowSize(Engine->Window_Info.Window, &Engine->Window_Info.Width, &Engine->Window_Info.Height);
 

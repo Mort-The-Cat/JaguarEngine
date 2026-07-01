@@ -1,3 +1,8 @@
+#ifndef GLTF_DECLARATIONS
+#define GLTF_DECLARATIONS
+
+#include "../Jaguar_Config.hpp"
+
 #include "../JSON_IO/JSON_Declarations.hpp"
 #include "../OpenGL_Handling/OpenGL_Declarations.hpp"
 
@@ -25,6 +30,8 @@ namespace GLTF
 			std::vector<uint16_t> Children;		// There shouldn't ever be more than 65,535 nodes anyways
 			int Mesh = -1;						// optional mesh index, default is -1
 			int Skin = -1;						// an optional skin index, default is -1
+				// having a skin just means that the corresponding mesh 
+				// uses the inverse-bind-matrices and joint-indices of THIS specific skin
 			glm::mat4 Matrix = glm::mat4(1.0f);	// This node's transformation matrix
 		};
 
@@ -41,7 +48,7 @@ namespace GLTF
 		{
 			std::string Name;
 			Attribute Inverse_Bind_Matrices;
-			std::vector<uint16_t> Joints;
+			std::vector<uint16_t> Joints;		// Corresponds to each node
 		};
 
 		struct Animation
@@ -79,6 +86,8 @@ namespace GLTF
 			std::string Name;
 		};
 
+		std::string Name;
+
 		size_t Parent_Node;
 
 		std::vector<Node> Nodes;
@@ -90,3 +99,5 @@ namespace GLTF
 	void Load_GLTF_Object(GLTF_Object* Target_Object, JSON::JSON_Reader* Reader);
 
 }
+
+#endif

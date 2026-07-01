@@ -9,6 +9,8 @@
 
 #include<cassert>
 
+#include "../Jaguar_Config.hpp"
+
 #include "../OpenGL_Handling/OpenGL_Declarations.hpp"
 
 namespace GLTF
@@ -64,6 +66,11 @@ namespace GLTF
 			case GL_UNSIGNED_SHORT:
 				Copy_To_Buffer<T::length(), short>(Buffer, Data);
 				return Buffer;
+			case GL_BYTE:
+			case GL_UNSIGNED_BYTE:
+				Copy_To_Buffer<T::length(), char>(Buffer, Data);
+				return Buffer;
+
 			default:
 
 #if DEBUG
@@ -194,6 +201,8 @@ namespace JSON
 			case GL_SHORT:
 				Size = 2;
 				break;
+			case GL_UNSIGNED_BYTE:
+			case GL_BYTE:
 			default:
 				Size = 1;			// assume 8-bits by default
 			}
@@ -227,7 +236,8 @@ namespace JSON
 
 	//
 
-	int Load_JSON_Object(JSON_Object* Target_Object, const char* String);				// Loads standalone JSON object
+	int Read_JSON_Object(JSON_Object* Target_Object, const char* String);				// Loads from string
+	int Load_JSON_Object(JSON_Object* Target_Object, const char* String);				// Loads standalone JSON object from a file
 	int Load_JSON_Reader_Buffers(JSON_Reader* Target_Reader, const char* Buffers = "buffers");		// Loads JSON reader 
 }
 

@@ -160,6 +160,8 @@ namespace GLTF
 	{
 		// Load the nodes of this scene
 
+		Target_Object->Name = Reader->Object[JSON_Object_Filename].String;	// This gets the name of the object
+
 		if (Reader->Object.Fields.count("nodes"))	// if there are nodes? add them
 		{
 			Target_Object->Parent_Node = Reader->Object["scenes"][Reader->Object["scene"].Float]["nodes"].Array.back().Float; 
