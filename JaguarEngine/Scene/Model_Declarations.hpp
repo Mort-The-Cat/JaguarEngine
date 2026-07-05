@@ -74,7 +74,7 @@ namespace Jaguar
 							// Animation controllers will change the values here for example when updating joints
 	};
 
-	class Model
+	class Model_Data
 	{
 		std::vector<Mesh_Wrapper*> Meshes;	// Pointer to the specific mesh/meshes we want
 											// Since this is a pointer, vertex buffers / meshes can be shared

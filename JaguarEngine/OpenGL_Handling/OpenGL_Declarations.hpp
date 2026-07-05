@@ -59,20 +59,27 @@ namespace Jaguar
 
 	struct Model_Wrapper
 	{
-		Mesh_Wrapper* Mesh_Wrapper;
-		World_Object* Object;
+		Mesh_Wrapper* Mesh_Wrapper;		// The mesh itself
+		World_Object* Object;			// Important object information
 	};
 
 	struct Render_Queue	// This is a specific render queue
 	{
+		typedef void(*Queue_Function)(JaguarEngine*, Render_Queue*);
+		typedef void(*Model_Function)(JaguarEngine*, Render_Queue*, Model_Wrapper);
+
 		Shader Shader;	// The shader associated with this render queue
 
 		// Each render-queue typically uses a separate shader but it's possible for them to overlap
 
-		void (*Init_Queue_Uniforms_Function)(JaguarEngine*, Render_Queue*);	// an init function for the whole render queue
-		void (*Init_Model_Uniforms_Function)(JaguarEngine*, Render_Queue*, Model_Wrapper);	// a per-object init function
+		//void (*Init_Queue_Uniforms_Function)(JaguarEngine*, Render_Queue*);	// an init function for the whole render queue
+		//void (*Init_Model_Uniforms_Function)(JaguarEngine*, Render_Queue*, Model_Wrapper);	// a per-object init function
 
-		void (*Render_Model_Function)(JaguarEngine*, Render_Queue*, Model_Wrapper);
+		Queue_Function Init_Queue_Uniforms_Function;
+		Model_Function Init_Model_Uniforms_Function;
+		Model_Function Render_Model_Function;
+
+		//void (*Render_Model_Function)(JaguarEngine*, Render_Queue*, Model_Wrapper);
 
 		std::vector<Model_Wrapper> Models;
 
@@ -97,6 +104,17 @@ namespace Jaguar
 		
 		// When adding a queue to the pipeline, you also give it a name that can be used later when adding objects to the scene
 	};
+
+	void Push_Render_Pipeline_Queue(
+		JaguarEngine* Engine,
+		Shader Shader,
+		Render_Queue::Queue_Function Init_Queue_Function,
+		Render_Queue::Model_Function Init_Model_Function,
+		Render_Queue::Model_Function Model_Render_Function
+	);
+
+	void Draw_Render_Queue(JaguarEngine* Engine, Render_Queue* Queue);
+	void Draw_Render_Pipeline(JaguarEngine* Engine);
 }
 
 #endif

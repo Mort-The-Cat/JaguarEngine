@@ -24,12 +24,31 @@ namespace Jaguar
 		Mesh* Mesh;					// mesh data itself
 		Mesh_Conversion Conversion;	// Function that was used to create this mesh
 		std::string Name;			// The name of this mesh
+		bool operator==(const Mesh_Cache_Info& Other) const
+		{
+			return
+				Conversion == Other.Conversion &&
+				Name == Other.Name;
+		}
 	};
 
 	struct Asset_Cache_Data
 	{
 		std::vector<Mesh_Cache_Info> Mesh_Cache;
 	};
+
+	template<typename Info>
+	bool Search_Asset_Cache(const std::vector<Info>& Cache, Info* Object_Info)
+	{
+		for(size_t Index = 0; Index < Cache.size(); Index++)
+			if (Cache[Index] == *Object_Info)
+			{
+				*Object_Info = Cache[Index];	// Copy over object info (note: copy, not move)
+				return true;					// Cache hit!
+			}
+
+		return false;							// Cache miss
+	}
 
 	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true);
 	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, const char* Filename, bool Init_Vertex_Buffer = true);

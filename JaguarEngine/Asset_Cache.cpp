@@ -1,8 +1,9 @@
 #include "Asset_Cache.hpp"
+#include "JaguarEngine.hpp"
 
 namespace Jaguar
 {
-	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, GLTF::GLTF_Object* Object)
+	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer)
 	{
 		// NOTE: First check if we have this mesh in the asset cache already
 
@@ -10,6 +11,23 @@ namespace Jaguar
 
 		// Otherwise? Load it and store it in the asset cache
 
-		return Mesh_Cache_Info();
+		//return Mesh_Cache_Info();
+
+		Mesh_Cache_Info Mesh_Info;
+		Mesh_Info.Name = Object->Name;
+		Mesh_Info.Conversion = Conversion;
+
+		if (Search_Asset_Cache(Engine->Asset_Cache.Mesh_Cache, &Mesh_Info))
+			return Mesh_Info;
+
+		// Otherwise? Load it and store it in the asset cache
+
+		Mesh_Info.Mesh = Conversion(Object, Init_Vertex_Buffer);
+
+		// TODO: Maybe I'll make some error-handling here in case the engine fails to load a mesh or something
+
+		Engine->Asset_Cache.Mesh_Cache.push_back(Mesh_Info);	// This stores the mesh info in the asset cache accordingly
+
+		return Mesh_Info;
 	}
 }
