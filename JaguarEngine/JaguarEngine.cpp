@@ -6,9 +6,22 @@ namespace Jaguar
 {
 	//std::string Load_File_Contents(const char* Filename)
 
+	glm::mat4 Get_View_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up)
+	{
+		glm::vec3 Right = glm::cross(Up, Forward);
+
+		return 
+			glm::mat4(
+				Right.x, Right.y, Right.z, 0.0f,
+				Up.x, Up.y, Up.z, 0.0f,
+				-Forward.x, -Forward.y, -Forward.z, 0.0f,
+				-Position.x, -Position.y, -Position.z, 1.0f
+			);
+	}
+
 	glm::mat4 Get_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up)
 	{
-		glm::vec3 Right = glm::cross(Forward, Up);
+		glm::vec3 Right = glm::cross(Up, Forward);
 		return glm::mat4(
 			Right.x, Right.y, Right.z, 0.0f,
 			Up.x, Up.y, Up.z, 0.0f,
@@ -57,6 +70,9 @@ namespace Jaguar
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
+		glfwSetTime(0);
+		Engine->Last_Time = glfwGetTime();
+
 		return 0;
 	}
 
@@ -92,5 +108,16 @@ namespace Jaguar
 		// This will clean up the engine resources before closing the program
 
 		glfwTerminate();
+	}
+
+	void Tick(JaguarEngine* Engine)
+	{
+		double Current_Time = glfwGetTime();
+		double Delta_Time = Current_Time - Engine->Last_Time;
+		if (Delta_Time < 0.1f)	// check lag spike
+			Engine->Time = Current_Time - Engine->Last_Time;
+		else
+			Engine->Time = 0.04; // increment very small amount (approximately 1/25th of a second)
+		Engine->Last_Time = Current_Time;
 	}
 }

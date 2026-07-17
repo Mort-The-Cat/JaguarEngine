@@ -16,6 +16,8 @@
 namespace Jaguar
 {
 	glm::mat4 Get_Matrix(glm::vec3 Position, glm::vec3 Orientation, glm::vec3 Orientation_Up);
+	glm::mat4 Get_View_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up);
+
 	/*
 		1, 0, 0 = right
 		0, 1, 0 = up

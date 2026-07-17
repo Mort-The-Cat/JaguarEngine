@@ -44,8 +44,13 @@ namespace Jaguar
 
 		Asset_Cache_Data Asset_Cache;	// Responsible for handling all assets loaded at runtime (i.e. meshes, textures, audio, etc)
 
+		double Last_Time;
+		float Time;						// This is the delta-time
+
 		JAGUAR_GAME_TYPENAME Game_Info;	// This is the relevant data for the game that JaguarEngine is running
 	};
+
+	void Tick(JaguarEngine* Engine);
 
 	int Init_Jaguar(JaguarEngine* Engine);
 

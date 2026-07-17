@@ -8,11 +8,11 @@ layout(location = 2) in vec2 In_Texture_Coordinates;
 
 
 
-vec4 Vertices[] = { 
-	vec4(0.3f, 0.3f, 1.0f, 1.0f),
-	vec4(-0.3f, 0.3f, 1.0f, 1.0f),
-	vec4(-0.0f, -0.3f, 1.0f, 1.0f)
-};
+// vec4 Vertices[] = { 
+// 	vec4(-0.3f, 0.3f, 1.0f, 1.0f),
+// 	vec4(3.0f, 0.3f, 1.0f, 1.0f),
+// 	vec4(-0.0f, -0.3f, 1.0f, 1.0f)
+// };
 
 
 
@@ -26,10 +26,7 @@ out vec3 Normal;
 void main()
 {
 	vec4 Point = Model_Matrix * vec4(In_Position, 1);
-	
 	//Model_Matrix * Vertices[gl_VertexID];
-	
-	//Model_Matrix * vec4(In_Position, 1);
 
 	Position = Point.xyz;
 

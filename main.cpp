@@ -81,28 +81,7 @@ void Demo_Init_Queue(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue)
 	glm::vec3 Right = glm::cross(Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
 
 	Engine->Scene.Camera.Matrix = 
-		Jaguar::Get_Matrix(-Engine->Scene.Camera.Position, Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
-
-		/*glm::mat4
-		(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
-		) *
-
-		glm::lookAt(
-			Engine->Scene.Camera.Position,
-			Engine->Scene.Camera.Position - Engine->Scene.Camera.Orientation,
-			Engine->Scene.Camera.Orientation_Up
-		);*/
-
-		/*glm::mat4(
-			Right.x, Right.y, Right.z, 0.0f,
-			Engine->Scene.Camera.Orientation_Up.x, Engine->Scene.Camera.Orientation_Up.y, Engine->Scene.Camera.Orientation_Up.z, 0.0f,
-			-Engine->Scene.Camera.Orientation.x, -Engine->Scene.Camera.Orientation.y, -Engine->Scene.Camera.Orientation.z, 0.0f,
-			-Engine->Scene.Camera.Position.x, -Engine->Scene.Camera.Position.y, -Engine->Scene.Camera.Position.z, 1.0f
-		);*/
+		Jaguar::Get_View_Matrix(Engine->Scene.Camera.Position, Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
 
 	// Then, apply projections
 
@@ -119,16 +98,6 @@ void Demo_Init_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue, 
 
 	Model->Uniforms.Model_Matrix = Jaguar::Get_Matrix(Wrapper.Object->Position, Wrapper.Object->Orientation, Wrapper.Object->Orientation_Up);
 
-
-
-		/*glm::mat4(
-			-1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, -1.0f, 0.0f,
-			Wrapper.Object->Position.x, Wrapper.Object->Position.y, Wrapper.Object->Position.z, 1.0f
-		);*/
-		//glm::translate(glm::mat4(1.0f), Wrapper.Object->Position);
-
 	glUniformMatrix4fv(glGetUniformLocation(Queue->Shader.Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model->Uniforms.Model_Matrix));
 }
 
@@ -136,9 +105,6 @@ void Demo_Render_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue
 {
 	Jaguar::Bind_Vertex_Buffer(Wrapper.Mesh_Wrapper->Mesh);
 	glDrawArrays(GL_TRIANGLES, 0, Wrapper.Mesh_Wrapper->Mesh->Buffer.Vertex_Count);
-
-
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 int main()
@@ -179,7 +145,7 @@ int main()
 		},
 		{},
 		nullptr,
-		glm::vec3(0.0f, 0.0f, 6.0f)
+		glm::vec3(3.0f, -2.0f, 3.0f)
 	);
 
 	Jaguar::World_Object World_Object_1;
@@ -200,18 +166,19 @@ int main()
 	while (!glfwWindowShouldClose(Engine.Window_Info.Window))
 	{
 		glfwPollEvents();
+		
+		Jaguar::Tick(&Engine);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Engine.Scene.Camera.Position = glm::vec3(1.0f);
-		//Engine.Scene.Camera.Orientation = glm::vec3(0.0f, 0.0f, 1.0f);
+		Engine.Scene.Camera.Position = glm::vec3(0.0f, 0.0f, 0.0f);
 		Engine.Scene.Camera.Orientation_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 		Engine.Scene.Camera.Orientation = glm::vec3(
 			sinf(Angle), 0.0f, cosf(Angle)
 		);
 
-		Angle += 0.01;
+		Angle += Engine.Time;
 
 		Engine.Scene.Camera.Aspect = 1.0f;
 		Engine.Scene.Camera.FOV = glm::radians(90.0f);
