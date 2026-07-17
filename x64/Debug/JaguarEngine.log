@@ -1,1 +1,121 @@
-﻿
+﻿  Asset_Cache.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(153,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(35,9):
+      see declaration of 'Jaguar::Mesh_Wrapper'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(181,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(182,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(183,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(184,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(188,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(221,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(228,37): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(229,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8):
+      see declaration of 'Jaguar::Mesh_Wrapper'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8): warning C4099: 'Jaguar::World_Object': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/Asset_Cache.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8):
+      see declaration of 'Jaguar::World_Object'
+  
+  JSON_Declarations.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(153,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(35,9):
+      see declaration of 'Jaguar::Mesh_Wrapper'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(181,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(182,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(183,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(184,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(188,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(221,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(228,37): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(229,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8):
+      see declaration of 'Jaguar::Mesh_Wrapper'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8): warning C4099: 'Jaguar::World_Object': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/JSON_IO/JSON_Declarations.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8):
+      see declaration of 'Jaguar::World_Object'
+  
+  JaguarEngine.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(153,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(35,9):
+      see declaration of 'Jaguar::Mesh_Wrapper'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(181,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(182,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(183,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(184,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(188,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(221,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(228,37): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(229,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8):
+      see declaration of 'Jaguar::Mesh_Wrapper'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8): warning C4099: 'Jaguar::World_Object': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8):
+      see declaration of 'Jaguar::World_Object'
+  
+  Render_Pipeline.cpp

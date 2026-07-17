@@ -63,23 +63,47 @@ namespace Jaguar
 	class Mesh_Wrapper
 	{
 	public:
-		Mesh* Mesh;		// This is a pointer to the mesh data, stored in the asset cache
+		Mesh* Mesh;		// This is a pointer to the mesh data, stored in the asset cache.
+						// Since the mesh pointer is in the asset cache, the mesh-wrapper's destructor doesn't deallocate it
+
+		std::vector<Texture> Textures;
 	};
 
 	template<typename Uniform>
 	class Mesh_Wrapper_Data : public Mesh_Wrapper
 	{
 	public:
-		Uniform* Uniforms;	// This contains any uniform data that the shader might need (i.e. matrix buffers etc)
+		Uniform Uniforms;	// This contains any uniform data that the shader might need (i.e. matrix buffers etc)
 							// Animation controllers will change the values here for example when updating joints
+
+		~Mesh_Wrapper_Data() // This ISN'T automatically called when a std::vector<Mesh_Wrapper_Data<type>*> goes out of scope
+		{
+			//delete Uniforms; // The Mesh_Wrapper_Data struct is responsible for deallocating the uniforms object
+		}
 	};
+
+	template<typename Uniform>
+	Mesh_Wrapper* Create_Mesh_Wrapper_(Mesh* Mesh, const std::vector<Texture>& Textures)
+	{
+		Mesh_Wrapper_Data<Uniform>* Wrapper = new Mesh_Wrapper_Data<Uniform>();
+
+		Wrapper->Mesh = Mesh;
+		Wrapper->Textures = std::move(Textures);
+
+		return Wrapper;
+	}
 
 	class Model_Data
 	{
+	public:
 		std::vector<Mesh_Wrapper*> Meshes;	// Pointer to the specific mesh/meshes we want
 											// Since this is a pointer, vertex buffers / meshes can be shared
 
-
+		~Model_Data()
+		{
+			for (size_t Index = 0; Index < Meshes.size(); Index++)
+				delete Meshes[Index];	// Call destructors
+		}
 
 		// Next to the model, we could perhaps also include textures? Sounds good!
 	};
@@ -98,7 +122,7 @@ namespace Jaguar
 		for (
 			size_t Index = 0, Count = 0;
 			Count < sizeof(Vertex::Attrib_Info);
-			Count += sizeof(Vertex::Attrib_Info[0]), Index++)
+			Count += 3 * sizeof(Vertex::Attrib_Info[0]), Index++)
 		{
 			int Type = Vertex::Attrib_Info[3 * Index];
 			int Size = Vertex::Attrib_Info[3 * Index + 1];
@@ -113,6 +137,8 @@ namespace Jaguar
 				glVertexAttribPointer(Index, Size, Type, GL_FALSE, sizeof(Vertex), (void*)Offset);// Float attribute
 
 			Offset += Vertex::Attrib_Info[3 * Index + 2];
+
+			glEnableVertexAttribArray(Index);
 		}
 
 		// the implementation is somewhat ugly but it's quite elegant in function

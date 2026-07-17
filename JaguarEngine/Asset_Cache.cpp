@@ -30,4 +30,31 @@ namespace Jaguar
 
 		return Mesh_Info;
 	}
+
+	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, const char* Filename, bool Init_Vertex_Buffer)
+	{
+		Mesh_Cache_Info Mesh_Info;
+		Mesh_Info.Name = Filename;
+		Mesh_Info.Conversion = Conversion;
+
+		if (Search_Asset_Cache(Engine->Asset_Cache.Mesh_Cache, &Mesh_Info))
+			return Mesh_Info;
+
+		JSON::JSON_Reader Reader;
+		GLTF::GLTF_Object Object;
+
+		JSON::Load_JSON_Object(&Reader.Object, Filename);
+		JSON::Load_JSON_Reader_Buffers(&Reader);
+
+		GLTF::Load_GLTF_Object(&Object, &Reader);
+
+		// This loads in the JSON and subsequent GLTF object as necessary
+
+		Mesh_Info.Mesh = Conversion(&Object, Init_Vertex_Buffer);
+
+		Engine->Asset_Cache.Mesh_Cache.push_back(Mesh_Info);
+
+		return Mesh_Info;
+		
+	}
 }

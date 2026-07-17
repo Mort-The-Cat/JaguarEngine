@@ -197,7 +197,7 @@ namespace JSON
 		for (Index = 0; Index < Target_Reader->Object[Buffers].Array.size(); Index++)
 		{
 			std::string URI = Parent_Directory + Target_Reader->Object[Buffers][Index]["uri"].String;
-			Target_Reader->Buffer.push_back(Jaguar::Load_File_Contents(URI.c_str()));					// This loads the binary and adds it to the list of buffers
+			Target_Reader->Buffer.push_back(Jaguar::Load_File_Contents(URI.c_str(), true));					// This loads the binary and adds it to the list of buffers
 		}
 
 		return 0;

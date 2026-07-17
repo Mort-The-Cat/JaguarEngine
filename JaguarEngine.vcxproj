@@ -156,7 +156,10 @@
     <ClCompile Include="JaguarEngine\JaguarEngine.cpp" />
     <ClCompile Include="JaguarEngine\JSON_IO\JSON_Declarations.cpp" />
     <ClCompile Include="JaguarEngine\Libraries\Include\glad\glad.c" />
+    <ClCompile Include="JaguarEngine\OpenGL_Handling\Render_Pipeline.cpp" />
+    <ClCompile Include="JaguarEngine\OpenGL_Handling\Shaders.cpp" />
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp" />
+    <ClCompile Include="JaguarEngine\Scene\World_Object_Declarations.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +170,7 @@
     <ClInclude Include="JaguarEngine\JSON_IO\JSON_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\Scene\Model_Declarations.hpp" />
+    <ClInclude Include="JaguarEngine\Scene\Scene.hpp" />
     <ClInclude Include="JaguarEngine\Scene\World_Object_Declarations.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -20,12 +20,15 @@
 
 #include<string>
 #include "OpenGL_Handling/OpenGL_Declarations.hpp"
+// #include "OpenGL_Handling/Shaders.hpp"
 
 #include "JSON_IO/JSON_Declarations.hpp"
 #include "GLTF_Reader/GLTF_Declarations.hpp"
 #include "Asset_Cache.hpp"
 
 #include "Scene/Model_Declarations.hpp"
+#include "Scene/World_Object_Declarations.hpp"
+#include "Scene/Scene.hpp"
 
 namespace Jaguar
 {
@@ -34,6 +37,8 @@ namespace Jaguar
 	struct JaguarEngine
 	{
 		Window_Data Window_Info;
+
+		Scene_Data Scene;
 
 		Render_Pipeline Pipeline;		// Collection of render queues
 
@@ -47,8 +52,6 @@ namespace Jaguar
 	int Init_Window(JaguarEngine* Engine, int Width = 640, int Height = 480, const char* Name = "JaguarEngine Window", GLFWmonitor* Fullscreen = nullptr);
 
 	void End_Jaguar(JaguarEngine* Engine);
-
-	std::vector<char> Load_File_Contents(const char* Filename);
 }
 
 #endif

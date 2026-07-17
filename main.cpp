@@ -14,6 +14,15 @@ struct PNUV_Vertex
 	};
 };
 
+struct Demo_Uniform
+{
+	glm::mat4 Model_Matrix;
+
+	
+	
+	// Texture? Later
+};
+
 Jaguar::Mesh* GLTF_To_Mesh(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true)
 {
 	Jaguar::Mesh_Data<PNUV_Vertex>* Mesh = new Jaguar::Mesh_Data<PNUV_Vertex>();
@@ -54,11 +63,82 @@ Jaguar::Mesh* GLTF_To_Mesh(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = 
 		Jaguar::Initialise_Vertex_Attributes<PNUV_Vertex>(Mesh);
 	}
 
-	// After this, create the vertex buffer!
-
-	// TODO: Vertex buffer init
-
 	return Mesh;
+}
+
+void Demo_Init_Queue(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue)
+{
+	Jaguar::Use_Shader(&Queue->Shader);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glFrontFace(GL_CW);
+
+	glEnable(GL_DEPTH_TEST);
+
+	// Init camera here
+
+	glm::vec3 Right = glm::cross(Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
+
+	Engine->Scene.Camera.Matrix = 
+		Jaguar::Get_Matrix(-Engine->Scene.Camera.Position, Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
+
+		/*glm::mat4
+		(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		) *
+
+		glm::lookAt(
+			Engine->Scene.Camera.Position,
+			Engine->Scene.Camera.Position - Engine->Scene.Camera.Orientation,
+			Engine->Scene.Camera.Orientation_Up
+		);*/
+
+		/*glm::mat4(
+			Right.x, Right.y, Right.z, 0.0f,
+			Engine->Scene.Camera.Orientation_Up.x, Engine->Scene.Camera.Orientation_Up.y, Engine->Scene.Camera.Orientation_Up.z, 0.0f,
+			-Engine->Scene.Camera.Orientation.x, -Engine->Scene.Camera.Orientation.y, -Engine->Scene.Camera.Orientation.z, 0.0f,
+			-Engine->Scene.Camera.Position.x, -Engine->Scene.Camera.Position.y, -Engine->Scene.Camera.Position.z, 1.0f
+		);*/
+
+	// Then, apply projections
+
+	Engine->Scene.Camera.Matrix = glm::perspective(Engine->Scene.Camera.FOV, Engine->Scene.Camera.Aspect, 0.01f, 10000.0f) * Engine->Scene.Camera.Matrix;
+
+	glUniformMatrix4fv(glGetUniformLocation(Queue->Shader.Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Engine->Scene.Camera.Matrix));
+
+	glUniform3f(glGetUniformLocation(Queue->Shader.Program_ID, "Camera_Position"), Engine->Scene.Camera.Position.x, Engine->Scene.Camera.Position.y, Engine->Scene.Camera.Position.z);
+}
+
+void Demo_Init_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue, Jaguar::Model_Wrapper Wrapper)
+{
+	Jaguar::Mesh_Wrapper_Data<Demo_Uniform>* Model = (Jaguar::Mesh_Wrapper_Data<Demo_Uniform>*)Wrapper.Mesh_Wrapper;
+
+	Model->Uniforms.Model_Matrix = Jaguar::Get_Matrix(Wrapper.Object->Position, Wrapper.Object->Orientation, Wrapper.Object->Orientation_Up);
+
+
+
+		/*glm::mat4(
+			-1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, -1.0f, 0.0f,
+			Wrapper.Object->Position.x, Wrapper.Object->Position.y, Wrapper.Object->Position.z, 1.0f
+		);*/
+		//glm::translate(glm::mat4(1.0f), Wrapper.Object->Position);
+
+	glUniformMatrix4fv(glGetUniformLocation(Queue->Shader.Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model->Uniforms.Model_Matrix));
+}
+
+void Demo_Render_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue, Jaguar::Model_Wrapper Wrapper)
+{
+	Jaguar::Bind_Vertex_Buffer(Wrapper.Mesh_Wrapper->Mesh);
+	glDrawArrays(GL_TRIANGLES, 0, Wrapper.Mesh_Wrapper->Mesh->Buffer.Vertex_Count);
+
+
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 int main()
@@ -72,32 +152,72 @@ int main()
 		return -1;
 	}
 
-	if (Jaguar::Init_Window(&Engine))
+	if (Jaguar::Init_Window(&Engine, 1000, 1000))
 	{
 		printf(" >> Failed to init window!\n\n");
 
 		return -1;
 	}
 
-	//JSON::JSON_Object Object;
+	Jaguar::Shader Demo_Shader;
+	Jaguar::Create_Shader<Demo_Uniform>(&Demo_Shader, "Shaders/PNUV.vert", "Shaders/PNUV.frag");
+	Jaguar::Push_Render_Pipeline_Queue(
+		&Engine,
+		Demo_Shader,
+		Demo_Init_Queue,
+		Demo_Init_Model,
+		Demo_Render_Model
+	);
 
-	JSON::JSON_Reader Reader;
+	Jaguar::World_Object World_Object;
 
-	JSON::Load_JSON_Object(&Reader.Object, "JaguarEngine/JSON_IO/animation.gltf");
-	JSON::Load_JSON_Reader_Buffers(&Reader);
+	Jaguar::Create_World_Object(
+		&Engine,
+		&World_Object,
+		{ 
+			{ Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/cube.gltf").Mesh, {} }
+		},
+		{},
+		nullptr,
+		glm::vec3(0.0f, 0.0f, 6.0f)
+	);
 
-	GLTF::GLTF_Object Object;
-	GLTF::Load_GLTF_Object(&Object, &Reader);	// This loads the GLTF object
+	Jaguar::World_Object World_Object_1;
 
-	Jaguar::Mesh* Mesh = GLTF_To_Mesh(&Object);
-
-	//Jaguar::Mesh* Mesh = Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, &Object).Mesh;
-
-	//Jaguar::Pull_Mesh(&Engine, )
+	Jaguar::Create_World_Object(
+		&Engine,
+		&World_Object_1,
+		{
+			{ Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/animation.gltf").Mesh, {} }
+		},
+		{},
+		nullptr,
+		glm::vec3(1.0f, -2.0f, -7.0f)
+	);
+	
+	float Angle = 0.0f;
 
 	while (!glfwWindowShouldClose(Engine.Window_Info.Window))
 	{
 		glfwPollEvents();
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		Engine.Scene.Camera.Position = glm::vec3(1.0f);
+		//Engine.Scene.Camera.Orientation = glm::vec3(0.0f, 0.0f, 1.0f);
+		Engine.Scene.Camera.Orientation_Up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+		Engine.Scene.Camera.Orientation = glm::vec3(
+			sinf(Angle), 0.0f, cosf(Angle)
+		);
+
+		Angle += 0.01;
+
+		Engine.Scene.Camera.Aspect = 1.0f;
+		Engine.Scene.Camera.FOV = glm::radians(90.0f);
+
+		Jaguar::Draw_Render_Pipeline(&Engine);
+
 		glfwSwapBuffers(Engine.Window_Info.Window);
 	}
 

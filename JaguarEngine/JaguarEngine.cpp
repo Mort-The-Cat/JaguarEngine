@@ -5,9 +5,21 @@
 namespace Jaguar
 {
 	//std::string Load_File_Contents(const char* Filename)
-	std::vector<char> Load_File_Contents(const char* Filename) // We'll use this unsigned char instead of a string so that this can handle binaries
+
+	glm::mat4 Get_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up)
 	{
-		std::ifstream File(Filename, std::ios::binary); // Start at end of file
+		glm::vec3 Right = glm::cross(Forward, Up);
+		return glm::mat4(
+			Right.x, Right.y, Right.z, 0.0f,
+			Up.x, Up.y, Up.z, 0.0f,
+			-Forward.x, -Forward.y, -Forward.z, 0.0f,
+			Position.x, Position.y, Position.z, 1.0f
+		);
+	}
+
+	std::vector<char> Load_File_Contents(const char* Filename, bool Is_Binary) // We'll use this unsigned char instead of a string so that this can handle binaries
+	{
+		std::ifstream File(Filename, std::ios::binary | std::ios::in); // Start at end of file
 
 		if (!File.is_open())
 		{
@@ -31,6 +43,9 @@ namespace Jaguar
 		File.read((char*)Contents.data(), Size);
 
 		File.close();
+
+		if (!Is_Binary)
+			Contents.push_back(NULL);
 
 		return Contents;
 	}
@@ -64,6 +79,8 @@ namespace Jaguar
 		}
 
 		glfwGetWindowSize(Engine->Window_Info.Window, &Engine->Window_Info.Width, &Engine->Window_Info.Height);
+
+		glViewport(0, 0, Width, Height);
 
 		// If opened in fullscreen mode, there's no guarantee that the window matches the resolution requested.
 
