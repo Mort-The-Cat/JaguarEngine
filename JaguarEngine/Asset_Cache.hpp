@@ -21,20 +21,39 @@ namespace Jaguar
 
 	struct Mesh_Cache_Info
 	{
+		std::string Name;			// The name of this mesh
 		Mesh* Mesh;					// mesh data itself
 		Mesh_Conversion Conversion;	// Function that was used to create this mesh
-		std::string Name;			// The name of this mesh
 		bool operator==(const Mesh_Cache_Info& Other) const
 		{
 			return
 				Conversion == Other.Conversion &&
 				Name == Other.Name;
+				//strcmp(Name, Other.Name) == 0;
 		}
 	};
+
+	struct Texture_Cache_Info
+	{
+		std::string Name;
+		unsigned char* Pixel_Data;
+		int Width, Height, Channels, Type;
+		Texture Texture;
+		bool operator==(const Texture_Cache_Info& Other) const
+		{
+			return
+				Name == Other.Name;
+				//strcmp(Name, Other.Name) == 0;
+		}
+	};
+
+	// Animations will also be cached here in a fairly standard format
 
 	struct Asset_Cache_Data
 	{
 		std::vector<Mesh_Cache_Info> Mesh_Cache;
+
+		std::vector<Texture_Cache_Info> Texture_Cache;
 	};
 
 	template<typename Info>
@@ -51,9 +70,11 @@ namespace Jaguar
 	}
 
 	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true);
-	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, const char* Filename, bool Init_Vertex_Buffer = true);
+	Mesh_Cache_Info Pull_Mesh(JaguarEngine* Engine, Mesh_Conversion Conversion, const char* Directory, bool Init_Vertex_Buffer = true);
 
 	// You can either load it directly from a GLTF_Object or from a filename
+
+	Texture_Cache_Info Pull_Texture(JaguarEngine* Engine, const char* Directory); // Will likely add more features to this later
 }
 
 

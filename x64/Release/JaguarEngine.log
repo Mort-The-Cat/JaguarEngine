@@ -1,50 +1,108 @@
-﻿  JaguarEngine.cpp
-D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(164,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
-      D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(46,9):
+﻿  main.cpp
+D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
       see declaration of 'Jaguar::Mesh_Wrapper'
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(181,67): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(182,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(183,66): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(184,63): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(188,34): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(221,17): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(228,37): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(229,20): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8): warning C4099: 'Jaguar::Mesh_Wrapper': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
       D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8):
       see declaration of 'Jaguar::Mesh_Wrapper'
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8): warning C4099: 'Jaguar::World_Object': type name first seen using 'struct' now seen using 'class'
-  (compiling source file 'JaguarEngine/JaguarEngine.cpp')
+  (compiling source file 'main.cpp')
       D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8):
       see declaration of 'Jaguar::World_Object'
   
-D:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(118,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(120,19): warning C4305: '=': truncation from 'double' to 'float'
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,63): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,63):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\main.cpp(85,11):
+          see reference to function template instantiation 'void Jaguar::Initialise_Vertex_Attributes<PNUV_Vertex>(Jaguar::Mesh *)' being compiled
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,28): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(137,72): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(137,27): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(141,30): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: 'argument': conversion from 'size_t' to 'glm::vec<3,float,glm::packed_highp>::length_type', possible loss of data
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\main.cpp(64,61):
+          see reference to function template instantiation 'std::vector<glm::vec3,std::allocator<glm::vec3>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec3>(void)' being compiled
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
+          see reference to function template instantiation 'void GLTF::Attribute::Copy_To_Buffer<3,float,glm::vec3>(std::vector<glm::vec3,std::allocator<glm::vec3>> &,std::vector<char,std::allocator<char>> &)' being compiled
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         with
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         [
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:             T=float
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         ]
+  (compiling source file 'main.cpp')
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: 'argument': conversion from 'size_t' to 'glm::vec<2,float,glm::packed_highp>::length_type', possible loss of data
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\main.cpp(66,57):
+          see reference to function template instantiation 'std::vector<glm::vec2,std::allocator<glm::vec2>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec2>(void)' being compiled
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
+          see reference to function template instantiation 'void GLTF::Attribute::Copy_To_Buffer<2,float,glm::vec2>(std::vector<glm::vec2,std::allocator<glm::vec2>> &,std::vector<char,std::allocator<char>> &)' being compiled
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: 'argument': conversion from 'size_t' to 'glm::vec<1,glm::u64,glm::packed_highp>::length_type', possible loss of data
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
+      the template instantiation context (the oldest one first) is
+          D:\JaguarEngine\JaguarEngine\main.cpp(68,44):
+          see reference to function template instantiation 'std::vector<glm::vec<1,glm::u64,glm::packed_highp>,std::allocator<glm::vec<1,glm::u64,glm::packed_highp>>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec<1,glm::u64,glm::packed_highp>>(void)' being compiled
+          D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
+          see reference to function template instantiation 'void GLTF::Attribute::Copy_To_Buffer<1,float,glm::vec<1,glm::u64,glm::packed_highp>>(std::vector<glm::vec<1,glm::u64,glm::packed_highp>,std::allocator<glm::vec<1,glm::u64,glm::packed_highp>>> &,std::vector<char,std::allocator<char>> &)' being compiled
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         with
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         [
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:             T=glm::u64
+D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         ]
+  (compiling source file 'main.cpp')
+  
 LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  0 of 2094 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  206 of 2312 functions ( 8.9%) were compiled, the rest were copied from previous compilation.
+    150 functions were new in current compilation
+    42 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
 glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info

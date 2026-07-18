@@ -158,6 +158,7 @@
     <ClCompile Include="JaguarEngine\Libraries\Include\glad\glad.c" />
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Render_Pipeline.cpp" />
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Shaders.cpp" />
+    <ClCompile Include="JaguarEngine\OpenGL_Handling\Texture.cpp" />
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp" />
     <ClCompile Include="JaguarEngine\Scene\World_Object_Declarations.cpp" />
     <ClCompile Include="main.cpp" />

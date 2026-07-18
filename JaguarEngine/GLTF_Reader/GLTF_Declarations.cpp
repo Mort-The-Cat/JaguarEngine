@@ -3,13 +3,13 @@
 namespace GLTF
 {
 	template<typename T = float>
-	void Value_Array_To_Vector(std::vector<JSON::Value>& Values, T Vector)
+	void Value_Array_To_Vector(std::vector<JSON::Value>& Values, T& Vector)
 	{
 		for (size_t Index = 0; Index < Values.size(); Index++)
 			Vector[Index] = Values[Index].Float;
 	}
 	template<typename T = glm::mat4>
-	void Value_Array_To_Matrix(std::vector<JSON::Value>& Values, T Matrix)
+	void Value_Array_To_Matrix(std::vector<JSON::Value>& Values, T& Matrix)
 	{
 		size_t Index = 0;
 		for (size_t Column = 0; Column < Matrix.length(); Column++)	// column-major format

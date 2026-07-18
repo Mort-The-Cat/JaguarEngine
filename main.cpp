@@ -37,24 +37,27 @@ Jaguar::Mesh* GLTF_To_Mesh(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = 
 	// that means there are 300 vertices defined
 	// i.e. 100 triangles
 
-	for (size_t Index = 0; Index < Object->Meshes.size(); Index++)
-	{
-		Positions = Object->Meshes[Index].Attributes["POSITION"].Get_Attribute_Buffer<glm::vec3>();
-		Normals = Object->Meshes[Index].Attributes["NORMAL"].Get_Attribute_Buffer<glm::vec3>();
-		UVs = Object->Meshes[Index].Attributes["TEXCOORD_0"].Get_Attribute_Buffer<glm::vec2>();
-
-		Indices = Object->Meshes[Index].Indices.Get_Attribute_Buffer<glm::vec<1, size_t>>();
-
-		for (size_t V = 0; V < Indices.size(); V++)
+	for(size_t Node = 0; Node < Object->Nodes.size(); Node++)
+		if (Object->Nodes[Node].Mesh != -1)
 		{
-			PNUV_Vertex Vertex;
-			Vertex.Position = Positions[Indices[V].x];
-			Vertex.Normal = Normals[Indices[V].x];
-			Vertex.UV = UVs[Indices[V].x];
+			size_t Index = Object->Nodes[Node].Mesh;	// Doesn't yet account for child nodes of an object
 
-			Mesh->Vertices.push_back(Vertex);
+			Positions = Object->Meshes[Index].Attributes["POSITION"].Get_Attribute_Buffer<glm::vec3>();
+			Normals = Object->Meshes[Index].Attributes["NORMAL"].Get_Attribute_Buffer<glm::vec3>();
+			UVs = Object->Meshes[Index].Attributes["TEXCOORD_0"].Get_Attribute_Buffer<glm::vec2>();
+
+			Indices = Object->Meshes[Index].Indices.Get_Attribute_Buffer<glm::vec<1, size_t>>();
+
+			for (size_t V = 0; V < Indices.size(); V++)
+			{
+				PNUV_Vertex Vertex;
+				Vertex.Position = Object->Nodes[Node].Matrix * glm::vec4(Positions[Indices[V].x], 1);	// Apply transformation to positions
+				Vertex.Normal = glm::mat3(Object->Nodes[Node].Matrix) * Normals[Indices[V].x];			// Apply only rotation to normals
+				Vertex.UV = UVs[Indices[V].x];
+
+				Mesh->Vertices.push_back(Vertex);
+			}
 		}
-	}
 
 	if (Init_Vertex_Buffer)
 	{
@@ -78,8 +81,6 @@ void Demo_Init_Queue(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue)
 
 	// Init camera here
 
-	glm::vec3 Right = glm::cross(Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
-
 	Engine->Scene.Camera.Matrix = 
 		Jaguar::Get_View_Matrix(Engine->Scene.Camera.Position, Engine->Scene.Camera.Orientation, Engine->Scene.Camera.Orientation_Up);
 
@@ -99,6 +100,8 @@ void Demo_Init_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue, 
 	Model->Uniforms.Model_Matrix = Jaguar::Get_Matrix(Wrapper.Object->Position, Wrapper.Object->Orientation, Wrapper.Object->Orientation_Up);
 
 	glUniformMatrix4fv(glGetUniformLocation(Queue->Shader.Program_ID, "Model_Matrix"), 1, GL_FALSE, glm::value_ptr(Model->Uniforms.Model_Matrix));
+
+	Jaguar::Attach_Texture(&Model->Textures[0], &Queue->Shader, "Texture_Test", 0);
 }
 
 void Demo_Render_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue, Jaguar::Model_Wrapper Wrapper)
@@ -126,7 +129,7 @@ int main()
 	}
 
 	Jaguar::Shader Demo_Shader;
-	Jaguar::Create_Shader<Demo_Uniform>(&Demo_Shader, "Shaders/PNUV.vert", "Shaders/PNUV.frag");
+	Jaguar::Create_Shader<Demo_Uniform>(&Demo_Shader, "Demo_Game/Shaders/PNUV.vert", "Demo_Game/Shaders/PNUV.frag");
 	Jaguar::Push_Render_Pipeline_Queue(
 		&Engine,
 		Demo_Shader,
@@ -141,7 +144,11 @@ int main()
 		&Engine,
 		&World_Object,
 		{ 
-			{ Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/cube.gltf").Mesh, {} }
+			{ 
+				Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "Demo_Game/Assets/Viking_Room.gltf").Mesh, 
+				{ Jaguar::Pull_Texture(&Engine, "Demo_Game/Assets/Viking_Room.png").Texture }
+			}
+			//{ Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/cube.gltf").Mesh, {  } }
 		},
 		{},
 		nullptr,
@@ -154,7 +161,10 @@ int main()
 		&Engine,
 		&World_Object_1,
 		{
-			{ Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/animation.gltf").Mesh, {} }
+			{ 
+				Demo_Shader, Jaguar::Pull_Mesh(&Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/animation.gltf").Mesh, 
+				{ Jaguar::Pull_Texture(&Engine, "Demo_Game/Assets/Floor_Tiles.png").Texture }
+			}
 		},
 		{},
 		nullptr,

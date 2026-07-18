@@ -22,6 +22,7 @@ namespace Jaguar
 	glm::mat4 Get_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up)
 	{
 		glm::vec3 Right = glm::cross(Up, Forward);
+
 		return glm::mat4(
 			Right.x, Right.y, Right.z, 0.0f,
 			Up.x, Up.y, Up.z, 0.0f,
@@ -30,13 +31,13 @@ namespace Jaguar
 		);
 	}
 
-	std::vector<char> Load_File_Contents(const char* Filename, bool Is_Binary) // We'll use this unsigned char instead of a string so that this can handle binaries
+	std::vector<char> Load_File_Contents(const char* Directory, bool Is_Binary) // We'll use this unsigned char instead of a string so that this can handle binaries
 	{
-		std::ifstream File(Filename, std::ios::binary | std::ios::in); // Start at end of file
+		std::ifstream File(Directory, std::ios::binary | std::ios::in); // Start at end of file
 
 		if (!File.is_open())
 		{
-			printf(" >> Fatal error! Unable to load file contents: %s\n", Filename);
+			printf(" >> Fatal error! Unable to load file contents: %s\n", Directory);
 
 			return std::vector<char>(); // nothing to return...
 		}
