@@ -1,7 +1,8 @@
 d:\jaguarengine\jaguarengine\x64\release\vc145.pdb
-d:\jaguarengine\jaguarengine\x64\release\main.obj
 d:\jaguarengine\jaguarengine\x64\release\world_object_declarations.obj
+d:\jaguarengine\jaguarengine\x64\release\scene.obj
 d:\jaguarengine\jaguarengine\x64\release\vertex_buffers.obj
+d:\jaguarengine\jaguarengine\x64\release\texture.obj
 d:\jaguarengine\jaguarengine\x64\release\shaders.obj
 d:\jaguarengine\jaguarengine\x64\release\render_pipeline.obj
 d:\jaguarengine\jaguarengine\x64\release\json_declarations.obj

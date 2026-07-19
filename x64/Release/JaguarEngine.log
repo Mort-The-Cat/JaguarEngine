@@ -33,16 +33,26 @@ D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8): wa
       D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8):
       see declaration of 'Jaguar::Mesh_Wrapper'
   
-D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8): warning C4099: 'Jaguar::World_Object': type name first seen using 'struct' now seen using 'class'
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8): warning C4099: 'Jaguar::World_Object': type name first seen using 'struct' now seen using 'class'
   (compiling source file 'main.cpp')
-      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(11,8):
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8):
       see declaration of 'Jaguar::World_Object'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(8,8): warning C4099: 'Jaguar::Control': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(10,9):
+      see declaration of 'Jaguar::Control'
+  
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4099: 'Jaguar::Control': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'main.cpp')
+      D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
+      see declaration of 'Jaguar::Control'
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,63): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
   (compiling source file 'main.cpp')
       D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,63):
       the template instantiation context (the oldest one first) is
-          D:\JaguarEngine\JaguarEngine\main.cpp(85,11):
+          D:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(66,11):
           see reference to function template instantiation 'void Jaguar::Initialise_Vertex_Attributes<PNUV_Vertex>(Jaguar::Mesh *)' being compiled
   
 D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,28): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
@@ -61,7 +71,7 @@ D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): 
   (compiling source file 'main.cpp')
       D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
       the template instantiation context (the oldest one first) is
-          D:\JaguarEngine\JaguarEngine\main.cpp(64,61):
+          D:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(45,61):
           see reference to function template instantiation 'std::vector<glm::vec3,std::allocator<glm::vec3>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec3>(void)' being compiled
           D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
           see reference to function template instantiation 'void GLTF::Attribute::Copy_To_Buffer<3,float,glm::vec3>(std::vector<glm::vec3,std::allocator<glm::vec3>> &,std::vector<char,std::allocator<char>> &)' being compiled
@@ -77,7 +87,7 @@ D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): 
   (compiling source file 'main.cpp')
       D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
       the template instantiation context (the oldest one first) is
-          D:\JaguarEngine\JaguarEngine\main.cpp(66,57):
+          D:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(47,57):
           see reference to function template instantiation 'std::vector<glm::vec2,std::allocator<glm::vec2>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec2>(void)' being compiled
           D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
           see reference to function template instantiation 'void GLTF::Attribute::Copy_To_Buffer<2,float,glm::vec2>(std::vector<glm::vec2,std::allocator<glm::vec2>> &,std::vector<char,std::allocator<char>> &)' being compiled
@@ -86,7 +96,7 @@ D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): 
   (compiling source file 'main.cpp')
       D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
       the template instantiation context (the oldest one first) is
-          D:\JaguarEngine\JaguarEngine\main.cpp(68,44):
+          D:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(49,44):
           see reference to function template instantiation 'std::vector<glm::vec<1,glm::u64,glm::packed_highp>,std::allocator<glm::vec<1,glm::u64,glm::packed_highp>>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec<1,glm::u64,glm::packed_highp>>(void)' being compiled
           D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
           see reference to function template instantiation 'void GLTF::Attribute::Copy_To_Buffer<1,float,glm::vec<1,glm::u64,glm::packed_highp>>(std::vector<glm::vec<1,glm::u64,glm::packed_highp>,std::allocator<glm::vec<1,glm::u64,glm::packed_highp>>> &,std::vector<char,std::allocator<char>> &)' being compiled
@@ -100,9 +110,9 @@ D:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): 
   
 LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  206 of 2312 functions ( 8.9%) were compiled, the rest were copied from previous compilation.
-    150 functions were new in current compilation
-    42 functions had inline decision re-evaluated but remain unchanged
+  8 of 2323 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info
 glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'D:\JaguarEngine\JaguarEngine\glfw.pdb'; linking object as if no debug info

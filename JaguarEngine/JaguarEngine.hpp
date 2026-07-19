@@ -29,6 +29,7 @@
 #include "Scene/Model_Declarations.hpp"
 #include "Scene/World_Object_Declarations.hpp"
 #include "Scene/Scene.hpp"
+#include "Scene/Controller.hpp"
 
 namespace Jaguar
 {

@@ -7,5 +7,6 @@ D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Render_Pipeline.cpp;D:
 D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Shaders.cpp;D:\JaguarEngine\JaguarEngine\x64\Release\Shaders.obj
 D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Texture.cpp;D:\JaguarEngine\JaguarEngine\x64\Release\Texture.obj
 D:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp;D:\JaguarEngine\JaguarEngine\x64\Release\Vertex_Buffers.obj
+D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Scene.cpp;D:\JaguarEngine\JaguarEngine\x64\Release\Scene.obj
 D:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.cpp;D:\JaguarEngine\JaguarEngine\x64\Release\World_Object_Declarations.obj
 D:\JaguarEngine\JaguarEngine\main.cpp;D:\JaguarEngine\JaguarEngine\x64\Release\main.obj

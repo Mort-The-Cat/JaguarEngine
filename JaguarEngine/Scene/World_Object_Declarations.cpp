@@ -3,12 +3,17 @@
 namespace Jaguar
 {
 
+	void Init_Control(JaguarEngine* Engine, World_Object* Object)
+	{
+		Object->Controller->Object = Object; // Simple
+	}
+
 	void Create_World_Object(
 		JaguarEngine* Engine,
 		World_Object* Object,
 		std::vector<Shader_Mesh_Wrapper> Meshes,
 		std::vector<void*> Collision,
-		void* Controller,
+		Control* Controller,
 		glm::vec3 Position,
 		glm::vec3 Orientation,
 		glm::vec3 Orientation_Up
@@ -30,6 +35,8 @@ namespace Jaguar
 			);
 		}
 
+		Object->Controller = Controller;
+
 		// TODO: Add collisions etc
 
 		Engine->Scene.Scene_Objects.push_back(Object);
@@ -37,6 +44,10 @@ namespace Jaguar
 		Object->Position = Position;
 		Object->Orientation = Orientation;
 		Object->Orientation_Up = Orientation_Up;
+
+		if(Controller)
+			if (Controller->Init)						// If there's an init function?
+				Controller->Init(Engine, Object);	// Call it
 	}
 
 }

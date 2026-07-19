@@ -11,7 +11,7 @@ namespace Jaguar
 		glm::vec3 Orientation_Up;
 
 		float FOV;
-		float Aspect;	// Update these values later
+		float Aspect;	// width / height
 
 		glm::mat4 Matrix;
 	};
@@ -27,4 +27,5 @@ namespace Jaguar
 		// perhaps also add lighting structures here? We'll see
 	};
 
+	void Handle_Scene_Objects(JaguarEngine* Engine);
 }

@@ -160,16 +160,19 @@
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Shaders.cpp" />
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Texture.cpp" />
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp" />
+    <ClCompile Include="JaguarEngine\Scene\Scene.cpp" />
     <ClCompile Include="JaguarEngine\Scene\World_Object_Declarations.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Demo_Game\Demo.hpp" />
     <ClInclude Include="JaguarEngine\Asset_Cache.hpp" />
     <ClInclude Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp" />
     <ClInclude Include="JaguarEngine\Jaguar_Config.hpp" />
     <ClInclude Include="JaguarEngine\JSON_IO\JSON_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp" />
+    <ClInclude Include="JaguarEngine\Scene\Controller.hpp" />
     <ClInclude Include="JaguarEngine\Scene\Model_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\Scene\Scene.hpp" />
     <ClInclude Include="JaguarEngine\Scene\World_Object_Declarations.hpp" />

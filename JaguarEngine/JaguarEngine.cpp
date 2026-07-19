@@ -11,11 +11,13 @@ namespace Jaguar
 		glm::vec3 Right = glm::cross(Up, Forward);
 
 		return 
-			glm::mat4(
+			glm::translate(glm::mat4(
 				Right.x, Right.y, Right.z, 0.0f,
 				Up.x, Up.y, Up.z, 0.0f,
 				-Forward.x, -Forward.y, -Forward.z, 0.0f,
-				-Position.x, -Position.y, -Position.z, 1.0f
+				//-Position.x, -Position.y, Position.z, 1.0f
+				0.0f, 0.0f, 0.0f, 1.0f
+			), -Position
 			);
 	}
 
