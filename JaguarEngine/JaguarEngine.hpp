@@ -31,6 +31,9 @@
 #include "Scene/Scene.hpp"
 #include "Scene/Controller.hpp"
 
+#include "Animation/Animation.hpp"
+#include "Animation/Skeleton.hpp"
+
 namespace Jaguar
 {
 

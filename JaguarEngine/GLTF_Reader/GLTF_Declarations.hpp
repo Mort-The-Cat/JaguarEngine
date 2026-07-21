@@ -6,6 +6,25 @@
 #include "../JSON_IO/JSON_Declarations.hpp"
 #include "../OpenGL_Handling/OpenGL_Declarations.hpp"
 
+namespace Jaguar
+{
+	template<typename T>
+	void Get_Min_Max(const std::vector<T>& Array, T* Min, T* Max)
+	{
+		if (Array.size() == 0)
+			return;
+
+		*Min = Array[0];
+		*Max = Array[0];
+
+		for (size_t Index = 1; Index < Array.size(); Index++)
+		{
+			*Min = glm::min(*Min, Array[Index]);
+			*Max = glm::max(*Max, Array[Index]);
+		}
+	}
+}
+
 namespace GLTF
 {
 	struct GLTF_Object
@@ -84,6 +103,14 @@ namespace GLTF
 			std::vector<Channel> Channels;	// channels
 
 			std::string Name;
+
+			glm::vec3 Get_Position(float Time, int Node);
+			glm::vec3 Get_Scale(float Time, int Node);
+			glm::quat Get_Rotation(float Time, int Node);
+
+		private:
+			Channel* Get_Channel(float Time, int Node, Path_Type Path);
+			glm::vec3 Get_Vec3(float Time, int Node, Path_Type Path, glm::vec3 Default);
 		};
 
 		std::string Name;

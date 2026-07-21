@@ -48,7 +48,6 @@ namespace Jaguar
 
 		File.seekg(0, std::ios::end);
 
-		//std::string Contents;
 		std::vector<char> Contents;
 		size_t Size = File.tellg();
 

@@ -169,6 +169,10 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		glm::vec3(1.0f, -2.0f, -7.0f)
 	);
 
+	Jaguar::Animation Anim;
+
+	Jaguar::Create_Animation(&Anim, "JaguarEngine/JSON_IO/animation.gltf");
+
 	float Angle = 0.8f;
 
 	while (!glfwWindowShouldClose(Engine->Window_Info.Window))
