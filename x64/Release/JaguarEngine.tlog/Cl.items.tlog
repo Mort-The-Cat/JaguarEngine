@@ -1,4 +1,5 @@
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Animation\Animation.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Animation.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Animation\Skeleton_Animator.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Skeleton_Animator.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Asset_Cache.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Asset_Cache.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\GLTF_Declarations.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\Sampling.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Sampling.obj

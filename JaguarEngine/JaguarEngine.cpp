@@ -2,6 +2,8 @@
 
 #include<fstream>
 
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#cats=Bit%2525252525252525252525252525252525252525252525252525252525252525252525252520Manipulation&ig_expand=4907
+
 namespace Jaguar
 {
 	//std::string Load_File_Contents(const char* Filename)

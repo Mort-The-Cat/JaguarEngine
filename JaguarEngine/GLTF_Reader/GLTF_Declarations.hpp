@@ -67,7 +67,8 @@ namespace GLTF
 		{
 			std::string Name;
 			Attribute Inverse_Bind_Matrices;
-			std::vector<uint16_t> Joints;		// Corresponds to each node
+			std::vector<uint16_t> Joints;		// Corresponds to each node;
+												// i.e. Joints[0] is the index of the node that joint0 equals
 		};
 
 		struct Animation

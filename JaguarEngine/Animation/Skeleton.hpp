@@ -19,9 +19,11 @@ namespace Jaguar
 
 		std::vector<Node> Nodes;
 
+		//std::vector<uint16_t> Joints;	// Same as in GLTF_Declarations.hpp
+
 		//
 
-		std::vector<glm::mat4> Inverse_Bind_Matrices;	// Corresponds to each joint (not each node)
+		std::vector<glm::mat4> Inverse_Bind_Matrices;	// Corresponds to each joint (NOT each node)
 	};
 
 }
