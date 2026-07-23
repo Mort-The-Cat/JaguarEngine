@@ -63,6 +63,8 @@ namespace Jaguar
 	private:
 		void Update_Joint_Recursive(glm::mat4* Joints, int Node, glm::mat4 Parent);
 	public:
+		uint64_t Updated_Node_Flag = -1;
+
 		const Skeleton* Rig;	// stored in asset-cache
 
 
@@ -81,7 +83,7 @@ namespace Jaguar
 
 		// This will be expanded on later to allow for different properties
 
-		void Animate(Animation_Rig* Rig, float Timestep, bool Update_Rig = true);
+		void Animate(Animation_Rig* Rig, float Timestep, bool Overwrite_Rig = true, bool Update_Rig = true);
 	};
 
 	// A controller for an object with animations will contain 
