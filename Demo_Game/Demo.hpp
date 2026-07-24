@@ -17,10 +17,6 @@ struct PNUV_Vertex
 struct Demo_Uniform
 {
 	glm::mat4 Model_Matrix;
-
-
-
-	// Texture? Later
 };
 
 Jaguar::Mesh* GLTF_To_Mesh(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true)
@@ -172,6 +168,10 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 	Jaguar::Animation Anim;
 
 	Jaguar::Create_Animation(&Anim, "JaguarEngine/JSON_IO/animation.gltf");
+
+	Jaguar::Skeleton Rig;
+
+	Jaguar::Create_Skeleton(&Rig, "JaguarEngine/JSON_IO/animation.gltf");
 
 	float Angle = 0.8f;
 

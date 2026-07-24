@@ -2,6 +2,7 @@
 #define JAGUAR_SKELETON
 
 #include "../OpenGL_Handling/OpenGL_Declarations.hpp"
+#include "../GLTF_Reader/GLTF_Declarations.hpp"
 
 namespace Jaguar
 {
@@ -19,6 +20,8 @@ namespace Jaguar
 
 		std::vector<Node> Nodes;
 
+		uint32_t Root_Node;
+
 		//std::vector<uint16_t> Joints;	// Same as in GLTF_Declarations.hpp
 
 		//
@@ -26,6 +29,8 @@ namespace Jaguar
 		std::vector<glm::mat4> Inverse_Bind_Matrices;	// Corresponds to each joint (NOT each node)
 	};
 
+	void Create_Skeleton(Skeleton* Target_Skeleton, GLTF::GLTF_Object* Object);
+	void Create_Skeleton(Skeleton* Target_Skeleton, const char* Filename);
 }
 
 #endif

@@ -60,6 +60,9 @@
     <ClCompile Include="JaguarEngine\Animation\Skeleton_Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\Animation\Skeleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp">

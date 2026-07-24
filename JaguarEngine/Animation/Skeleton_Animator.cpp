@@ -34,15 +34,15 @@ namespace Jaguar
 
 		unsigned long long Node;
 		while (
-			(Node = _lzcnt_u64(Updated_Node_Flag)) != 63	// leading-zeroes = 63 when there are no more '1' bits (i.e. we've updated everything)
+			(Node = _tzcnt_u64(Updated_Node_Flag)) != 63	// trailing-zeroes = 63 when there are no more '1' bits (i.e. we've updated everything)
 			)
 		{
-			Updated_Node_Flag ^= (1u << Node);	// this clears the node that we're updating
+			Updated_Node_Flag ^= (1ui64 << Node);	// this clears the node that we're updating
 
 			Nodes[Node] = Rig->Nodes[Node].Matrix;	// Sets the matrix to its default value
 		}
 
-		Update_Joint_Recursive(Joints, 0, glm::mat4(1.0f));
+		Update_Joint_Recursive(Joints, Rig->Root_Node, glm::mat4(1.0f));
 
 		// Leaves every node matrix in Nodes[] in local space instead of as their global transform matrix
 	}
@@ -66,23 +66,27 @@ namespace Jaguar
 			return;
 
 		if (Overwrite_Rig)	// We want to flag all other nodes as NOT up-to-date
-			Rig->Updated_Node_Flag = -1;	// sets all bits to '1', meaning they need to be updated
+			Rig->Updated_Node_Flag = -1i64;	// sets all bits to '1', meaning they need to be updated
 
-		for (size_t Channel = 0; Channel < Animation_Info->Channels.size(); Channel++)
+		for (const auto& Channel : Animation_Info->Channels)
 		{
 			Animation::Action Value;
 
 			int Start = 0, End;
-			for (; Start + 1 < Animation_Info->Channels[Channel].Actions.size(); Start++)
-				if (Animation_Info->Channels[Channel].Actions[Start + 1].Time > Time)
+			for (; Start + 1 < Channel.Actions.size(); Start++)
+				if (Channel.Actions[Start + 1].Time > Time)
 					break;
 
-			if (Start + 1 < Animation_Info->Channels[Channel].Actions.size())
+			bool Interp = 
+				Channel.Actions[0].Time <= Start &&		// If the animation has even started
+				Start + 1 < Channel.Actions.size();		// and if there's an action after this to interpolate into
+
+			if (Interp)
 			{
 				// interp
 
-				Animation::Action Start_Action = Animation_Info->Channels[Channel].Actions[Start];
-				Animation::Action End_Action = Animation_Info->Channels[Channel].Actions[Start + 1];
+				Animation::Action Start_Action = Channel.Actions[Start];
+				Animation::Action End_Action = Channel.Actions[Start + 1];
 
 				float Factor = (Time - Start_Action.Time) / (End_Action.Time - Start_Action.Time);
 
@@ -92,14 +96,14 @@ namespace Jaguar
 					Factor);
 			}
 			else
-				Value = Animation_Info->Channels[Channel].Actions[Start];
+				Value = Channel.Actions[Start];	// Otherwise? Just use this frame
 
 			// convert action to matrix
 
-			Rig->Updated_Node_Flag &= ~(1u << (Animation_Info->Channels[Channel].Node)); 
+			Rig->Updated_Node_Flag &= ~(1ui64 << ((unsigned long long)Channel.Node)); 
 			// sets this bit to 0, meaning it's been updated
 
-			Rig->Nodes[Animation_Info->Channels[Channel].Node] = Value.To_Matrix();
+			Rig->Nodes[Channel.Node] = Value.To_Matrix();
 
 			// writes matrix to rig
 		}

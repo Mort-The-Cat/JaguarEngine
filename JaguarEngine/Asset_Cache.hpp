@@ -6,6 +6,8 @@
 
 #include "GLTF_Reader/GLTF_Declarations.hpp"
 
+#include "../JaguarEngine/Animation/Animation.hpp"
+
 namespace Jaguar
 {
 	class Mesh;
@@ -47,6 +49,29 @@ namespace Jaguar
 		}
 	};
 
+	struct Animation_Cache_Info
+	{
+		std::string Name;			// Filename
+		std::string Animation_Name;	// name of the animation/action itself
+		Animation* Animation_Info;
+		bool operator==(const Animation_Cache_Info& Other) const
+		{
+			return
+				Name == Other.Name &&
+				Animation_Name == Other.Animation_Name;
+		}
+	};
+
+	struct Skeleton_Cache_Info
+	{
+		std::string Name;
+		Skeleton* Rig;
+		bool operator==(const Skeleton_Cache_Info& Other) const
+		{
+			return Name == Other.Name;
+		}
+	};
+
 	// Animations will also be cached here in a fairly standard format
 
 	struct Asset_Cache_Data
@@ -54,6 +79,9 @@ namespace Jaguar
 		std::vector<Mesh_Cache_Info> Mesh_Cache;
 
 		std::vector<Texture_Cache_Info> Texture_Cache;
+
+		std::vector<Animation_Cache_Info> Animation_Cache;
+		std::vector<Skeleton_Cache_Info> Skeleton_Cache;
 	};
 
 	template<typename Info>

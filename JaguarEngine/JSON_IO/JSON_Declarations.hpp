@@ -33,7 +33,7 @@ namespace GLTF
 		template<const int Dimension, typename T_1, typename T_0>
 		void Copy_To_Buffer(std::vector<glm::mat<Dimension, Dimension, T_0>>& Buffer, std::vector<char>& Bytes)
 		{
-			Buffer.resize(Data.size() / (Dimension * sizeof(T_1)));
+			Buffer.resize(Data.size() / (Dimension * Dimension * sizeof(T_1)));
 
 			T_1* Read = (T_1*)Bytes.data();
 			for (size_t Index = 0, Read_Index = 0; Index < Buffer.size(); Index++)

@@ -29,5 +29,11 @@ namespace Jaguar
 		glm::mat4 Joint_Matrices[32];	// Only 32 for now
 	};
 
+	Mesh* GLTF_To_Joint_Mesh(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true)
+	{
+		// This will create one big mesh, like the normal GLTF_To_Mesh function
+		// but this will also store joints/weights.
+	}
+
 	// We need an animation controller etc
 }
