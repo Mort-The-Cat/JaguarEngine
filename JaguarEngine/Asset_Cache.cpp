@@ -92,4 +92,78 @@ namespace Jaguar
 
 		return Texture_Info;
 	}
+
+	Skeleton_Cache_Info Pull_Skeleton(JaguarEngine* Engine, GLTF::GLTF_Object* Object)
+	{
+		Skeleton_Cache_Info Skeleton_Info;
+		Skeleton_Info.Name = Object->Name;
+
+		if (Search_Asset_Cache(Engine->Asset_Cache.Skeleton_Cache, &Skeleton_Info))
+			return Skeleton_Info;
+
+		// otherwise? load and store in asset cache
+
+		Skeleton_Info.Rig = new Skeleton();
+
+		Create_Skeleton(Skeleton_Info.Rig, Object);
+
+		Engine->Asset_Cache.Skeleton_Cache.push_back(Skeleton_Info);
+
+		return Skeleton_Info;
+	}
+
+	Skeleton_Cache_Info Pull_Skeleton(JaguarEngine* Engine, const char* Directory)
+	{
+		Skeleton_Cache_Info Skeleton_Info;
+		Skeleton_Info.Name = Directory;
+
+		if (Search_Asset_Cache(Engine->Asset_Cache.Skeleton_Cache, &Skeleton_Info))
+			return Skeleton_Info;
+
+		// otherwise? load and store in asset cache
+
+		Skeleton_Info.Rig = new Skeleton();
+
+		Create_Skeleton(Skeleton_Info.Rig, Directory);
+
+		Engine->Asset_Cache.Skeleton_Cache.push_back(Skeleton_Info);
+
+		return Skeleton_Info;
+	}
+
+	//
+
+	Animation_Cache_Info Pull_Animation(JaguarEngine* Engine, GLTF::GLTF_Object* Object, const char* Animation_Name)
+	{
+		Animation_Cache_Info Animation_Info;
+		Animation_Info.Name = Object->Name;
+		Animation_Info.Animation_Name = Animation_Name;	// NOTE: if "", it'll just return the first animation it finds
+
+		if (Search_Asset_Cache(Engine->Asset_Cache.Animation_Cache, &Animation_Info))
+			return Animation_Info;
+
+		Animation_Info.Animation_Info = new Animation();
+		Create_Animation(Animation_Info.Animation_Info, Object, Animation_Name);
+
+		Engine->Asset_Cache.Animation_Cache.push_back(Animation_Info);
+
+		return Animation_Info;
+	}
+
+	Animation_Cache_Info Pull_Animation(JaguarEngine* Engine, const char* Directory, const char* Animation_Name)
+	{
+		Animation_Cache_Info Animation_Info;
+		Animation_Info.Name = Directory;
+		Animation_Info.Animation_Name = Animation_Name;	// NOTE: if "", it'll just return the first animation it finds
+
+		if (Search_Asset_Cache(Engine->Asset_Cache.Animation_Cache, &Animation_Info))
+			return Animation_Info;
+
+		Animation_Info.Animation_Info = new Animation();
+		Create_Animation(Animation_Info.Animation_Info, Directory, Animation_Name);
+
+		Engine->Asset_Cache.Animation_Cache.push_back(Animation_Info);
+
+		return Animation_Info;
+	}
 }

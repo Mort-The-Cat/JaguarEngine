@@ -23,14 +23,16 @@ namespace Jaguar
 
 			glm::mat4 To_Matrix()
 			{
-				return 
-					glm::translate(
-						glm::scale(
-							glm::toMat4(Rotation), 
-							Scale
-						), 
-						Translation
-					);
+				return
+					glm::translate(Translation) * glm::scale(Scale) * glm::toMat4(Rotation);
+
+					//glm::translate(
+					//	glm::scale(
+					//		glm::toMat4(Rotation), 
+					//		Scale
+					//	), 
+					//	Translation
+					//);
 			}
 		};
 
@@ -65,11 +67,19 @@ namespace Jaguar
 	public:
 		uint64_t Updated_Node_Flag = -1;
 
-		const Skeleton* Rig;	// stored in asset-cache
+		const Skeleton* Rig = nullptr;	// stored in asset-cache
 
 
 		std::vector<glm::mat4> Nodes;	// This is required to track the matrices of each node so they can be converted to joints
 										// with the current design, these are all local to the node's parent node-space
+
+		Animation_Rig() {}
+
+		Animation_Rig(Skeleton* Rigp)
+		{
+			Rig = Rigp;
+			Nodes.resize(Rig->Nodes.size());
+		}
 
 		void Update_Joints(glm::mat4* Joints);
 	};
@@ -77,11 +87,19 @@ namespace Jaguar
 	class Animator			// This object controls and applies an animation to an animation-rig
 	{
 	public:
-		const Animation* Animation_Info;	// stored in asset-cache
+		const Animation* Animation_Info = nullptr;	// stored in asset-cache
 
-		float Time;
+		float Time = 0.0f;
 
 		// This will be expanded on later to allow for different properties
+
+		Animator() {}
+
+		Animator(Animation* Animation_Infop)
+		{
+			Animation_Info = Animation_Infop;
+			Time = 0.0f;
+		}
 
 		void Animate(Animation_Rig* Rig, float Timestep, bool Overwrite_Rig = true, bool Update_Rig = true);
 	};

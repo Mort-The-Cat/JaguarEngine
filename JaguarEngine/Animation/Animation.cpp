@@ -53,13 +53,18 @@ namespace Jaguar
 					break;
 				}
 		}
-		else if (Object->Animations.size())
-			GLTF_Anim = &Object->Animations[0];
+		
+		//if (Object->Animations.size())
+		//	GLTF_Anim = &Object->Animations[0];
 
 		if (!GLTF_Anim)
 		{
 			printf(" >> %s animation not found!\n", Animation_Name);
-			return;
+
+			if (Object->Animations.size())
+				GLTF_Anim = &Object->Animations[0];
+			else
+				return;
 		}
 
 		// Start producing animation

@@ -10,6 +10,9 @@ namespace Jaguar
 				Flags &= ~(1ui64 << (unsigned long long)Target_Skeleton->Nodes[Node].Child_Nodes[Child]);					// clears this flag
 
 		return _tzcnt_u64(Flags);	// Finds first node in the list that ISN'T referred to as a 'child' node
+
+		// NOTE: 'trailing' bits are the LSB, whereas 'leading' bits are the MSB
+		// in these cases, we want the LSB (i.e. the FIRST node which fits the criteria)
 	}
 
 	void Create_Skeleton(Skeleton* Target_Skeleton, const char* Filename)
@@ -51,7 +54,7 @@ namespace Jaguar
 			Target_Skeleton->Nodes[Target_Skin->Joints[Joint]].Joint = Joint;
 
 		Target_Skeleton->Inverse_Bind_Matrices = Target_Skin->Inverse_Bind_Matrices.Get_Attribute_Buffer<glm::mat4>();
-		Target_Skeleton->Root_Node = Find_Root_Node(Target_Skeleton);
+		Target_Skeleton->Root_Node = Object->Parent_Node; //Find_Root_Node(Target_Skeleton);
 	}
 
 }

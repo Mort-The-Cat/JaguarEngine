@@ -58,7 +58,7 @@ namespace Jaguar
 		{
 			return
 				Name == Other.Name &&
-				Animation_Name == Other.Animation_Name;
+				(Animation_Name == Other.Animation_Name || Other.Animation_Name.empty());
 		}
 	};
 
@@ -103,6 +103,12 @@ namespace Jaguar
 	// You can either load it directly from a GLTF_Object or from a filename
 
 	Texture_Cache_Info Pull_Texture(JaguarEngine* Engine, const char* Directory); // Will likely add more features to this later
+
+	Skeleton_Cache_Info Pull_Skeleton(JaguarEngine* Engine, GLTF::GLTF_Object* Object);
+	Skeleton_Cache_Info Pull_Skeleton(JaguarEngine* Engine, const char* Filename);
+
+	Animation_Cache_Info Pull_Animation(JaguarEngine* Engine, GLTF::GLTF_Object* Object, const char* Animation_Name);
+	Animation_Cache_Info Pull_Animation(JaguarEngine* Engine, const char* Filename, const char* Animation_Name);
 }
 
 

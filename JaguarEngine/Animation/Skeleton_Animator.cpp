@@ -34,13 +34,16 @@ namespace Jaguar
 
 		unsigned long long Node;
 		while (
-			(Node = _tzcnt_u64(Updated_Node_Flag)) != 63	// trailing-zeroes = 63 when there are no more '1' bits (i.e. we've updated everything)
+			(Node = _tzcnt_u64(Updated_Node_Flag)) < Nodes.size()	// trailing-zeroes = 63 when there are no more '1' bits (i.e. we've updated everything)
 			)
 		{
 			Updated_Node_Flag ^= (1ui64 << Node);	// this clears the node that we're updating
 
 			Nodes[Node] = Rig->Nodes[Node].Matrix;	// Sets the matrix to its default value
 		}
+
+		// NOTE: 'trailing' bits are the LSB, whereas 'leading' bits are the MSB
+		// in these cases, we want the LSB (i.e. the FIRST node which fits the criteria)
 
 		Update_Joint_Recursive(Joints, Rig->Root_Node, glm::mat4(1.0f));
 

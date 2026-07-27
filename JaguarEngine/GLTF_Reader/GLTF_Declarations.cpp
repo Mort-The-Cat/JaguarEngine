@@ -112,6 +112,8 @@ namespace GLTF
 	{
 		// Add all of the samplers
 
+		Target_Animation->Name = Reader["animations"][Animation_Index]["name"].String;
+
 		Target_Animation->Samplers.resize(Reader["animations"][Animation_Index]["samplers"].Array.size());
 		for (size_t Index = 0; Index < Target_Animation->Samplers.size(); Index++)
 		{

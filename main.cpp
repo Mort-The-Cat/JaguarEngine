@@ -11,7 +11,7 @@ int main()
 		return -1;
 	}
 
-	if (Jaguar::Init_Window(&Engine, 640, 480))
+	if (Jaguar::Init_Window(&Engine, 1280, 960))
 	{
 		printf(" >> Failed to init window!\n\n");
 
