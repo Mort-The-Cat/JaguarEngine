@@ -38,7 +38,7 @@ void Demo_Animator_Init(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* Obje
 
 	Control->Info.Demo_Animator =
 		Jaguar::Animator(
-			Jaguar::Pull_Animation(Engine, "Demo_Game/Assets/Murderer.gltf", "").Animation_Info
+			Jaguar::Pull_Animation(Engine, "Demo_Game/Assets/Murderer.gltf", "Look_Around").Animation_Info
 		);
 
 
@@ -54,7 +54,7 @@ void Demo_Animator_Function(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* 
 
 	Control->Info.Demo_Animator.Animate(&Control->Info.Rig, Engine->Time);
 
-	if (Control->Info.Demo_Animator.Time > 16.0)
+	if (Control->Info.Demo_Animator.Time > 16.0f)
 		Control->Info.Demo_Animator.Time = 0.0f;
 
 	// Now, we'll update the object uniforms with the new joint data!!
