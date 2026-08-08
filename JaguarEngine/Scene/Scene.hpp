@@ -20,7 +20,7 @@ namespace Jaguar
 	{
 		Camera_Data Camera;	// This is the main camera currently used (perhaps I'll change this later)
 
-		std::vector<World_Object*> Scene_Objects;	// All the objects currently in the scene
+		std::vector<World_Object*> Objects;	// All the objects currently in the scene
 
 		// Will also add collision/physics structures here too
 

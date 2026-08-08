@@ -194,7 +194,17 @@ namespace Jaguar
 	struct Model_Wrapper
 	{
 		Mesh_Wrapper* Mesh_Wrapper;		// The mesh itself
-		World_Object* Object;			// Important object information
+
+		union 
+		{
+			World_Object* Object = nullptr;			// Important object information
+			void* Element;					// Important UI information	(CURRENTLY UNUSED)
+		};
+
+		bool operator==(const Model_Wrapper& Other) const
+		{
+			return Object == Other.Object;
+		}
 	};
 
 	struct Render_Queue	// This is a specific render queue

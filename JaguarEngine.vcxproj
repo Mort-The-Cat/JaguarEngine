@@ -141,6 +141,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)JaguarEngine\Libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +156,7 @@
     <ClCompile Include="JaguarEngine\Animation\Skeleton.cpp" />
     <ClCompile Include="JaguarEngine\Animation\Skeleton_Animator.cpp" />
     <ClCompile Include="JaguarEngine\Asset_Cache.cpp" />
+    <ClCompile Include="JaguarEngine\Deletion_Handling.cpp" />
     <ClCompile Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp" />
     <ClCompile Include="JaguarEngine\GLTF_Reader\Sampling.cpp" />
     <ClCompile Include="JaguarEngine\JaguarEngine.cpp" />
@@ -174,7 +176,9 @@
     <ClInclude Include="JaguarEngine\Animation\Animation.hpp" />
     <ClInclude Include="JaguarEngine\Animation\Skeleton.hpp" />
     <ClInclude Include="JaguarEngine\Asset_Cache.hpp" />
+    <ClInclude Include="JaguarEngine\Deletion_Handling.hpp" />
     <ClInclude Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.hpp" />
+    <ClInclude Include="JaguarEngine\Inputs\Inputs.hpp" />
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp" />
     <ClInclude Include="JaguarEngine\Jaguar_Config.hpp" />
     <ClInclude Include="JaguarEngine\JSON_IO\JSON_Declarations.hpp" />
@@ -183,6 +187,9 @@
     <ClInclude Include="JaguarEngine\Scene\Model_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\Scene\Scene.hpp" />
     <ClInclude Include="JaguarEngine\Scene\World_Object_Declarations.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="JaguarEngine\README.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

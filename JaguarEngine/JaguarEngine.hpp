@@ -10,7 +10,7 @@
 #endif
 
 
-// This is user-defined and game-dependent. Can be replaced using a #define before the #include<JaguarEngine/JaguarEngine.hpp>
+// This is user-defined and game-dependent. Can be replaced using a #define in the #include<JaguarEngine/Jaguar_Config.hpp>
 
 #ifndef JAGUAR_GAME_TYPENAME
 #define JAGUAR_GAME_TYPENAME char
@@ -31,8 +31,12 @@
 #include "Scene/Scene.hpp"
 #include "Scene/Controller.hpp"
 
+#include "Deletion_Handling.hpp"
+
 #include "Animation/Animation.hpp"
 #include "Animation/Skeleton.hpp"
+
+#include "Inputs/Inputs.hpp"
 
 namespace Jaguar
 {

@@ -16,6 +16,7 @@ namespace Jaguar
 	class Mesh	// Mesh parent class
 	{
 	public:
+		const char* Name;
 		Vertex_Buffer Buffer;
 
 		template<typename Vertex>

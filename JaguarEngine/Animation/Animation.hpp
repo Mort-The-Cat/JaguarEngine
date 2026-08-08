@@ -25,14 +25,6 @@ namespace Jaguar
 			{
 				return
 					glm::translate(Translation) * glm::scale(Scale) * glm::toMat4(Rotation);
-
-					//glm::translate(
-					//	glm::scale(
-					//		glm::toMat4(Rotation), 
-					//		Scale
-					//	), 
-					//	Translation
-					//);
 			}
 		};
 

@@ -63,6 +63,9 @@
     <ClCompile Include="JaguarEngine\Animation\Skeleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\Deletion_Handling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp">
@@ -107,5 +110,14 @@
     <ClInclude Include="JaguarEngine\Animation\Animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JaguarEngine\Deletion_Handling.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\Inputs\Inputs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="JaguarEngine\README.txt" />
   </ItemGroup>
 </Project>

@@ -26,31 +26,33 @@ struct Joint_Uniform
 	glm::mat4 Joint_Matrices[64];	// Only 64 for now
 };
 
-struct Control_Demo_Animator
+struct Demo_Animator_Data
 {
 	Jaguar::Animator Demo_Animator;
 	Jaguar::Animation_Rig Rig;
 };
+typedef Jaguar::Control_Type<Demo_Animator_Data> Control_Demo_Animator;
 
 void Demo_Animator_Init(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* Object)
 {
-	Jaguar::Control_Type<Control_Demo_Animator>* Control = reinterpret_cast<Jaguar::Control_Type<Control_Demo_Animator>*>(Object->Controller);
+	Control_Demo_Animator* Control = reinterpret_cast<Control_Demo_Animator*>(Object->Controller);
 
 	Control->Info.Demo_Animator =
 		Jaguar::Animator(
-			Jaguar::Pull_Animation(Engine, "Demo_Game/Assets/Murderer.gltf", "Look_Around").Animation_Info
+			Jaguar::Pull_Animation(Engine, Object->Model.Meshes[0]->Mesh->Name, "").Animation_Info
 		);
-
 
 	Control->Info.Rig =
 		Jaguar::Animation_Rig(
-			Jaguar::Pull_Skeleton(Engine, "Demo_Game/Assets/Murderer.gltf").Rig
+			Jaguar::Pull_Skeleton(Engine, Object->Model.Meshes[0]->Mesh->Name).Rig
 		);
+
+	// "Demo_Game/Assets/Murderer.gltf"
 }
 
 void Demo_Animator_Function(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* Object)
 {
-	Jaguar::Control_Type<Control_Demo_Animator>* Control = reinterpret_cast<Jaguar::Control_Type<Control_Demo_Animator>*>(Object->Controller);
+	Control_Demo_Animator* Control = reinterpret_cast<Control_Demo_Animator*>(Object->Controller);
 
 	Control->Info.Demo_Animator.Animate(&Control->Info.Rig, Engine->Time);
 

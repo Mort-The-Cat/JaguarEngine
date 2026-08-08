@@ -121,19 +121,48 @@ void Demo_Render_Model(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue
 	glDrawArrays(GL_TRIANGLES, 0, Wrapper.Mesh_Wrapper->Mesh->Buffer.Vertex_Count);
 }
 
-struct Control_Spinner
+struct Spinner_Data
 {
 	float Direction = 0;
 };
+typedef Jaguar::Control_Type<Spinner_Data> Control_Spinner;
 
 void Spin_Object(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* Object)
 {
-	Jaguar::Control_Type<Control_Spinner>* Controller = (Jaguar::Control_Type<Control_Spinner>*)Object->Controller;
+	Control_Spinner* Controller = (Control_Spinner*)Object->Controller;
 
 	Controller->Info.Direction += Engine->Time;
 
 	Controller->Object->Orientation.x = sinf(Controller->Info.Direction);
 	Controller->Object->Orientation.z = cosf(Controller->Info.Direction);
+}
+
+struct Bouncer_Data
+{
+	glm::vec3 Velocity = glm::vec3(1.0f, 0.0f, 0.1f);
+	float Timer = 20.0f;
+};
+typedef Jaguar::Control_Type<Bouncer_Data> Control_Bouncer;
+
+void Bounce_Object(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* Object)
+{
+	Control_Bouncer* Controller = (Control_Bouncer*)Object->Controller;
+
+	Controller->Info.Timer -= Engine->Time;
+
+	Controller->Info.Velocity.y -= Engine->Time;
+
+	Object->Position += Controller->Info.Velocity * Engine->Time;
+
+	Controller->Info.Velocity.y -= Engine->Time;
+
+	if (Object->Position.y < -2.0f)
+	{
+		Controller->Info.Velocity.y *= -0.9;	// bounce
+		Object->Position.y = -2.0f;				// clip
+	}
+
+	Object->Flags[MF_TO_BE_DELETED] = Controller->Info.Timer < 0.0f;	// if we're out of time, delete.
 }
 
 int Run_Scene(Jaguar::JaguarEngine* Engine)
@@ -158,11 +187,11 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		Demo_Joints_Render_Model
 	);
 
-	Jaguar::World_Object World_Object;
+	//Jaguar::World_Object World_Object;
 
 	Jaguar::Create_World_Object(
 		Engine,
-		&World_Object,
+		new Jaguar::World_Object(),
 		{
 			{
 				Demo_Shader, Jaguar::Pull_Mesh(Engine, GLTF_To_Mesh, "Demo_Game/Assets/Viking_Room.gltf").Mesh,
@@ -170,29 +199,15 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 			}
 		},
 		{},
-		new Jaguar::Control_Type<Control_Spinner>(Spin_Object),
+		new Control_Spinner(Spin_Object),
 		glm::vec3(0.0f, -2.0f, 3.0f)
 	);
 
-	Jaguar::World_Object World_Object_1;
-
-	/*Jaguar::Create_World_Object(
-		Engine,
-		&World_Object_1,
-		{
-			{
-				Demo_Shader, Jaguar::Pull_Mesh(Engine, GLTF_To_Mesh, "JaguarEngine/JSON_IO/animation.gltf").Mesh,
-				{ Jaguar::Pull_Texture(Engine, "Demo_Game/Assets/Floor_Tiles.png").Texture }
-			}
-		},
-		{},
-		nullptr,
-		glm::vec3(1.0f, -2.0f, -7.0f)
-	);*/
+	//Jaguar::World_Object World_Object_1;
 
 	Jaguar::Create_World_Object(
 		Engine,
-		&World_Object_1,
+		new Jaguar::World_Object(),
 		{
 			{
 				Demo_Skeleton_Shader, Jaguar::Pull_Mesh(Engine, GLTF_To_Joint_Mesh, "Demo_Game/Assets/Murderer.gltf").Mesh,
@@ -200,19 +215,13 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 			}
 		},
 		{},
-		new Jaguar::Control_Type<Control_Demo_Animator>(Demo_Animator_Function, Demo_Animator_Init),
+		new Control_Demo_Animator(Demo_Animator_Function, Demo_Animator_Init),
 		glm::vec3(-3.0f, -2.0f, -0.0f)
 	);
 
-	//Jaguar::Animation Anim;
-
-	//Jaguar::Create_Animation(&Anim, "JaguarEngine/JSON_IO/animation.gltf");
-
-	//Jaguar::Skeleton Rig;
-
-	//Jaguar::Create_Skeleton(&Rig, "JaguarEngine/JSON_IO/animation.gltf");
-
 	float Angle = 2.8f;
+
+	float Timer = 0.0f;
 
 	while (!glfwWindowShouldClose(Engine->Window_Info.Window))
 	{
@@ -229,17 +238,45 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 			sinf(Angle), 0.0f, cosf(Angle)
 		);
 
-		//Angle += Engine->Time;
+		Angle += Engine->Time * 0.5f;
+
+		Timer -= Engine->Time;
+
+		if (Timer < 0.0f)
+		{
+			Timer = 0.25f;
+			Jaguar::Create_World_Object(
+				Engine,
+				new Jaguar::World_Object(),
+				{
+					{
+						Demo_Shader, Jaguar::Pull_Mesh(Engine, GLTF_To_Mesh, "Demo_Game/Assets/Sphere.gltf").Mesh,
+						{ Jaguar::Pull_Texture(Engine, "Demo_Game/Assets/Floor_Tiles.png").Texture }
+					}
+				},
+				{},
+				new Control_Bouncer(Bounce_Object),
+				glm::vec3(-4.0f, 1.0f, -2.0f)
+			);
+		}
 
 		Engine->Scene.Camera.Aspect = 640.0f / 480.0f;
 		Engine->Scene.Camera.FOV = glm::radians(80.0f);
 
 		Jaguar::Handle_Scene_Objects(Engine);
 
+		Jaguar::Handle_Deletions(Engine);
+
 		Jaguar::Draw_Render_Pipeline(Engine);
 
 		glfwSwapBuffers(Engine->Window_Info.Window);
 	}
+
+	Jaguar::Delete_All(Engine);			// Sets everything for deletion
+	Jaguar::Handle_Deletions(Engine);	// Deletes it
+
+	Jaguar::Delete_Shader(&Demo_Shader);
+	Jaguar::Delete_Shader(&Demo_Skeleton_Shader);
 
 	return 0;
 }

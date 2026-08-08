@@ -26,6 +26,8 @@ namespace Jaguar
 
 		Mesh_Info.Mesh = Conversion(Object, Init_Vertex_Buffer);
 
+		Mesh_Info.Mesh->Name = Mesh_Info.Name.c_str();
+
 		// TODO: Maybe I'll make some error-handling here in case the engine fails to load a mesh or something
 
 		Engine->Asset_Cache.Mesh_Cache.push_back(Mesh_Info);	// This stores the mesh info in the asset cache accordingly
@@ -53,6 +55,8 @@ namespace Jaguar
 		// This loads in the JSON and subsequent GLTF object as necessary
 
 		Mesh_Info.Mesh = Conversion(&Object, Init_Vertex_Buffer);
+
+		Mesh_Info.Mesh->Name = Mesh_Info.Name.c_str();
 
 		Engine->Asset_Cache.Mesh_Cache.push_back(Mesh_Info);
 

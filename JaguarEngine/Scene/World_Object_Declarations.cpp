@@ -2,6 +2,13 @@
 
 namespace Jaguar
 {
+	void Delete_World_Object(World_Object* Object)
+	{
+		if (Object->Controller)
+			delete Object->Controller;
+
+		delete Object;	// When this is called, the destructor for the model data is also called
+	}
 
 	void Init_Control(JaguarEngine* Engine, World_Object* Object)
 	{
@@ -39,7 +46,7 @@ namespace Jaguar
 
 		// TODO: Add collisions etc
 
-		Engine->Scene.Scene_Objects.push_back(Object);
+		Engine->Scene.Objects.push_back(Object);
 
 		Object->Position = Position;
 		Object->Orientation = Orientation;
