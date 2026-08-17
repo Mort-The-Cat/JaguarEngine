@@ -187,9 +187,7 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		Demo_Joints_Render_Model
 	);
 
-	//Jaguar::World_Object World_Object;
-
-	Jaguar::Create_World_Object(
+	Jaguar::Create_World_Object(		// When a world object is added to the scene like this, its memory allocation is now handled by the deletion handler.
 		Engine,
 		new Jaguar::World_Object(),
 		{

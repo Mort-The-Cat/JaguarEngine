@@ -3,9 +3,24 @@
 
 // This is a lightweight JSON-reader used by JaguarEngine for UI, scene data, and .gltf files
 
+/*
+
+template <typename T, typename... Arguments>
+void Recursive(T First, Arguments... Rest) {
+	std::cout << First << "\n";
+	Recursive(Rest...); // Recurse
+}
+
+// might be useful for implementing reflection ^
+
+*/
+
+//
+
 #include<map>
 #include<vector>
 #include<string>
+#include<fstream>
 
 #include<cassert>
 
@@ -147,6 +162,34 @@ namespace JSON
 
 			return Object[Key];
 		}
+
+		Value() {}
+
+		Value(std::string Text)
+		{
+			String = Text;
+			Flag = Type::T_String;
+		}
+		Value(bool True_False)
+		{
+			Boolean = True_False;
+			Flag = Type::T_Boolean;
+		}
+		Value(double Number)
+		{
+			Float = Number;
+			Flag = Type::T_Float;
+		}
+		Value(JSON_Object Other)
+		{
+			Object = std::move(Other);
+			Flag = Type::T_Object;
+		}
+		Value(std::vector<Value> List)
+		{
+			Array = std::move(List);
+			Flag = Type::T_Array;
+		}
 	};
 
 	//
@@ -237,8 +280,10 @@ namespace JSON
 	//
 
 	int Read_JSON_Object(JSON_Object* Target_Object, const char* String);				// Loads from string
-	int Load_JSON_Object(JSON_Object* Target_Object, const char* String);				// Loads standalone JSON object from a file
+	int Load_JSON_Object(JSON_Object* Target_Object, const char* Filename);				// Loads standalone JSON object from a file
 	int Load_JSON_Reader_Buffers(JSON_Reader* Target_Reader, const char* Buffers = "buffers");		// Loads JSON reader 
+
+	int Write_JSON_Reader(JSON_Reader* Target_Reader, const char* Filename);			// This writes (Target_Reader) to an output file + (optionally) .bin
 }
 
 #endif

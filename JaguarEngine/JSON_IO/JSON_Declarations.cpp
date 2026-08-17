@@ -202,4 +202,119 @@ namespace JSON
 
 		return 0;
 	}
+
+	//
+
+	void Write_JSON_Object_Recurse(std::string& Output, const JSON_Object* Object, std::string Padding = "");
+
+	void Write_Value(std::string& Output, const Value& Field, std::string Padding)
+	{
+		void (*Write[6])(std::string&, const Value&, std::string) =
+		{
+			nullptr,		// T_UNASSIGNED
+			[](std::string& Output, const Value& Object, std::string Padding)	// T_FLOAT
+			{
+				Output += std::to_string(Object.Float);
+			},
+			[](std::string& Output, const Value& Object, std::string Padding)
+			{
+				Output += (Object.Boolean ? "true" : "false");
+			},
+			[](std::string& Output, const Value& Object, std::string Padding)
+			{
+				Output += "\"" + Object.String + "\"";
+			},
+			[](std::string& Output, const Value& Object, std::string Padding)
+			{
+				Write_JSON_Object_Recurse(Output, &Object.Object, Padding);
+			},
+			[](std::string& Output, const Value& Object, std::string Padding)
+			{
+				Output += "[\n";
+				for (size_t Index = 0; Index < Object.Array.size();)
+				{
+					Output += Padding + "\t";
+					Write_Value(Output, Object.Array[Index], Padding + "\t");
+					Index++;
+					if (Index < Object.Array.size())
+						Output += ",";
+
+					Output += "\n";
+				}
+				Output += Padding + "]";
+			}
+		};
+
+		Write[Field.Flag](Output, Field, Padding);
+	}
+
+	void Write_JSON_Object_Recurse(std::string& Output, const JSON_Object* Object, std::string Padding)
+	{
+		int Index = 0;
+
+		Output += "{\n";
+
+		for (const auto& Field : Object->Fields)
+		{
+			Output += Padding + "\t\"" + Field.first + "\"\t:\t";	// Writes name
+
+			Write_Value(Output, Field.second, Padding + "\t");	// Writes value
+
+			Index++;
+
+			if (Index < Object->Fields.size())	// More elements?
+				Output += ",";
+
+			Output += "\n";
+		}
+
+		Output += Padding + "}";
+	}
+
+	int Write_JSON_Reader(JSON_Reader* Target_Reader, const char* Filename = nullptr)
+	{
+		if (!Filename)
+			Filename = Target_Reader->Object[JSON_Object_Filename].String.c_str();	
+		
+		// If this doesn't work, the JSON hasn't been parsed properly or you've forgotten to include an output filename.
+
+		std::string Output = "";
+
+		Write_JSON_Object_Recurse(Output, &Target_Reader->Object);
+
+		std::ofstream File(Filename);
+
+		if (!File.is_open())
+		{
+			printf(" >> Failed to open file %s\n\n", Filename);
+			return -1;
+		}
+
+		File.write(Output.c_str(), Output.size());
+
+		File.close();
+
+		return 0;
+	}
+
+	/*
+	
+	JSON::JSON_Reader Reader;
+	Reader.Object["version"] = JSON::Value("1.00.2");
+	Reader.Object["array"] = JSON::Value(std::vector<JSON::Value>(5));
+	
+	for (int Index = 0; Index < 5; Index++)
+		Reader.Object["array"][Index] = JSON::Value((double)Index);
+
+	Reader.Object["other_object"] = JSON::Value(JSON::JSON_Object());
+	Reader.Object["other_object"]["position"] = JSON::Value(JSON::JSON_Object());
+	Reader.Object["other_object"]["position"]["x"] = JSON::Value(0.0);
+	Reader.Object["other_object"]["position"]["y"] = JSON::Value(1.0f);
+	Reader.Object["other_object"]["position"]["z"] = JSON::Value(-5.0f);
+
+	JSON::Write_JSON_Reader(&Reader, "test_json.json");
+
+	// here's just some simple demo code to test the json output
+	
+	*/
 }
