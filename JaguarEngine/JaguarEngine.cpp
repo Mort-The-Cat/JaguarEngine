@@ -1,6 +1,10 @@
 #include "JaguarEngine.hpp"
 
+//#define __STDC_UTF_32__
+//#define __STD_UTF_32__
+
 #include<fstream>
+#include<uchar.h>
 
 // https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#cats=Bit%2525252525252525252525252525252525252525252525252525252525252525252525252520Manipulation&ig_expand=4907
 
@@ -35,13 +39,78 @@ namespace Jaguar
 		);
 	}
 
-	std::vector<char> Load_File_Contents(const char* Directory, bool Is_Binary) // We'll use this unsigned char instead of a string so that this can handle binaries
+	int Multibyte_To_UTF32(uint32_t* Character, const unsigned char* Read)
 	{
-		std::ifstream File(Directory, std::ios::binary | std::ios::in); // Start at end of file
+		const uint32_t Masks[5] =
+		{
+			0x7F000000,
+			0x00,		// Error!
+			0x1F3F0000,
+			0x0F3F3F00,
+			0x073F3F3F
+		};
+
+		const uint32_t Count[5] =
+		{
+			1,
+			0,
+			2,
+			3,
+			4
+		};
+
+		if (!Read[0])
+			return 0;
+
+		//
+
+		uint32_t Word = (Read[0] << 24) | (Read[1] << 16) | (Read[2] << 8) | Read[3];
+
+		uint32_t Number = _lzcnt_u32( (~Word) );
+
+		*Character = _pext_u32(Word, Masks[Number]);
+
+		return Count[Number];
+	}
+
+
+	std::u32string Load_UTF8_File_Contents(const char* Filename)	// This will load UTF8 files into a UTF32 string
+	{
+		std::u32string Output = U"";
+
+		std::vector<char> Bytes = Load_File_Contents(Filename);
+
+		mbstate_t State{};
+		//const char* Read = Bytes.data();
+		char32_t Character;
+		int Count;
+
+		for(
+			const unsigned char* Read = (const unsigned char*)"こ";			// んにちは
+			//(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State)) > 0;
+			(Count = Multibyte_To_UTF32((uint32_t*)&Character, Read)) > 0;				// use my own function because mbrtoc32 doesn't work
+			Read += Count
+		)
+			Output.push_back(Character);
+
+		//while(
+		//	(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State) > 0)
+		//)
+		//{
+		//	Output.push_back(Character);
+		//	Read += Count;
+		//}
+
+		return Output;
+	}
+
+	std::vector<char> Load_File_Contents(const char* Filename, bool Is_Binary) // We'll use this unsigned char instead of a string so that this can handle binaries
+	{
+		std::ifstream File(Filename, std::ios::binary | std::ios::in); // Start at end of file
 
 		if (!File.is_open())
 		{
-			printf(" >> Fatal error! Unable to load file contents: %s\n", Directory);
+			printf(" >> Fatal error! Unable to load file contents: %s\n", Filename);
 
 			return std::vector<char>(); // nothing to return...
 		}
@@ -97,6 +166,10 @@ namespace Jaguar
 			printf(" >> Failed to initialise glad!\n");
 			return -2;
 		}
+
+		glfwSetWindowUserPointer(Engine->Window_Info.Window, Engine);	// Sets Window user-pointer.
+		glfwSetCharCallback(Engine->Window_Info.Window, Callback_Read_Text_Input);		// For all other keypresses
+		glfwSetKeyCallback(Engine->Window_Info.Window, Callback_Read_Special_Input);	// For enter/backspace/tab pressed
 
 		glfwGetWindowSize(Engine->Window_Info.Window, &Engine->Window_Info.Width, &Engine->Window_Info.Height);
 

@@ -92,6 +92,8 @@ namespace Jaguar
 			true
 		);
 
+		Texture_Info.Texture.Name = Directory;
+
 		Engine->Asset_Cache.Texture_Cache.push_back(Texture_Info);
 
 		return Texture_Info;

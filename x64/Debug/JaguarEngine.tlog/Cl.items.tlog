@@ -2,8 +2,10 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Animation\Animation.cpp;C:\JaguarEngin
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Animation\Skeleton.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Skeleton.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Animation\Skeleton_Animator.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Skeleton_Animator.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Asset_Cache.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Asset_Cache.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Deletion_Handling.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Deletion_Handling.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\GLTF_Declarations.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\Sampling.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Sampling.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Inputs.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\JaguarEngine.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\JSON_Declarations.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Libraries\Include\glad\glad.c;C:\JaguarEngine\JaguarEngine\x64\Debug\glad.obj

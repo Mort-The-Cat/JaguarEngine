@@ -1,146 +1,53 @@
-﻿  main.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+﻿  JaguarEngine.cpp
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(181,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(182,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(225,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(183,66): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(226,66): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(184,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(227,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(188,34): warning C4554: „|“: Überprüfen Sie die Operatorrangfolge auf mögliche Fehler. Verwenden Sie Klammern, um die Rangfolge zu verdeutlichen.
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(231,34): warning C4554: „|“: Überprüfen Sie die Operatorrangfolge auf mögliche Fehler. Verwenden Sie Klammern, um die Rangfolge zu verdeutlichen.
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(221,17): warning C4244: "Initialisierung": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(264,17): warning C4244: "Initialisierung": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(228,37): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(271,37): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(229,20): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(272,20): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(63,8):
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8): warning C4099: "Jaguar::World_Object": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „main.cpp“ wird kompiliert)
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8):
       Siehe Deklaration von "Jaguar::World_Object"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(8,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „main.cpp“ wird kompiliert)
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(10,9):
       Siehe Deklaration von "Jaguar::Control"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „main.cpp“ wird kompiliert)
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(128,43): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,63): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "void *"
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,63):
-      der Vorlageninstanziierungskontext (der älteste zuerst) ist
-          C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(134,11):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "void Jaguar::Initialise_Vertex_Attributes<PNUV_Joint_Vertex>(Jaguar::Mesh *)" der Funktions-Vorlage.
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(135,28): warning C4267: "Argument": Konvertierung von "size_t" nach "GLuint", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(137,72): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "void *"
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(137,27): warning C4267: "Argument": Konvertierung von "size_t" nach "GLuint", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(141,30): warning C4267: "Argument": Konvertierung von "size_t" nach "GLuint", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: "Argument": Konvertierung von "size_t" nach "glm::vec<3,float,glm::packed_highp>::length_type", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
-      der Vorlageninstanziierungskontext (der älteste zuerst) ist
-          C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(86,65):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "std::vector<glm::vec3,std::allocator<glm::vec3>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec3>(void)" der Funktions-Vorlage.
-          C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<3,float,glm::vec3>(std::vector<glm::vec3,std::allocator<glm::vec3>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244: "=": Konvertierung von "int" in "T", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         with
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         [
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:             T=float
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         ]
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: "Argument": Konvertierung von "size_t" nach "glm::vec<2,float,glm::packed_highp>::length_type", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
-      der Vorlageninstanziierungskontext (der älteste zuerst) ist
-          C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(88,61):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "std::vector<glm::vec2,std::allocator<glm::vec2>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec2>(void)" der Funktions-Vorlage.
-          C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<2,float,glm::vec2>(std::vector<glm::vec2,std::allocator<glm::vec2>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: "Argument": Konvertierung von "size_t" nach "glm::vec<1,glm::u64,glm::packed_highp>::length_type", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
-      der Vorlageninstanziierungskontext (der älteste zuerst) ist
-          C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(90,48):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "std::vector<glm::vec<1,glm::u64,glm::packed_highp>,std::allocator<glm::vec<1,glm::u64,glm::packed_highp>>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec<1,glm::u64,glm::packed_highp>>(void)" der Funktions-Vorlage.
-          C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<1,float,glm::vec<1,glm::u64,glm::packed_highp>>(std::vector<glm::vec<1,glm::u64,glm::packed_highp>,std::allocator<glm::vec<1,glm::u64,glm::packed_highp>>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244: "=": Konvertierung von "float" in "T", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         with
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         [
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:             T=glm::u64
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         ]
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: "Argument": Konvertierung von "size_t" nach "glm::vec<4,glm::u8,glm::packed_highp>::length_type", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
-      der Vorlageninstanziierungskontext (der älteste zuerst) ist
-          C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(92,62):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "std::vector<glm::vec<4,glm::u8,glm::packed_highp>,std::allocator<glm::vec<4,glm::u8,glm::packed_highp>>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec<4,glm::u8,glm::packed_highp>>(void)" der Funktions-Vorlage.
-          C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<4,float,glm::vec<4,glm::u8,glm::packed_highp>>(std::vector<glm::vec<4,glm::u8,glm::packed_highp>,std::allocator<glm::vec<4,glm::u8,glm::packed_highp>>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244: "=": Konvertierung von "float" in "T", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         with
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         [
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:             T=glm::u8
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         ]
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244: "=": Konvertierung von "short" in "T", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         with
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         [
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:             T=glm::u8
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,40): warning C4244:         ]
-  (Quelldatei „main.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20): warning C4267: "Argument": Konvertierung von "size_t" nach "glm::vec<4,float,glm::packed_highp>::length_type", Datenverlust möglich
-  (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(30,20):
-      der Vorlageninstanziierungskontext (der älteste zuerst) ist
-          C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(93,64):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "std::vector<glm::vec4,std::allocator<glm::vec4>> GLTF::Attribute::Get_Attribute_Buffer<glm::vec4>(void)" der Funktions-Vorlage.
-          C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(59,5):
-          Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<4,float,glm::vec4>(std::vector<glm::vec4,std::allocator<glm::vec4>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
-  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(195,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(197,19): warning C4305: "=": Verkürzung von "double" in "float"
   JaguarEngine.vcxproj -> C:\JaguarEngine\JaguarEngine\JaguarEngine.exe

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -159,6 +159,7 @@
     <ClCompile Include="JaguarEngine\Deletion_Handling.cpp" />
     <ClCompile Include="JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp" />
     <ClCompile Include="JaguarEngine\GLTF_Reader\Sampling.cpp" />
+    <ClCompile Include="JaguarEngine\Inputs\Inputs.cpp" />
     <ClCompile Include="JaguarEngine\JaguarEngine.cpp" />
     <ClCompile Include="JaguarEngine\JSON_IO\JSON_Declarations.cpp" />
     <ClCompile Include="JaguarEngine\Libraries\Include\glad\glad.c" />

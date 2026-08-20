@@ -1,7 +1,7 @@
 ﻿  Animation.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Animation/Animation.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -45,9 +45,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(45,40): 
   (Quelldatei „JaguarEngine/Animation/Animation.cpp“ wird kompiliert)
   
   Skeleton.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Animation/Skeleton.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -97,9 +97,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(57,51): 
   (Quelldatei „JaguarEngine/Animation/Skeleton.cpp“ wird kompiliert)
   
   Skeleton_Animator.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Animation/Skeleton_Animator.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -128,9 +128,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(272,20):
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Animation\Skeleton_Animator.cpp(78,19): warning C4101: "End": Unreferenzierte lokale Variable
   Asset_Cache.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Asset_Cache.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -178,9 +178,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   Deletion_Handling.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Deletion_Handling.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -228,9 +228,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   GLTF_Declarations.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/GLTF_Reader/GLTF_Declarations.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -330,9 +330,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp(9,33
           ]
   
   Sampling.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/GLTF_Reader/Sampling.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -393,10 +393,61 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(45,20): 
           C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(74,5):
           Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<4,float,glm::quat>(std::vector<glm::quat,std::allocator<glm::quat>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
   
+  Inputs.cpp
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
+      Siehe Deklaration von "Jaguar::Mesh_Wrapper"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(225,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(226,66): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(227,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(231,34): warning C4554: „|“: Überprüfen Sie die Operatorrangfolge auf mögliche Fehler. Verwenden Sie Klammern, um die Rangfolge zu verdeutlichen.
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(264,17): warning C4244: "Initialisierung": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(271,37): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(272,20): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8):
+      Siehe Deklaration von "Jaguar::Mesh_Wrapper"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8): warning C4099: "Jaguar::World_Object": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8):
+      Siehe Deklaration von "Jaguar::World_Object"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(8,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(10,9):
+      Siehe Deklaration von "Jaguar::Control"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
+      Siehe Deklaration von "Jaguar::Control"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp(33,40): warning C4566: Das durch den universellen Zeichennamen "\uFFFF" dargestellte Zeichen kann in der aktuellen Codepage (1252) nicht dargestellt werden.
   JSON_Declarations.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/JSON_IO/JSON_Declarations.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -444,9 +495,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   JaguarEngine.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -493,12 +544,12 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(122,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(124,19): warning C4305: "=": Verkürzung von "double" in "float"
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(156,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(158,19): warning C4305: "=": Verkürzung von "double" in "float"
   Render_Pipeline.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Render_Pipeline.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -546,9 +597,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   Shaders.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Shaders.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -596,9 +647,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   Texture.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Texture.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -646,9 +697,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   Vertex_Buffers.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Vertex_Buffers.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -682,9 +733,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8): wa
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp(24,67): warning C4267: "=": Konvertierung von "size_t" nach "uint32_t", Datenverlust möglich
   Scene.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Scene/Scene.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -732,9 +783,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   World_Object_Declarations.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Scene/World_Object_Declarations.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -782,9 +833,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       Siehe Deklaration von "Jaguar::Control"
   
   main.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(184,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(66,9):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
       Siehe Deklaration von "Jaguar::Mesh_Wrapper"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
@@ -935,19 +986,20 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(45,20): 
   
 LINK : warning LNK4098: Standardbibliothek "MSVCRTD" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
   Code wird generiert.
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 3365 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  61 of 3465 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
+    14 functions were new in current compilation
+    78 functions had inline decision re-evaluated but remain unchanged
   Codegenerierung ist abgeschlossen.
+glfw3.lib(window.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(window.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(input.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(input.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(init.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(init.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-glfw3.lib(window.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(window.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(context.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(context.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(win32_window.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_window.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+glfw3.lib(win32_thread.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_thread.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_joystick.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(win32_time.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_time.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(win32_init.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_init.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_monitor.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-glfw3.lib(win32_thread.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(win32_thread.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(monitor.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(monitor.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(vulkan.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(vulkan.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(wgl_context.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(wgl_context.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.

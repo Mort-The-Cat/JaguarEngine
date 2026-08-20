@@ -187,6 +187,12 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		Demo_Joints_Render_Model
 	);
 
+	//
+
+	std::u32string Some_Text = Jaguar::Load_UTF8_File_Contents("JaguarEngine/Text_Loading.txt");
+
+	//
+
 	Jaguar::Create_World_Object(		// When a world object is added to the scene like this, its memory allocation is now handled by the deletion handler.
 		Engine,
 		new Jaguar::World_Object(),
@@ -224,6 +230,8 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 	while (!glfwWindowShouldClose(Engine->Window_Info.Window))
 	{
 		glfwPollEvents();
+
+		Jaguar::Get_User_Inputs(Engine);
 
 		Jaguar::Tick(Engine);
 

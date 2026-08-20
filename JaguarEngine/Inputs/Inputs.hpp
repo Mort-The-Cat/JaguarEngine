@@ -1,8 +1,13 @@
 #ifndef JAGUAR_INPUTS
 #define JAGUAR_INPUTS
 
+#include<string>
+#include "../OpenGL_Handling/OpenGL_Declarations.hpp"
+
 namespace Jaguar
 {
+	int Multibyte_To_UTF32(char32_t* Character, const char* Read);
+
 	// Note that this should include keyboard/mouse + gamepad/analogue
 
 	// This means we need buttons and some floats
@@ -44,6 +49,9 @@ namespace Jaguar
 
 	void Read_Input_Config(JaguarEngine* Engine, const char* String);	// This gets config from a JSON string
 	void Load_Input_Config(JaguarEngine* Engine, const char* Filename);	// This loads the JSON config file and reads it
+
+	void Callback_Read_Text_Input(GLFWwindow* Window, unsigned int Key);
+	void Callback_Read_Special_Input(GLFWwindow* Window, int Key, int Scancode, int Action, int Mods);
 
 	void Get_User_Inputs(JaguarEngine* Engine);	// This gets user inputs
 }

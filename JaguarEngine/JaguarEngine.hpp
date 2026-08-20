@@ -46,7 +46,9 @@ namespace Jaguar
 	{
 		Window_Data Window_Info;
 
-		Scene_Data Scene;
+		Scene_Data Scene;				// I think the UI should be separate from the scene
+
+		Inputs_Data Inputs;
 
 		Render_Pipeline Pipeline;		// Collection of render queues
 
@@ -56,6 +58,8 @@ namespace Jaguar
 		float Time;						// This is the delta-time
 
 		JAGUAR_GAME_TYPENAME Game_Info;	// This is the relevant data for the game that JaguarEngine is running
+
+										// E.g. object controllers and structs etc
 	};
 
 	void Tick(JaguarEngine* Engine);

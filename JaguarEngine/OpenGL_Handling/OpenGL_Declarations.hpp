@@ -44,6 +44,7 @@ namespace Jaguar
 
 	struct Texture
 	{
+		const char* Name;
 		GLuint Texture_Buffer_ID;
 	};
 
@@ -67,6 +68,7 @@ namespace Jaguar
 
 	struct Shader
 	{
+		const char* Name;
 		GLuint Program_ID;
 
 		Mesh_Wrapper* (*Create_Mesh_Wrapper)(Mesh* Mesh, const std::vector<Texture>& Textures);

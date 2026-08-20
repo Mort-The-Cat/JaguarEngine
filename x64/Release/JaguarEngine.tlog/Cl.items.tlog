@@ -5,6 +5,7 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Asset_Cache.cpp;C:\JaguarEngine\Jaguar
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Deletion_Handling.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Deletion_Handling.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\GLTF_Declarations.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\GLTF_Declarations.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\GLTF_Reader\Sampling.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Sampling.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\Inputs.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\JaguarEngine.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.cpp;C:\JaguarEngine\JaguarEngine\x64\Release\JSON_Declarations.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Libraries\Include\glad\glad.c;C:\JaguarEngine\JaguarEngine\x64\Release\glad.obj
