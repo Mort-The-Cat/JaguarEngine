@@ -544,8 +544,8 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(156,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(158,19): warning C4305: "=": Verkürzung von "double" in "float"
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(195,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(197,19): warning C4305: "=": Verkürzung von "double" in "float"
   Render_Pipeline.cpp
 C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Render_Pipeline.cpp“ wird kompiliert)
@@ -986,9 +986,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(45,20): 
   
 LINK : warning LNK4098: Standardbibliothek "MSVCRTD" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
   Code wird generiert.
-  61 of 3465 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
-    14 functions were new in current compilation
-    78 functions had inline decision re-evaluated but remain unchanged
+  3 of 3466 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
   Codegenerierung ist abgeschlossen.
 glfw3.lib(window.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(window.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(input.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(input.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.

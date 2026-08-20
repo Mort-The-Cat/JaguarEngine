@@ -7,3 +7,5 @@ schön.
 ähnlich.
 
 This seems to work okay!
+
+こんにちは - Japanese

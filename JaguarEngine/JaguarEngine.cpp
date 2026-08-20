@@ -86,7 +86,7 @@ namespace Jaguar
 		int Count;
 
 		for(
-			const unsigned char* Read = (const unsigned char*)"こ";			// んにちは
+			const unsigned char* Read = (const unsigned char*)Bytes.data(); //(const unsigned char*)"こんにちは";			// んにちは
 			//(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State)) > 0;
 			(Count = Multibyte_To_UTF32((uint32_t*)&Character, Read)) > 0;				// use my own function because mbrtoc32 doesn't work
 			Read += Count
