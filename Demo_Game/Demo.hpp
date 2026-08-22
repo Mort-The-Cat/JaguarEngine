@@ -1,5 +1,6 @@
 #include "../JaguarEngine/JaguarEngine.hpp"
 
+#include "Demo_Inputs.hpp"
 #include "Animation/Demo_Joints.hpp"
 
 struct PNUV_Vertex
@@ -35,7 +36,7 @@ void _GLTF_To_Mesh_Helper(GLTF::GLTF_Object* Object, GLTF::GLTF_Object::Node* No
 
 		std::vector<glm::vec<4, unsigned char>> Joints;
 
-		std::vector<glm::vec<1, size_t>> Indices;
+		std::vector<glm::vec<1, size_t>> Indices;	// Indices for the vertices
 
 		size_t Index = Node->Mesh;	// Doesn't yet account for child nodes of an object
 
@@ -97,7 +98,7 @@ void Demo_Init_Queue(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue)
 
 	// Then, apply projections
 
-	Engine->Scene.Camera.Matrix = glm::perspective(Engine->Scene.Camera.FOV, Engine->Scene.Camera.Aspect, 0.01f, 10000.0f) * Engine->Scene.Camera.Matrix;
+	Engine->Scene.Camera.Matrix = glm::perspective(Engine->Scene.Camera.FOV, Engine->Scene.Camera.Aspect, 0.001f, 1000.0f) * Engine->Scene.Camera.Matrix;
 
 	glUniformMatrix4fv(glGetUniformLocation(Queue->Shader.Program_ID, "Projection_Matrix"), 1, GL_FALSE, glm::value_ptr(Engine->Scene.Camera.Matrix));
 
@@ -187,9 +188,11 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		Demo_Joints_Render_Model
 	);
 
+	Demo_Init_Inputs(Engine);
+
 	//
 
-	std::u32string Some_Text = Jaguar::Load_UTF8_File_Contents("JaguarEngine/Text_Loading.txt");
+	//std::u32string Some_Text = UTF8("こんにちは");//Jaguar::Load_UTF8_File_Contents("JaguarEngine/Text_Loading.txt");
 
 	//
 
@@ -206,8 +209,6 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		new Control_Spinner(Spin_Object),
 		glm::vec3(0.0f, -2.0f, 3.0f)
 	);
-
-	//Jaguar::World_Object World_Object_1;
 
 	Jaguar::Create_World_Object(
 		Engine,
@@ -235,6 +236,7 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 
 		Jaguar::Tick(Engine);
 
+		glClearColor(0.05f, 0.075f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Engine->Scene.Camera.Position = glm::vec3(-3.0f, -1.5f, 1.0f);

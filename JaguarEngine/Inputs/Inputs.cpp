@@ -11,8 +11,6 @@ namespace Jaguar
 			Engine->Inputs.Keys[Index].Changed = Engine->Inputs.Keys[Index].Pressed != New;	// If they're different, it's changed.
 			Engine->Inputs.Keys[Index].Pressed = New;
 		}
-
-
 	}
 
 	void Callback_Read_Special_Input(GLFWwindow* Window, int Key, int Scancode, int Action, int Mods)
@@ -30,7 +28,7 @@ namespace Jaguar
 
 		case GLFW_KEY_BACKSPACE:
 			//printf(" >> Backspace!\n");					// Test
-			Engine->Inputs.Text_Input.push_back('\uFFFF');	// Adds bullshit character that needs to be processed
+			Engine->Inputs.Text_Input.push_back(-1);	// Adds bullshit character that needs to be processed
 			return;											// NOTE: It is the UI's job to handle backspacing.
 
 		case GLFW_KEY_TAB:
@@ -39,7 +37,7 @@ namespace Jaguar
 		}
 	}
 
-	void Callback_Read_Text_Input(GLFWwindow* Window, unsigned int Key)
+	void Callback_Read_Text_Input(GLFWwindow* Window, unsigned int Key)	// utf32
 	{
 		JaguarEngine* Engine = (JaguarEngine*)glfwGetWindowUserPointer(Window);	// Necessary to get Engine from callback function
 
@@ -50,5 +48,7 @@ namespace Jaguar
 			);
 		else												// Otherwise? 
 			Engine->Inputs.Text_Input.push_back(Key);		// append this key to the user's text input string
+
+		//printf("%d\n", Key);
 	}
 }

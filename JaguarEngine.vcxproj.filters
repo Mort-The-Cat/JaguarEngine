@@ -66,6 +66,9 @@
     <ClCompile Include="JaguarEngine\Deletion_Handling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\Inputs\Inputs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp">
@@ -114,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JaguarEngine\Inputs\Inputs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Demo_Game\Demo_Inputs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

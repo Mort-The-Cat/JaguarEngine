@@ -1,8 +1,5 @@
 #include "JaguarEngine.hpp"
 
-//#define __STDC_UTF_32__
-//#define __STD_UTF_32__
-
 #include<fstream>
 #include<uchar.h>
 
@@ -73,25 +70,28 @@ namespace Jaguar
 		return Count[Number];
 	}
 
-
-	std::u32string Load_UTF8_File_Contents(const char* Filename)	// This will load UTF8 files into a UTF32 string
+	std::u32string Convert_UTF8(const char* Bytes)
 	{
 		std::u32string Output = U"";
-
-		std::vector<char> Bytes = Load_File_Contents(Filename);
-
 		mbstate_t State{};
 		//const char* Read = Bytes.data();
 		char32_t Character;
 		int Count;
 
-		for(
-			const unsigned char* Read = (const unsigned char*)Bytes.data(); //(const unsigned char*)"こんにちは";			// んにちは
+		for (
+			const unsigned char* Read = (const unsigned char*)Bytes; //(const unsigned char*)"こんにちは";			// んにちは
 			//(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State)) > 0;
 			(Count = Multibyte_To_UTF32((uint32_t*)&Character, Read)) > 0;				// use my own function because mbrtoc32 doesn't work
 			Read += Count
-		)
+			)
 			Output.push_back(Character);
+
+		return Output;
+	}
+
+	std::u32string Load_UTF8_File_Contents(const char* Filename)	// This will load UTF8 files into a UTF32 string
+	{
+		std::vector<char> Bytes = Load_File_Contents(Filename);
 
 		//while(
 		//	(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State) > 0)
@@ -101,7 +101,7 @@ namespace Jaguar
 		//	Read += Count;
 		//}
 
-		return Output;
+		return Convert_UTF8(Bytes.data());
 	}
 
 	std::vector<char> Load_File_Contents(const char* Filename, bool Is_Binary) // We'll use this unsigned char instead of a string so that this can handle binaries
