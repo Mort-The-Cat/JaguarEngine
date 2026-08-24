@@ -224,7 +224,11 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		glm::vec3(-3.0f, -2.0f, -0.0f)
 	);
 
+	Engine->Scene.Camera.Position = glm::vec3(-0.0f, -1.5f, 1.0f);
+
 	float Angle = 2.8f;
+
+	float Angle_Y = 0.0f;
 
 	float Timer = 0.0f;
 
@@ -236,22 +240,27 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 
 		Jaguar::Tick(Engine);
 
+		Demo_Control_Camera(Engine, &Angle, &Angle_Y);
+
 		glClearColor(0.05f, 0.075f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Engine->Scene.Camera.Position = glm::vec3(-3.0f, -1.5f, 1.0f);
+		/*Engine->Scene.Camera.Position = glm::vec3(-3.0f, -1.5f, 1.0f);
 		Engine->Scene.Camera.Orientation_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 		Engine->Scene.Camera.Orientation = glm::vec3(
 			sinf(Angle), 0.0f, cosf(Angle)
 		);
 
-		Angle += Engine->Time * 0.5f;
+		Angle += Engine->Time * 0.5f;*/
 
 		Timer -= Engine->Time;
 
 		if (Timer < 0.0f)
 		{
+			Control_Bouncer* Bouncer = new Control_Bouncer(Bounce_Object);
+			Bouncer->Info.Velocity = Engine->Scene.Camera.Orientation;
+
 			Timer = 0.25f;
 			Jaguar::Create_World_Object(
 				Engine,
@@ -263,8 +272,9 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 					}
 				},
 				{},
-				new Control_Bouncer(Bounce_Object),
-				glm::vec3(-4.0f, 1.0f, -2.0f)
+				Bouncer,
+				Engine->Scene.Camera.Position + Engine->Scene.Camera.Orientation
+				//glm::vec3(-4.0f, 1.0f, -2.0f)
 			);
 		}
 

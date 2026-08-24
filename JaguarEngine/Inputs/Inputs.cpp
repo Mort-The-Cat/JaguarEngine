@@ -3,14 +3,40 @@
 
 namespace Jaguar
 {
+	template<int (*Function)(GLFWwindow*, int)>
+	void Get_Buttons(JaguarEngine* Engine, Button_Flags* Buttons, size_t Count)
+	{
+		for (size_t Index = 0; Index < Count; Index++)
+		{
+			bool New = GLFW_PRESS == Function(Engine->Window_Info.Window, Buttons[Index].Keycode);
+			Buttons[Index].Changed = Buttons[Index].Pressed != New;	// If they're different, it's changed.
+			Buttons[Index].Pressed = New;
+		}
+	}
+
 	void Get_User_Inputs(JaguarEngine* Engine)
 	{
-		for (size_t Index = 0; Index < Engine->Inputs.Keys.size(); Index++)
+		Get_Buttons<glfwGetKey>(Engine, Engine->Inputs.Keys.data(), Engine->Inputs.Keys.size());
+
+		// If using controller, mouse inputs will be handled by player 1's right joystick probably
+
+		double X, Y;
+		glfwGetCursorPos(Engine->Window_Info.Window, &X, &Y);
+
+		if (Engine->Inputs.Mouse.Reset_Mouse_Cursor)
 		{
-			bool New = GLFW_PRESS == glfwGetKey(Engine->Window_Info.Window, Engine->Inputs.Keys[Index].Keycode);
-			Engine->Inputs.Keys[Index].Changed = Engine->Inputs.Keys[Index].Pressed != New;	// If they're different, it's changed.
-			Engine->Inputs.Keys[Index].Pressed = New;
+			glfwSetCursorPos(Engine->Window_Info.Window, Engine->Window_Info.Height * 0.5f, Engine->Window_Info.Height * 0.5f);
+			Engine->Inputs.Mouse.Previous = glm::vec2(0.5f, 0.5f);
 		}
+		else
+			Engine->Inputs.Mouse.Previous = Engine->Inputs.Mouse.Cursor;
+
+		Engine->Inputs.Mouse.Cursor.x = X / (double)Engine->Window_Info.Height;
+		Engine->Inputs.Mouse.Cursor.y = Y / (double)Engine->Window_Info.Height;
+
+		// mouse buttons
+
+		Get_Buttons<glfwGetMouseButton>(Engine, Engine->Inputs.Mouse.Buttons, 3);
 	}
 
 	void Callback_Read_Special_Input(GLFWwindow* Window, int Key, int Scancode, int Action, int Mods)

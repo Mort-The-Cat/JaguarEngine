@@ -7,21 +7,18 @@
 
 namespace Jaguar
 {
-	//std::string Load_File_Contents(const char* Filename)
-
 	glm::mat4 Get_View_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up)
 	{
 		glm::vec3 Right = glm::cross(Up, Forward);
 
-		return 
-			glm::translate(glm::mat4(
-				Right.x, Right.y, Right.z, 0.0f,
-				Up.x, Up.y, Up.z, 0.0f,
-				-Forward.x, -Forward.y, -Forward.z, 0.0f,
-				//-Position.x, -Position.y, Position.z, 1.0f
-				0.0f, 0.0f, 0.0f, 1.0f
-			), -Position
-			);
+		glm::mat4 View = glm::mat4(
+			Right.x, Up.x, -Forward.x, 0.0f,
+			Right.y, Up.y, -Forward.y, 0.0f,
+			Right.z, Up.z, -Forward.z, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+
+		return glm::translate(View, -Position);
 	}
 
 	glm::mat4 Get_Matrix(glm::vec3 Position, glm::vec3 Forward, glm::vec3 Up)
@@ -79,9 +76,8 @@ namespace Jaguar
 		int Count;
 
 		for (
-			const unsigned char* Read = (const unsigned char*)Bytes; //(const unsigned char*)"こんにちは";			// んにちは
-			//(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State)) > 0;
-			(Count = Multibyte_To_UTF32((uint32_t*)&Character, Read)) > 0;				// use my own function because mbrtoc32 doesn't work
+			const unsigned char* Read = (const unsigned char*)Bytes;
+			(Count = Multibyte_To_UTF32((uint32_t*)&Character, Read)) > 0;	// use my own function because mbrtoc32 doesn't work
 			Read += Count
 			)
 			Output.push_back(Character);

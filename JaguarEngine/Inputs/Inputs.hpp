@@ -35,6 +35,23 @@ namespace Jaguar
 		std::vector<Analogue_Flags> Analogues;	// joystick axes, triggers, etc	NOTE: (these need to be initialised)
 	};
 
+	struct Mouse_Data
+	{
+		Button_Flags Buttons[3] = 
+		{
+			{ 0, false, false },
+			{ 1, false, false },
+			{ 2, false, false }
+		};
+
+		glm::vec2 Scroll_Offset;
+
+		bool Reset_Mouse_Cursor = true;
+
+		glm::vec2 Cursor = glm::vec2(0.5f);
+		glm::vec2 Previous = glm::vec2(0.5f);
+	};
+
 	struct Inputs_Data
 	{
 		// NOTE: Game may have multiple joypads connected.
@@ -43,6 +60,7 @@ namespace Jaguar
 									// note that this is also in UTF32 format.
 
 		std::vector<Button_Flags> Keys;		// keyboard inputs
+		Mouse_Data Mouse;					// mouse/touchpad inputs
 
 		std::vector<Gamepad> Controllers;	// different connected controllers
 	};
