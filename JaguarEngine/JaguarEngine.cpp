@@ -89,14 +89,6 @@ namespace Jaguar
 	{
 		std::vector<char> Bytes = Load_File_Contents(Filename);
 
-		//while(
-		//	(Count = mbrtoc32(&Character, Read, MB_CUR_MAX, &State) > 0)
-		//)
-		//{
-		//	Output.push_back(Character);
-		//	Read += Count;
-		//}
-
 		return Convert_UTF8(Bytes.data());
 	}
 
@@ -121,7 +113,7 @@ namespace Jaguar
 		File.seekg(0, std::ios::beg);
 
 		Contents.resize(Size); // Fits buffer
-
+		
 		File.read((char*)Contents.data(), Size);
 
 		File.close();

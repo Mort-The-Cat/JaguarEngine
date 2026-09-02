@@ -189,6 +189,7 @@
     <ClInclude Include="JaguarEngine\Scene\Model_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\Scene\Scene.hpp" />
     <ClInclude Include="JaguarEngine\Scene\World_Object_Declarations.hpp" />
+    <ClInclude Include="JaguarEngine\UI\UI_Handler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="JaguarEngine\README.txt" />

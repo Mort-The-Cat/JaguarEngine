@@ -245,15 +245,6 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		glClearColor(0.05f, 0.075f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		/*Engine->Scene.Camera.Position = glm::vec3(-3.0f, -1.5f, 1.0f);
-		Engine->Scene.Camera.Orientation_Up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-		Engine->Scene.Camera.Orientation = glm::vec3(
-			sinf(Angle), 0.0f, cosf(Angle)
-		);
-
-		Angle += Engine->Time * 0.5f;*/
-
 		Timer -= Engine->Time;
 
 		if (Timer < 0.0f)

@@ -122,6 +122,9 @@
     <ClInclude Include="Demo_Game\Demo_Inputs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JaguarEngine\UI\UI_Handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="JaguarEngine\README.txt" />
