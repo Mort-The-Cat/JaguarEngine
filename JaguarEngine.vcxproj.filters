@@ -129,4 +129,10 @@
   <ItemGroup>
     <Text Include="JaguarEngine\README.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="JaguarEngine\UI\Default_Element.gltf" />
+    <None Include="JaguarEngine\UI\Default_Element.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
