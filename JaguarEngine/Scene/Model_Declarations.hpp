@@ -122,11 +122,11 @@ namespace Jaguar
 
 		for (
 			size_t Index = 0, Count = 0;
-			Count < sizeof(Vertex::Attrib_Info);
-			Count += 3 * sizeof(Vertex::Attrib_Info[0]), Index++)
+			Count < sizeof(Vertex::Attribute_Info);
+			Count += 3 * sizeof(Vertex::Attribute_Info[0]), Index++)
 		{
-			int Type = Vertex::Attrib_Info[3 * Index];
-			int Size = Vertex::Attrib_Info[3 * Index + 1];
+			int Type = Vertex::Attribute_Info[3 * Index];
+			int Size = Vertex::Attribute_Info[3 * Index + 1];
 
 			if (
 				Type == GL_BYTE || Type == GL_UNSIGNED_BYTE ||
@@ -137,7 +137,7 @@ namespace Jaguar
 			else
 				glVertexAttribPointer(Index, Size, Type, GL_FALSE, sizeof(Vertex), (void*)Offset);// Float attribute
 
-			Offset += Vertex::Attrib_Info[3 * Index + 2];
+			Offset += Vertex::Attribute_Info[3 * Index + 2];
 
 			glEnableVertexAttribArray(Index);
 		}

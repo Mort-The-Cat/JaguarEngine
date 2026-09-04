@@ -9,11 +9,11 @@ struct PNUV_Vertex
 	glm::vec3 Normal;
 	glm::vec2 UV;
 
-	static constexpr int Attrib_Info[] = // This is used when initialising the vertex attributes
+	static constexpr int Attribute_Info[] = // This is used when initialising the vertex attributes
 	{
-		GL_FLOAT, 3, sizeof(glm::vec3),
-		GL_FLOAT, 3, sizeof(glm::vec3),
-		GL_FLOAT, 2, sizeof(glm::vec2)
+		GL_FLOAT, 3, sizeof(Position),
+		GL_FLOAT, 3, sizeof(Normal),
+		GL_FLOAT, 2, sizeof(UV)
 	};
 };
 
@@ -191,6 +191,20 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 	Demo_Init_Inputs(Engine);
 
 	//
+
+	glm::vec2 Positions[] =
+	{
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 1.0f)
+	};
+
+	uint8_t Indices[] =
+	{
+		0, 1, 2,
+		1, 3, 2
+	};
 
 	//std::u32string Some_Text = UTF8("こんにちは");//Jaguar::Load_UTF8_File_Contents("JaguarEngine/Text_Loading.txt");
 

@@ -9,7 +9,7 @@ struct PNUV_Joint_Vertex
 	uint32_t Joints;	// 4 bytes
 	glm::vec4 Weights;	// 4 floats
 
-	static constexpr int Attrib_Info[] = // This is used when initialising the vertex attributes
+	static constexpr int Attribute_Info[] = // This is used when initialising the vertex attributes
 	{
 		GL_FLOAT, 3, sizeof(Position),
 		GL_FLOAT, 3, sizeof(Normal),
