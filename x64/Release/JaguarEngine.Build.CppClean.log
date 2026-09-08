@@ -1,4 +1,6 @@
 c:\jaguarengine\jaguarengine\x64\release\vc145.pdb
+c:\jaguarengine\jaguarengine\x64\release\main.obj
+c:\jaguarengine\jaguarengine\x64\release\ui_handler.obj
 c:\jaguarengine\jaguarengine\x64\release\world_object_declarations.obj
 c:\jaguarengine\jaguarengine\x64\release\scene.obj
 c:\jaguarengine\jaguarengine\x64\release\vertex_buffers.obj
@@ -15,7 +17,11 @@ c:\jaguarengine\jaguarengine\x64\release\asset_cache.obj
 c:\jaguarengine\jaguarengine\x64\release\skeleton_animator.obj
 c:\jaguarengine\jaguarengine\x64\release\skeleton.obj
 c:\jaguarengine\jaguarengine\x64\release\animation.obj
+c:\jaguarengine\jaguarengine\x64\release\glad.obj
 c:\jaguarengine\jaguarengine\x64\release\jaguarengine.vcxproj.filelistabsolute.txt
 c:\jaguarengine\jaguarengine\x64\release\jaguarengine.tlog\cl.command.1.tlog
 c:\jaguarengine\jaguarengine\x64\release\jaguarengine.tlog\cl.read.1.tlog
 c:\jaguarengine\jaguarengine\x64\release\jaguarengine.tlog\cl.write.1.tlog
+c:\jaguarengine\jaguarengine\x64\release\jaguarengine.tlog\link.command.1.tlog
+c:\jaguarengine\jaguarengine\x64\release\jaguarengine.tlog\link.read.1.tlog
+c:\jaguarengine\jaguarengine\x64\release\jaguarengine.tlog\link.write.1.tlog

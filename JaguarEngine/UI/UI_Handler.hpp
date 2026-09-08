@@ -20,37 +20,7 @@ namespace Jaguar
 		};
 	};
 
-	Mesh* GLTF_To_UI(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true)
-	{
-		Mesh_Data<UI_Vertex>* Mesh = new Mesh_Data<UI_Vertex>();
-
-		std::vector<glm::vec2> Positions;
-		std::vector<glm::vec2> UVs;
-
-		std::vector<glm::vec<1, size_t>> Indices;
-
-		Positions = Object->Meshes[0].Attributes["POSITION"].Get_Attribute_Buffer<glm::vec2>();
-		UVs = Object->Meshes[0].Attributes["TEXCOORD_0"].Get_Attribute_Buffer<glm::vec2>();
-
-		Indices = Object->Meshes[0].Indices.Get_Attribute_Buffer<glm::vec<1, size_t>>();
-
-		Mesh->Vertices.resize(Indices.size());
-
-		for (size_t V = 0; V < Indices.size(); V++)
-		{
-			Mesh->Vertices[V].Position = Positions[Indices[V].x];
-			Mesh->Vertices[V].UV = UVs[Indices[V].x];
-		}
-
-		if (Init_Vertex_Buffer)
-		{
-			Jaguar::Create_Vertex_Buffer(Mesh);
-			Jaguar::Bind_Vertex_Buffer(Mesh);
-			Jaguar::Initialise_Vertex_Attributes<UI_Vertex>(Mesh);
-		}
-
-		return Mesh;
-	}
+	Mesh* GLTF_To_UI(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true);
 
 	struct Layout
 	{
@@ -65,20 +35,47 @@ namespace Jaguar
 		} Type;
 	};
 
+	struct Layer
+	{
+		float Value;
+
+		enum
+		{
+			Global,
+			Parent
+		} Type;
+	};
+
+	struct UI_Transform
+	{
+		glm::vec2 Origin, Scale;
+		float Layer;
+	};
+
 	class UI_Element
 	{
+	public:
+		UI_Transform Transform;			// The transform created by the UI element.
+
 		Layout Left, Right, Up, Down;	// This dictates the layout of the object
 
 		glm::vec4 Colour;	// Test colour
 
 		std::vector<UI_Element*> Children;
 
-		Mesh_Wrapper* Mesh;
+		Mesh_Wrapper* Mesh;										// Includes texture / uniform data etc
 
-#define UF_TO_BE_DELETED	0
-#define UF_HIDE				1
+		Layer Layer = { 0.0f, Layer::Global };					// This determines the current layer of the object
+
+#define UF_TO_BE_DELETED	0				// Set this flag to delete UI element
+#define UF_HIDE				1				// This flag is set if the UI element isn't to be displayed (i.e. a simple container)
+											// but it can also just be used to temporarily hide a UI element for whatever reason
 		bool Flags[2] = { false, false };
+
+		Shader Shader;											// Which shader to use
 	};
+
+	void Delete_UI_Element(UI_Element** Element);
 }
 
 #endif

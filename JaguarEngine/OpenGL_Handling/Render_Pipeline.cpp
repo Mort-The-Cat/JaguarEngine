@@ -29,7 +29,8 @@ namespace Jaguar
 		Shader Shader,
 		Render_Queue::Queue_Function Init_Queue_Function,
 		Render_Queue::Model_Function Init_Model_Function,
-		Render_Queue::Model_Function Render_Model_Function
+		Render_Queue::Model_Function Render_Model_Function,
+		Render_Queue::Model_Type Type
 	)
 	{
 		Render_Queue New_Queue;
@@ -37,8 +38,12 @@ namespace Jaguar
 		New_Queue.Init_Queue_Uniforms_Function = Init_Queue_Function;
 		New_Queue.Init_Model_Uniforms_Function = Init_Model_Function;
 		New_Queue.Render_Model_Function = Render_Model_Function;
+		New_Queue.Type = Type;
 		
 		Engine->Pipeline.Queue_Table[Shader.Program_ID] = Engine->Pipeline.Queues.size();
 		Engine->Pipeline.Queues.push_back(New_Queue);
+
+		if (New_Queue.Type == Render_Queue::Model_Type::UI)
+			Engine->UI.UI_Shaders.push_back(Shader);
 	}
 }

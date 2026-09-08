@@ -38,6 +38,8 @@
 
 #include "Inputs/Inputs.hpp"
 
+#include "UI/UI_Pipeline.hpp"
+
 namespace Jaguar
 {
 
@@ -47,6 +49,7 @@ namespace Jaguar
 		Window_Data Window_Info;
 
 		Scene_Data Scene;				// I think the UI should be separate from the scene
+		UI_Data UI;
 
 		Inputs_Data Inputs;
 

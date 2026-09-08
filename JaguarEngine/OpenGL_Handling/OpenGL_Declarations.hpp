@@ -68,10 +68,10 @@ namespace Jaguar
 
 	struct Shader
 	{
-		const char* Name;
+		const char* Name = nullptr;
 		GLuint Program_ID;
 
-		Mesh_Wrapper* (*Create_Mesh_Wrapper)(Mesh* Mesh, const std::vector<Texture>& Textures);
+		Mesh_Wrapper* (*Create_Mesh_Wrapper)(Mesh* Mesh, const std::vector<Texture>& Textures) = nullptr;
 	};
 
 	template<typename Uniform>
@@ -192,6 +192,7 @@ namespace Jaguar
 	void Default_Render_Model_Function(JaguarEngine* Engine, Render_Queue* Queue, Mesh_Wrapper* Model);
 
 	struct World_Object;
+	struct UI_Element;
 
 	struct Model_Wrapper
 	{
@@ -200,7 +201,7 @@ namespace Jaguar
 		union 
 		{
 			World_Object* Object = nullptr;			// Important object information
-			void* Element;					// Important UI information	(CURRENTLY UNUSED)
+			UI_Element* Element;					// Important UI information	(CURRENTLY UNUSED)
 		};
 
 		bool operator==(const Model_Wrapper& Other) const
@@ -229,6 +230,12 @@ namespace Jaguar
 		//void (*Render_Model_Function)(JaguarEngine*, Render_Queue*, Model_Wrapper);
 
 		std::vector<Model_Wrapper> Models;
+
+		enum Model_Type
+		{
+			OBJECT,
+			UI
+		} Type;	// By default, it's an 'object' render queue.
 
 		// This *can* support instanced rendering but it's not easily integrated hm.
 		// Perhaps a single 'model object' could be an emitter of some kind
@@ -262,7 +269,8 @@ namespace Jaguar
 		Shader Shader,
 		Render_Queue::Queue_Function Init_Queue_Function,
 		Render_Queue::Model_Function Init_Model_Function,
-		Render_Queue::Model_Function Model_Render_Function
+		Render_Queue::Model_Function Model_Render_Function,
+		Render_Queue::Model_Type Type = Render_Queue::Model_Type::OBJECT
 	);
 
 	void Draw_Render_Queue(JaguarEngine* Engine, Render_Queue* Queue);
