@@ -2,6 +2,7 @@
 #define JAGUAR_UI_PIPELINE
 
 #include "UI_Handler.hpp"
+#include "Default_UI.hpp"
 
 namespace Jaguar
 {
@@ -17,7 +18,7 @@ namespace Jaguar
 	// For UI render queues, in the init-queue function, the objects should be sorted according to the UI_Element's global 'layer' property.
 	// These will be stored in the uniform buffers or otherwise.
 
-	
+	void Test_UI_Scene(JaguarEngine* Engine, Shader UI_Shader);
 }
 
 #endif

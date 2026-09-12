@@ -72,6 +72,12 @@
     <ClCompile Include="JaguarEngine\UI\UI_Handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JaguarEngine\UI\UI_Pipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JaguarEngine\UI\Default_UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JaguarEngine\JaguarEngine.hpp">
@@ -129,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JaguarEngine\UI\UI_Pipeline.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JaguarEngine\UI\Default_UI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

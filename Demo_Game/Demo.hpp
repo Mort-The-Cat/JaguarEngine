@@ -188,6 +188,19 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		Demo_Joints_Render_Model
 	);
 
+	Jaguar::Shader Demo_UI_Shader;
+	Jaguar::Create_Shader<Demo_UI_Uniform>(&Demo_UI_Shader, "Demo_Game/Shaders/UI.vert", "Demo_Game/Shaders/UI.frag");
+	Jaguar::Push_Render_Pipeline_Queue(
+		Engine,
+		Demo_UI_Shader,
+		Demo_UI_Init_Queue,
+		Demo_UI_Init_Model,
+		Demo_UI_Render_Model,
+		Jaguar::Render_Queue::UI
+	);
+
+
+
 	Demo_Init_Inputs(Engine);
 
 	//

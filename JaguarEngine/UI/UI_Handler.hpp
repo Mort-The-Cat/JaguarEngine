@@ -9,19 +9,6 @@
 
 namespace Jaguar
 {
-	struct UI_Vertex
-	{
-		glm::vec2 Position, UV;
-
-		static constexpr int Attribute_Info[] =
-		{
-			GL_FLOAT, 2, sizeof(Position),
-			GL_FLOAT, 2, sizeof(UV)
-		};
-	};
-
-	Mesh* GLTF_To_UI(GLTF::GLTF_Object* Object, bool Init_Vertex_Buffer = true);
-
 	struct Layout
 	{
 		float Value;
@@ -31,7 +18,13 @@ namespace Jaguar
 			Margin_In,		// distance inside the margin
 			Margin_Out,		// distance outside the margin
 			Percentage,		// percentage 0.0 to 1.0 of the UI element
-			Size			// width/height of object
+			Size,			// width/height of object					(note that the viewport is, by default, (-1,-1) to (1,1) )
+
+			Fill_Parent,	// fill the space of a parent according to some ratio (and accounting for sibling elements)
+			Grow_To_Contain, // grow to contain flagged internal child nodes
+
+			Lay_Primary,	// column (i.e. left-right on text)
+			Lay_Secondary	// row (i.e. which line of the text it is
 		} Type;
 	};
 
@@ -48,8 +41,18 @@ namespace Jaguar
 
 	struct UI_Transform
 	{
-		glm::vec2 Origin, Scale;
-		float Layer;
+		glm::vec2 Origin, Scale;	// These are the global applied properties
+
+		glm::vec2 Right, Down;		// These are the down/right vectors
+
+		float Layer;				// Which layer this element is on (used for sorting elements)
+	};
+
+	struct UI_Parent_Layout
+	{
+		glm::vec2 Min, Max;			// These are the local positions from the local right/down vectors for x/y coordinates
+
+		glm::vec2 Lay;				// Current layout of child nodes (in local)
 	};
 
 	class UI_Element
@@ -57,23 +60,50 @@ namespace Jaguar
 	public:
 		UI_Transform Transform;			// The transform created by the UI element.
 
-		Layout Left, Right, Up, Down;	// This dictates the layout of the object
+		Layout 
+			Left = { 0.0f, Layout::Margin_In },
+			Right = { 0.0f, Layout::Margin_In },
+			Top = { 0.0f, Layout::Margin_In },
+			Bottom = { 0.0f, Layout::Margin_In };	// This dictates the layout of the object
 
-		glm::vec4 Colour;	// Test colour
+		float Angle = 0.0f;				// Angle around origin
 
-		std::vector<UI_Element*> Children;
+		std::string Name;				// The name/id of this UI element
 
-		Mesh_Wrapper* Mesh;										// Includes texture / uniform data etc
+		glm::vec4 Colour = glm::vec4(1.0f);	// Test colour
+
+		Shader Shader;						// Which shader to use
+
+		Mesh_Wrapper* Mesh = nullptr;							// Includes texture / uniform data etc
 
 		Layer Layer = { 0.0f, Layer::Global };					// This determines the current layer of the object
 
-#define UF_TO_BE_DELETED	0				// Set this flag to delete UI element
-#define UF_HIDE				1				// This flag is set if the UI element isn't to be displayed (i.e. a simple container)
+#define UF_TO_BE_DELETED	0u				// Set this flag to delete UI element
+#define UF_HIDE				1u				// This flag is set if the UI element isn't to be displayed (i.e. a simple container)
+#define UF_AFFECT_PARENT	2u
 											// but it can also just be used to temporarily hide a UI element for whatever reason
-		bool Flags[2] = { false, false };
 
-		Shader Shader;											// Which shader to use
+		union
+		{
+			bool Flags[3] = { false, false, true };
+
+			struct
+			{
+				bool To_Be_Deleted;
+				bool Hide;
+				bool Affect_Parent;
+			} UF;
+		};
+
+
+
+		std::vector<UI_Element*> Children;
 	};
+
+//#define Create_Element(Element, ...)\
+//	__Create_Element(new UI_Element Element, __VA_ARGS__)
+
+//	UI_Element* __Create_Element(UI_Element* Element, Shader Shader, Mesh* Mesh);
 
 	void Delete_UI_Element(UI_Element** Element);
 }

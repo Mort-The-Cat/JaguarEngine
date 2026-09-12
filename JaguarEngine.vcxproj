@@ -141,7 +141,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)JaguarEngine\Libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -169,7 +170,9 @@
     <ClCompile Include="JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp" />
     <ClCompile Include="JaguarEngine\Scene\Scene.cpp" />
     <ClCompile Include="JaguarEngine\Scene\World_Object_Declarations.cpp" />
+    <ClCompile Include="JaguarEngine\UI\Default_UI.cpp" />
     <ClCompile Include="JaguarEngine\UI\UI_Handler.cpp" />
+    <ClCompile Include="JaguarEngine\UI\UI_Pipeline.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +193,7 @@
     <ClInclude Include="JaguarEngine\Scene\Model_Declarations.hpp" />
     <ClInclude Include="JaguarEngine\Scene\Scene.hpp" />
     <ClInclude Include="JaguarEngine\Scene\World_Object_Declarations.hpp" />
+    <ClInclude Include="JaguarEngine\UI\Default_UI.hpp" />
     <ClInclude Include="JaguarEngine\UI\UI_Handler.hpp" />
     <ClInclude Include="JaguarEngine\UI\UI_Pipeline.hpp" />
   </ItemGroup>
