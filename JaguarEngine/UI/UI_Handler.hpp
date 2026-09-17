@@ -18,13 +18,16 @@ namespace Jaguar
 			Margin_In,		// distance inside the margin
 			Margin_Out,		// distance outside the margin
 			Percentage,		// percentage 0.0 to 1.0 of the UI element
+			Lay_Primary,	// column (i.e. left-right on text)
+			Lay_Secondary,	// row (i.e. which line of the text it is
+
 			Size,			// width/height of object					(note that the viewport is, by default, (-1,-1) to (1,1) )
 
 			Fill_Parent,	// fill the space of a parent according to some ratio (and accounting for sibling elements)
-			Grow_To_Contain, // grow to contain flagged internal child nodes
+			// this is analogous to doing 'size'
+			// can be combined with lay_primary to pack a row
+			Grow_To_Contain // grow to contain flagged internal child nodes
 
-			Lay_Primary,	// column (i.e. left-right on text)
-			Lay_Secondary	// row (i.e. which line of the text it is
 		} Type;
 	};
 
@@ -41,7 +44,7 @@ namespace Jaguar
 
 	struct UI_Transform
 	{
-		glm::vec2 Origin, Scale;	// These are the global applied properties
+		glm::vec2 Origin, End;		// These are the global applied properties
 
 		glm::vec2 Right, Down;		// These are the down/right vectors
 
@@ -52,7 +55,11 @@ namespace Jaguar
 	{
 		glm::vec2 Min, Max;			// These are the local positions from the local right/down vectors for x/y coordinates
 
+		float Inverse_Fill_Factor;	// This is used for handling the 'fill_parent' ratios for child elements
+
 		glm::vec2 Lay;				// Current layout of child nodes (in local)
+
+		float Lay_Secondary_Offset;
 	};
 
 	class UI_Element
@@ -82,7 +89,6 @@ namespace Jaguar
 #define UF_HIDE				1u				// This flag is set if the UI element isn't to be displayed (i.e. a simple container)
 #define UF_AFFECT_PARENT	2u
 											// but it can also just be used to temporarily hide a UI element for whatever reason
-
 		union
 		{
 			bool Flags[3] = { false, false, true };
