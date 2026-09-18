@@ -15,4 +15,7 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Texture.cpp;C:\JaguarE
 C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\Vertex_Buffers.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Vertex_Buffers.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Scene.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Scene.obj
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\World_Object_Declarations.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\Default_UI.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\Default_UI.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\UI_Handler.obj
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Pipeline.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\UI_Pipeline.obj
 C:\JaguarEngine\JaguarEngine\main.cpp;C:\JaguarEngine\JaguarEngine\x64\Debug\main.obj

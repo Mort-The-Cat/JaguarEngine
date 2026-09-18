@@ -48,9 +48,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Asset_Cache.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   Deletion_Handling.cpp
@@ -103,9 +103,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Deletion_Handling.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   Inputs.cpp
@@ -158,9 +158,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Inputs/Inputs.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp(34,37): warning C4244: "=": Konvertierung von "double" in "T", möglicher Datenverlust
@@ -173,63 +173,6 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp(35,37): warning C424
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp(35,37): warning C4244:         [
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp(35,37): warning C4244:             T=float
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Inputs\Inputs.cpp(35,37): warning C4244:         ]
-  JaguarEngine.cpp
-C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
-      Siehe Deklaration von "Jaguar::Mesh_Wrapper"
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(225,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(226,66): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(227,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(231,34): warning C4554: „|“: Überprüfen Sie die Operatorrangfolge auf mögliche Fehler. Verwenden Sie Klammern, um die Rangfolge zu verdeutlichen.
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(264,17): warning C4244: "Initialisierung": Konvertierung von "double" in "size_t", möglicher Datenverlust
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(271,37): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(272,20): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8):
-      Siehe Deklaration von "Jaguar::Mesh_Wrapper"
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8): warning C4099: "Jaguar::World_Object": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8):
-      Siehe Deklaration von "Jaguar::World_Object"
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(8,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(10,9):
-      Siehe Deklaration von "Jaguar::Control"
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
-      Siehe Deklaration von "Jaguar::Control"
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
-  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
-      Siehe Deklaration von "Jaguar::UI_Element"
-  
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(183,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
-C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(185,19): warning C4305: "=": Verkürzung von "double" in "float"
   JSON_Declarations.cpp
 C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/JSON_IO/JSON_Declarations.cpp“ wird kompiliert)
@@ -280,11 +223,68 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/JSON_IO/JSON_Declarations.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
+  JaguarEngine.cpp
+C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(67,9):
+      Siehe Deklaration von "Jaguar::Mesh_Wrapper"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(224,67): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(225,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(226,66): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(227,63): warning C4244: "=": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(231,34): warning C4554: „|“: Überprüfen Sie die Operatorrangfolge auf mögliche Fehler. Verwenden Sie Klammern, um die Rangfolge zu verdeutlichen.
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(264,17): warning C4244: "Initialisierung": Konvertierung von "double" in "size_t", möglicher Datenverlust
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(271,37): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(272,20): warning C4267: "=": Konvertierung von "size_t" nach "GLint", Datenverlust möglich
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(64,8):
+      Siehe Deklaration von "Jaguar::Mesh_Wrapper"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8): warning C4099: "Jaguar::World_Object": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8):
+      Siehe Deklaration von "Jaguar::World_Object"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(8,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(10,9):
+      Siehe Deklaration von "Jaguar::Control"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4099: "Jaguar::Control": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
+      Siehe Deklaration von "Jaguar::Control"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+  (Quelldatei „JaguarEngine/JaguarEngine.cpp“ wird kompiliert)
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
+      Siehe Deklaration von "Jaguar::UI_Element"
+  
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(183,32): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\JaguarEngine\JaguarEngine\JaguarEngine\JaguarEngine.cpp(185,19): warning C4305: "=": Verkürzung von "double" in "float"
   Render_Pipeline.cpp
 C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Render_Pipeline.cpp“ wird kompiliert)
@@ -335,9 +335,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Render_Pipeline.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   Shaders.cpp
@@ -390,9 +390,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Shaders.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   Texture.cpp
@@ -445,9 +445,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/OpenGL_Handling/Texture.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   Scene.cpp
@@ -500,9 +500,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Scene/Scene.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   World_Object_Declarations.cpp
@@ -555,9 +555,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/Scene/World_Object_Declarations.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   Default_UI.cpp
@@ -610,9 +610,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/UI/Default_UI.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(136,63): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "void *"
@@ -706,9 +706,9 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\World_Object_Declarations.hpp(14,8):
       Siehe Deklaration von "Jaguar::World_Object"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/UI/UI_Handler.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
   UI_Pipeline.cpp
@@ -761,12 +761,17 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „JaguarEngine/UI/UI_Pipeline.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Pipeline.cpp(53,17): warning C4305: "Initialisierung": Verkürzung von "double" in "float"
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Pipeline.cpp(17,9): warning C4101: "Size": Unreferenzierte lokale Variable
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Pipeline.cpp(17,9):
+      der Vorlageninstanziierungskontext (der älteste zuerst) ist
+          C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Pipeline.cpp(128,4):
+          Siehe Verweis auf die gerade kompilierte Instanziierung "void Jaguar::Evaluate_Axis<true,false>(Jaguar::Layout *,Jaguar::Layout *,const Jaguar::UI_Transform *,Jaguar::UI_Parent_Layout *,float *,float *,bool,bool)" der Funktions-Vorlage.
+  
   main.cpp
 C:\JaguarEngine\JaguarEngine\JaguarEngine\OpenGL_Handling\OpenGL_Declarations.hpp(186,8): warning C4099: "Jaguar::Mesh_Wrapper": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „main.cpp“ wird kompiliert)
@@ -817,19 +822,19 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8): warning C4
       C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Controller.hpp(14,8):
       Siehe Deklaration von "Jaguar::Control"
   
-C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
+C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8): warning C4099: "Jaguar::UI_Element": Geben Sie den zuerst unter Verwendung von "struct" und jetzt unter Verwendung von "class" gesehenen Namen ein
   (Quelldatei „main.cpp“ wird kompiliert)
-      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(58,8):
+      C:\JaguarEngine\JaguarEngine\JaguarEngine\UI\UI_Handler.hpp(86,8):
       Siehe Deklaration von "Jaguar::UI_Element"
   
 C:\JaguarEngine\JaguarEngine\Demo_Game\Animation\Demo_Joints.hpp(130,43): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust möglich
   (Quelldatei „main.cpp“ wird kompiliert)
   
-C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(162,34): warning C4305: "*=": Verkürzung von "double" in "T"
-C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(162,34): warning C4305:         with
-C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(162,34): warning C4305:         [
-C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(162,34): warning C4305:             T=float
-C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(162,34): warning C4305:         ]
+C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(163,34): warning C4305: "*=": Verkürzung von "double" in "T"
+C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(163,34): warning C4305:         with
+C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(163,34): warning C4305:         [
+C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(163,34): warning C4305:             T=float
+C:\JaguarEngine\JaguarEngine\Demo_Game\Demo.hpp(163,34): warning C4305:         ]
   (Quelldatei „main.cpp“ wird kompiliert)
   
 C:\JaguarEngine\JaguarEngine\JaguarEngine\Scene\Model_Declarations.hpp(136,63): warning C4312: "Typumwandlung": Konvertierung von "int" in größeren Typ "void *"
@@ -924,11 +929,11 @@ C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(45,20): 
           C:\JaguarEngine\JaguarEngine\JaguarEngine\JSON_IO\JSON_Declarations.hpp(74,5):
           Siehe Verweis auf die gerade kompilierte Instanziierung "void GLTF::Attribute::Copy_To_Buffer<4,float,glm::vec4>(std::vector<glm::vec4,std::allocator<glm::vec4>> &,std::vector<char,std::allocator<char>> &)" der Funktions-Vorlage.
   
-  glad.c
 LINK : warning LNK4098: Standardbibliothek "MSVCRTD" steht in Konflikt mit anderen Bibliotheken; /NODEFAULTLIB:Bibliothek verwenden.
   Code wird generiert.
-  Previous IPDB not found, fall back to full compilation.
-  All 3773 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  182 of 3914 functions ( 4.6%) were compiled, the rest were copied from previous compilation.
+    26 functions were new in current compilation
+    142 functions had inline decision re-evaluated but remain unchanged
   Codegenerierung ist abgeschlossen.
 glfw3.lib(window.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(window.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 glfw3.lib(input.obj) : warning LNK4099: PDB "glfw.pdb" wurde nicht mit "glfw3.lib(input.obj)" oder an "C:\JaguarEngine\JaguarEngine\glfw.pdb" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.

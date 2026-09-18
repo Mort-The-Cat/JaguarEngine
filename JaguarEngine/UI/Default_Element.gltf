@@ -80,18 +80,18 @@
 	"bufferViews": [
 		{
 			"buffer": 0,
-			"byteLength": 24,
+			"byteLength": 32,
 			"byteOffset": 0
 		},
 		{
 			"buffer": 0,
-			"byteLength": 24,
+			"byteLength": 32,
 			"byteOffset": 0
 		},
 		{
 			"buffer": 0,
 			"byteLength": 6,
-			"byteOffset": 24
+			"byteOffset": 32
 		}
 	],
 	"buffers": [

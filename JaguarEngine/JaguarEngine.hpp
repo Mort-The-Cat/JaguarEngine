@@ -42,8 +42,6 @@
 
 namespace Jaguar
 {
-
-
 	struct JaguarEngine
 	{
 		Window_Data Window_Info;

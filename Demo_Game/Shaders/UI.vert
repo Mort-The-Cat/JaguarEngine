@@ -10,5 +10,7 @@ void main()
 {
 	vec2 Position = (Transform * vec3(In_Position, 1.0f)).xy;
 
+	Position.y *= -1.0f;
+
 	gl_Position = vec4(vec3(Position, Layer), 1.0f);	//			'Layer' is for the depth buffer
 }

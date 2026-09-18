@@ -85,6 +85,7 @@ void Demo_Init_Queue(Jaguar::JaguarEngine* Engine, Jaguar::Render_Queue* Queue)
 {
 	Jaguar::Use_Shader(&Queue->Shader);
 
+	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
@@ -166,6 +167,11 @@ void Bounce_Object(Jaguar::JaguarEngine* Engine, Jaguar::World_Object* Object)
 	Object->Flags[MF_TO_BE_DELETED] = Controller->Info.Timer < 0.0f;	// if we're out of time, delete.
 }
 
+namespace Jaguar
+{
+	void Test_UI_Scene(JaguarEngine* Engine, Shader UI_Shader);
+}
+
 int Run_Scene(Jaguar::JaguarEngine* Engine)
 {
 	Jaguar::Shader Demo_Shader;
@@ -199,7 +205,10 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 		Jaguar::Render_Queue::UI
 	);
 
+	Engine->Scene.Camera.Aspect = 640.0f / 480.0f;
+	Engine->Scene.Camera.FOV = glm::radians(80.0f);
 
+	Jaguar::Test_UI_Scene(Engine, Demo_UI_Shader);
 
 	Demo_Init_Inputs(Engine);
 
@@ -296,10 +305,9 @@ int Run_Scene(Jaguar::JaguarEngine* Engine)
 			);
 		}
 
-		Engine->Scene.Camera.Aspect = 640.0f / 480.0f;
-		Engine->Scene.Camera.FOV = glm::radians(80.0f);
-
 		Jaguar::Handle_Scene_Objects(Engine);
+
+		Jaguar::Handle_UI_Elements(Engine);
 
 		Jaguar::Handle_Deletions(Engine);
 

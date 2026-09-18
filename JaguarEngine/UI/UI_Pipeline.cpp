@@ -6,7 +6,7 @@ namespace Jaguar
 	// Need a recursive function to handle ui elements sequentially
 
 	template<const bool Axis = false, const bool Side = false>
-	void Evaluate_Axis(Layout* First, Layout* Next, const UI_Transform* Parent_Transform, UI_Parent_Layout* Parent_Layout, float* A, float* NextB_Value)
+	void Evaluate_Axis(Layout* First, Layout* Next, const UI_Transform* Parent_Transform, UI_Parent_Layout* Parent_Layout, float* A, float* B, bool Change_Parent_Layout, bool Layout_Wrap)
 	{
 		// A is min
 		// B is max
@@ -18,52 +18,89 @@ namespace Jaguar
 
 		switch (First->Type)
 		{
+			case Layout::Lay_Secondary:
+				if constexpr (Side)
+					*A = Parent_Transform->End[Axis] - Parent_Layout->Lay[1];
+				else
+					*A = Parent_Transform->Origin[Axis] + Parent_Layout->Lay[1];
+				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
+			break;
+
+			case Layout::Lay_Primary:
+				if constexpr (Side)
+				{
+					*A = Parent_Transform->End[Axis] - Parent_Layout->Lay[0];
+					Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
+					if (*B < Parent_Transform->Origin[Axis] && Parent_Layout->Lay[0] != 0 && Layout_Wrap)
+					{
+						Parent_Layout->Lay[0] = 0;
+						Parent_Layout->Lay[1] += Parent_Layout->Lay_Secondary_Offset;
+						*A = Parent_Transform->Origin[Axis] - Parent_Layout->Lay[0];
+						Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
+					}
+					Parent_Layout->Lay[0] = Parent_Transform->End[Axis] - *B;	// add the size
+				}
+				else
+				{
+					*A = Parent_Transform->Origin[Axis] + Parent_Layout->Lay[0];
+					Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
+					if (*B > Parent_Transform->End[Axis] && Parent_Layout->Lay[0] != 0 && Layout_Wrap)
+					{
+						Parent_Layout->Lay[0] = 0;
+						Parent_Layout->Lay[1] += Parent_Layout->Lay_Secondary_Offset;
+						*A = Parent_Transform->Origin[Axis] + Parent_Layout->Lay[0];
+						Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
+					}
+					Parent_Layout->Lay[0] = *B - Parent_Transform->Origin[Axis];	// add the size
+				}
+			break;
+
 			case Layout::Percentage:
 				*A =
 					Parent_Transform->Origin[Axis] * (1.0f - First->Value) +
 					Parent_Transform->End[Axis] * First->Value;
-				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A);
+				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
 				break;
 
 			case Layout::Margin_Out:
 				if constexpr (Side)
 					*A =
-						Parent_Transform->End + First->Value;
+						Parent_Transform->End[Axis] + First->Value;
 				else
 					*A =
-						Parent_Transform->Origin - First->Value;
-				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A);
+						Parent_Transform->Origin[Axis] - First->Value;
+				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
 				break;
 
 			case Layout::Margin_In:
 				if constexpr (Side)
 					*A =
-						Parent_Transform->End - First->Value;
+						Parent_Transform->End[Axis] - First->Value;
 				else
 					*A =
-						Parent_Transform->Origin + First->Value;
+						Parent_Transform->Origin[Axis] + First->Value;
 
-				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A);
+				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
 				break;
 
 			//
 
 			case Layout::Fill_Parent:
-				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A);
+				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
 				if constexpr (Side)
 					*A = 
-					(First->Value * Parent_Layout->Inverse_Fill_Factor)				// the fraction of the space this element takes up
-					* (Parent_Transform[Axis].End - Parent_Transform[Axis].Origin)	// the space itself
+					(First->Value * Parent_Layout->Inverse_Fill_Factor[Axis])				// the fraction of the space this element takes up
+					* (Parent_Transform->End[Axis] - Parent_Transform->Origin[Axis])	// the space itself
 					+ *B;															// the previous side
 				else
 					*A =
-					(First->Value * Parent_Layout->Inverse_Fill_Factor)				// the fraction of the space this element takes up
-					* (Parent_Transform[Axis].Origin - Parent_Transform[Axis].End)	// the space itself
+					(First->Value * Parent_Layout->Inverse_Fill_Factor[Axis])				// the fraction of the space this element takes up
+					* (Parent_Transform->Origin[Axis] - Parent_Transform->End[Axis])	// the space itself
 					+ *B;															// the previous side
 				break;
 
 			case Layout::Size:
-				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A);
+				Evaluate_Axis<Axis, !Side>(Next, nullptr, Parent_Transform, Parent_Layout, B, A, Change_Parent_Layout, Layout_Wrap);
 				if constexpr (Side)
 					*A = *B + First->Value;
 				else
@@ -73,7 +110,70 @@ namespace Jaguar
 			// TODO: Lay Primary / Lay Secondary
 		}
 
+		if (Change_Parent_Layout)
+		{
+			if (Side)																	// Expands parent layout if applicable
+				Parent_Layout->Max[Axis] = std::fmaxf(Parent_Layout->Max[Axis], *A);
+			else
+				Parent_Layout->Min[Axis] = std::fminf(Parent_Layout->Min[Axis], *A);
+		}
+
 		//Evaluate_Axis(Next, nullptr, Parent_Transform, Parent_Layout, Next_Value, First_Value);
+	}
+
+	void Handle_UI_Dimensions(JaguarEngine* Engine, UI_Element* Element, const UI_Transform* Parent_Transform, UI_Parent_Layout* Parent_Layout)
+	{
+		if (Element->Top.Type == Layout::Lay_Primary || Element->Bottom.Type == Layout::Lay_Primary)
+		{
+			Evaluate_Axis<1, 0>(
+				&Element->Top,
+				&Element->Bottom,
+				Parent_Transform,
+				Parent_Layout,
+				&Element->Transform.Origin[1],
+				&Element->Transform.End[1],
+				Element->UF.Affect_Parent,
+				Parent_Layout->Wrap);
+
+			Evaluate_Axis<0, 0>(
+				&Element->Left,
+				&Element->Right,
+				Parent_Transform,
+				Parent_Layout,
+				&Element->Transform.Origin[0],
+				&Element->Transform.End[0],
+				Element->UF.Affect_Parent,
+				Parent_Layout->Wrap);
+		}
+		else
+		{
+			Evaluate_Axis<0, 0>(
+				&Element->Left,
+				&Element->Right,
+				Parent_Transform,
+				Parent_Layout,
+				&Element->Transform.Origin[0],
+				&Element->Transform.End[0],
+				Element->UF.Affect_Parent,
+				Parent_Layout->Wrap);
+
+			Evaluate_Axis<1, 0>(
+				&Element->Top,
+				&Element->Bottom,
+				Parent_Transform,
+				Parent_Layout,
+				&Element->Transform.Origin[1],
+				&Element->Transform.End[1],
+				Element->UF.Affect_Parent,
+				Parent_Layout->Wrap);
+		}
+
+		//
+
+		Element->Transform.End -= Element->Transform.Origin;
+		Element->Transform.Origin -= Parent_Transform->Origin;
+		Element->Transform.Origin = (Parent_Transform->To_Matrix() * glm::vec3(Element->Transform.Origin, 1.0f));
+		Element->Transform.End += Element->Transform.Origin;
 	}
 
 	void Recurse_UI_Element(JaguarEngine* Engine, UI_Element* Element, const UI_Transform* Parent_Transform, UI_Parent_Layout* Parent_Layout)
@@ -83,7 +183,35 @@ namespace Jaguar
 
 		// adds to render pipeline if appropriate
 
+		// Element->Controller->Function(); or whatever
 
+		UI_Parent_Layout Copy = *Parent_Layout;
+
+		Handle_UI_Dimensions(Engine, Element, Parent_Transform, &Copy);
+
+		if (!(Element->UF.To_Be_Deleted || Element->UF.Hide))
+		{
+			Model_Wrapper Wrapper;
+			Wrapper.Element = Element;
+			Wrapper.Mesh_Wrapper = Element->Mesh;
+
+			Engine->Pipeline.Queues[Engine->Pipeline.Queue_Table[Element->Shader.Program_ID]].Models.push_back(Wrapper);
+		}
+
+		UI_Parent_Layout Layout;
+		Layout.Min = Element->Transform.Origin;
+		Layout.Max = Element->Transform.End;
+		Layout.Inverse_Fill_Factor = glm::vec2(0.0f);
+		for (int Child = 0; Child < Element->Children.size(); Child++)
+			Layout.Inverse_Fill_Factor += Element->Children[Child]->Get_Fill_Ratio();
+		Layout.Inverse_Fill_Factor = glm::vec2(1.0f) / Layout.Inverse_Fill_Factor;
+
+		for (int Child = 0; Child < Element->Children.size(); Child++)
+		{
+			Recurse_UI_Element(Engine, Element->Children[Child], &Element->Transform, &Layout);
+		}
+
+		Handle_UI_Dimensions(Engine, Element, Parent_Transform, Parent_Layout);
 	}
 
 	void Handle_UI_Elements(JaguarEngine* Engine)
@@ -107,7 +235,7 @@ namespace Jaguar
 			UI_Parent_Layout Adam = {
 				.Min = glm::vec2(0.0f),
 				.Max = glm::vec2(1.0f),
-				.Inverse_Fill_Factor = 1.0f,	// Adam doesn't truly support 'fill' operations or layout
+				.Inverse_Fill_Factor = glm::vec2(1.0f),	// Adam doesn't truly support 'fill' operations or layout
 				.Lay = glm::vec2(0.0f)
 			};
 
@@ -129,53 +257,86 @@ namespace Jaguar
 
 		Mesh* Default = Pull_Mesh(Engine, GLTF_To_UI, "JaguarEngine/UI/Default_Element.gltf").Mesh;
 
-		Engine->UI.Root = 
+		Engine->UI.Root =
 		{
-			new UI_Element 
+			new UI_Element
 			{
-				.Left = { 0.20f, Layout::Margin_In },
-				.Right = { 0.60f, Layout::Size },
+				.Left = { 0.20f / Engine->Scene.Camera.Aspect, Layout::Margin_In },
+				.Right = { 0.80f / Engine->Scene.Camera.Aspect, Layout::Size },
 				.Top = { 0.2f, Layout::Margin_In },
-				.Bottom = { 0.4, Layout::Size },
+				.Bottom = { 0.5, Layout::Size },
 
-				.Colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f),
+				.Colour = glm::vec4(0.5f, 0.5f, 0.5f, 0.8f),
 
 				.Shader = UI_Shader,
 				.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {}),	// Each element needs its own wrapper/shader (unless it's hidden)
 
-				.Children = 
+				.Children =
 				{
-					new UI_Element
-					{
-						.Left = { 0.025f, Layout::Lay_Primary },
-						.Right = { 1.0f, Layout::Fill_Parent },
+					new UI_Element{
+						.Left = { 0.025f / Engine->Scene.Camera.Aspect, Layout::Margin_In },
+						.Right = { 0.025f / Engine->Scene.Camera.Aspect, Layout::Margin_In },
+						.Top = { 0.025f, Layout::Margin_In },
+						.Bottom = { 0.025f, Layout::Margin_In },
 
-						.Colour = glm::vec4(1.0f, 0.75f, 0.75f, 1.0f),
+						.UF = {
+							.Hide = true
+						},
 
-						.Shader = UI_Shader,
-						.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
-					},
+						.Children =
+						{
+							new UI_Element
+							{
+								.Left = { 0.025f, Layout::Lay_Primary },
+								.Right = { 1.0f, Layout::Fill_Parent },
+								.Top = { 0.0, Layout::Percentage },
+								.Bottom = { 1.0, Layout::Percentage },
 
-					new UI_Element
-					{
-						.Left = { 0.025f, Layout::Lay_Primary },
-						.Right = { 1.0f, Layout::Fill_Parent },
+								.Colour = glm::vec4(1.0f, 0.75f, 0.75f, 0.8f),
 
-						.Colour = glm::vec4(0.75f, 1.0f, 0.75f, 1.0f),
+								.Shader = UI_Shader,
+								.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
+							},
 
-						.Shader = UI_Shader,
-						.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
-					},
+							new UI_Element
+							{
+								.Left = { 0.025f, Layout::Lay_Primary },
+								.Right = { 1.0f, Layout::Fill_Parent },
+								.Top = { 0.0, Layout::Percentage },
+								.Bottom = { 1.0, Layout::Percentage },
 
-					new UI_Element
-					{
-						.Left = { 0.025f, Layout::Lay_Primary },
-						.Right = { 2.0f, Layout::Fill_Parent },
+								.Colour = glm::vec4(0.75f, 1.0f, 0.75f, 0.8f),
 
-						.Colour = glm::vec4(0.75f, 0.75f, 1.0f, 1.0f),
+								.Shader = UI_Shader,
+								.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
+							},
 
-						.Shader = UI_Shader,
-						.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
+							new UI_Element
+							{
+								.Left = { 0.025f, Layout::Lay_Primary },
+								.Right = { 2.0f, Layout::Fill_Parent },
+								.Top = { 0.0, Layout::Percentage },
+								.Bottom = { 1.0, Layout::Percentage },
+
+								.Colour = glm::vec4(0.75f, 0.75f, 1.0f, 0.8f),
+
+								.Shader = UI_Shader,
+								.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
+							},
+
+							new UI_Element
+							{
+								.Left = { 0.025f, Layout::Lay_Primary },
+								.Right = { 1.0f, Layout::Fill_Parent },
+								.Top = { 0.0, Layout::Percentage },
+								.Bottom = { 1.0, Layout::Percentage },
+
+								.Colour = glm::vec4(0.3f, 0.3f, 0.3f, 0.8f),
+
+								.Shader = UI_Shader,
+								.Mesh = UI_Shader.Create_Mesh_Wrapper(Default, {})
+							}
+						}
 					}
 				}
 			}
